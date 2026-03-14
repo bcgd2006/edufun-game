@@ -1,0 +1,3578 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EduFun Galaxy – 8th Std Learning Game</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script>
+  pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+</script>
+<style>
+/* GLOBAL STYLES */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: white;
+  min-height: 100vh;
+  overflow-x: hidden;
+  position: relative;
+  background: #000;
+}
+
+/* Background Slideshow Container */
+.background-slideshow {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  background: #000;
+}
+
+.slide {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0;
+  transition: opacity 2s ease-in-out;
+}
+
+.slide.active {
+  opacity: 1;
+  z-index: 1;
+}
+
+/* Season indicator */
+.season-indicator {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 5px 15px;
+  border-radius: 20px;
+  font-size: 14px;
+  color: #FFD700;
+  z-index: 1000;
+  border: 1px solid rgba(255,255,255,0.3);
+  backdrop-filter: blur(5px);
+}
+
+/* Tamil font support */
+@font-face {
+  font-family: 'TamilFont';
+  src: url('https://cdn.jsdelivr.net/npm/tamil-fonts@1.0.0/Latha.ttf');
+}
+
+.tamil-text, .tamil-message {
+  font-family: 'TamilFont', 'Segoe UI', sans-serif;
+}
+
+/* Score Display */
+.score-display {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: linear-gradient(135deg, rgba(79, 172, 254, 0.9), rgba(0, 242, 254, 0.9));
+  padding: 12px 24px;
+  border-radius: 15px;
+  font-weight: bold;
+  z-index: 1000;
+  border: 2px solid white;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  font-size: 18px;
+  backdrop-filter: blur(5px);
+}
+
+/* LANGUAGE TOGGLE BUTTON */
+#languageToggle {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  padding: 12px 24px;
+  background: linear-gradient(135deg, rgba(79, 172, 254, 0.9), rgba(0, 242, 254, 0.9));
+  color: white;
+  border: none;
+  border-radius: 15px;
+  cursor: pointer;
+  font-weight: bold;
+  z-index: 1000;
+  min-width: auto;
+  transition: all 0.3s ease;
+  border: 2px solid white;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(5px);
+}
+
+#languageToggle:hover {
+  transform: scale(1.05);
+  box-shadow: 0 5px 15px rgba(79, 172, 254, 0.4);
+}
+
+/* REFRESH BUTTON */
+.refresh-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  padding: 12px 24px;
+  background: linear-gradient(135deg, rgba(255, 107, 107, 0.9), rgba(238, 90, 82, 0.9));
+  color: white;
+  border: none;
+  border-radius: 15px;
+  cursor: pointer;
+  font-weight: bold;
+  z-index: 1000;
+  border: 2px solid white;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(5px);
+  transition: all 0.3s ease;
+}
+
+.refresh-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
+}
+
+/* UTILITY CLASSES */
+.hidden { display: none !important; }
+.text-center { text-align: center; }
+
+/* HEADER & TITLE */
+h1 {
+  font-size: 2.8rem;
+  margin: 30px 0;
+  text-align: center;
+  background: linear-gradient(135deg, #ff9a00, #ff3cac, #4facfe, #00f2fe);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  padding-top: 60px;
+}
+
+h2 {
+  font-size: 1.8rem;
+  margin: 20px 0;
+  color: #4facfe;
+  text-align: center;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}
+
+/* SECTION STYLES */
+.section {
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(8px);
+  border-radius: 24px;
+  padding: 30px;
+  margin: 20px auto;
+  max-width: 900px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  transition: transform 0.3s ease;
+}
+
+.section:hover {
+  transform: translateY(-5px);
+  border-color: #4facfe;
+}
+
+/* BUTTONS */
+button {
+  padding: 14px 24px;
+  border: none;
+  border-radius: 14px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  background: linear-gradient(135deg, #4facfe, #00f2fe);
+  color: white;
+  transition: all 0.3s ease;
+  margin: 8px;
+  min-width: 160px;
+  border: 2px solid white;
+  box-shadow: 0 5px 10px rgba(0,0,0,0.3);
+}
+
+button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 5px 15px rgba(79, 172, 254, 0.4);
+}
+
+button:active {
+  transform: scale(0.98);
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+.continue-btn {
+  background: linear-gradient(135deg, #43e97b, #38f9d7) !important;
+  margin-top: 20px;
+  font-size: 18px;
+  padding: 15px 30px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.locked {
+  opacity: 0.6;
+  cursor: not-allowed;
+  background: linear-gradient(135deg, #666, #999) !important;
+}
+
+/* SUBJECT SELECTION */
+.subject-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.subject {
+  height: 160px;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background: rgba(255, 255, 255, 0.15);
+  position: relative;
+  overflow: hidden;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(5px);
+}
+
+.subject .icon {
+  font-size: 52px;
+  z-index: 2;
+}
+
+.subject span {
+  z-index: 2;
+}
+
+.subject:hover {
+  transform: translateY(-8px) scale(1.05);
+  box-shadow: 0 10px 25px rgba(255, 255, 255, 0.3);
+  border-color: #4facfe;
+}
+
+.maths { background: linear-gradient(135deg, rgba(255, 154, 0, 0.4), rgba(255, 251, 0, 0.4)); }
+.science { background: linear-gradient(135deg, rgba(122, 238, 244, 0.4), rgba(79, 105, 254, 0.4)); }
+.english { background: linear-gradient(135deg, rgba(248, 87, 166, 0.4), rgba(255, 88, 88, 0.4)); }
+.social { background: linear-gradient(135deg, rgba(67, 233, 123, 0.4), rgba(56, 249, 214, 0.4)); }
+.tamil { background: linear-gradient(135deg, rgba(229, 69, 117, 0.4), rgba(254, 225, 64, 0.4)); }
+
+/* CUSTOM PDF BUTTON */
+.custom-pdf-container {
+  margin-top: 40px;
+  text-align: center;
+  border-top: 2px solid rgba(255, 255, 255, 0.2);
+  padding-top: 30px;
+}
+
+.custom-pdf-btn {
+  background: linear-gradient(135deg, #FF6B6B, #FF8E53) !important;
+  font-size: 18px;
+  padding: 18px 30px;
+  min-width: 250px;
+}
+
+.custom-pdf-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
+}
+
+/* LEVEL SELECTION */
+.level-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px;
+  margin: 25px 0;
+}
+
+.level-btn {
+  min-width: 180px;
+  padding: 18px;
+  font-size: 18px;
+}
+
+/* PROGRESS BAR */
+.progress-container {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  margin: 25px 0;
+  overflow: hidden;
+  height: 12px;
+  border: 1px solid rgba(255,255,255,0.3);
+}
+
+.progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #4facfe, #00f2fe, #ff9a00);
+  border-radius: 10px;
+  width: 0%;
+  transition: width 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* QUIZ SECTION */
+#timer {
+  font-size: 20px;
+  text-align: center;
+  margin: 15px 0;
+  font-weight: bold;
+  color: #ff9a00;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 12px;
+  border-radius: 12px;
+  border: 2px solid #ff9a00;
+  display: inline-block;
+  min-width: 120px;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
+
+#question {
+  font-size: 22px;
+  margin: 25px 0;
+  line-height: 1.6;
+  text-align: center;
+  background: rgba(33, 214, 227, 0.3);
+  padding: 20px;
+  border-radius: 15px;
+  border: 2px solid #4facfe;
+}
+
+.options {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.options button {
+  width: 100%;
+  margin: 5px 0;
+  text-align: left;
+  padding: 16px 20px;
+  font-size: 17px;
+  border-radius: 12px;
+  background: rgba(76, 84, 238, 0.5);
+  border: 2px solid transparent;
+}
+
+.options button:hover {
+  background: rgba(10, 34, 132, 0.8);
+  border-color: #4facfe;
+}
+
+.correct {
+  background: linear-gradient(135deg, #2ecc71, #27ae60) !important;
+  border-color: #27ae60 !important;
+}
+
+.incorrect {
+  background: linear-gradient(135deg, #e74c3c, #c0392b) !important;
+  border-color: #c0392b !important;
+}
+
+/* MINI GAME CONTAINER */
+.game-container {
+  height: 550px;
+  border-radius: 20px;
+  position: relative;
+  overflow: hidden;
+  border: 3px solid #4facfe;
+  margin: 20px auto;
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(5px);
+  padding: 20px;
+  width: 100%;
+}
+
+.game-instruction {
+  font-size: 18px;
+  text-align: center;
+  margin: 15px 0;
+  color: #4facfe;
+  font-weight: bold;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}
+
+/* GAME ELEMENTS */
+.game-element {
+  position: absolute;
+  cursor: pointer;
+  z-index: 10;
+  user-select: none;
+  transition: transform 0.3s, opacity 0.3s;
+  filter: drop-shadow(0 5px 10px rgba(0,0,0,0.3));
+}
+
+.particle {
+  position: absolute;
+  pointer-events: none;
+  font-size: 24px;
+  font-weight: bold;
+  animation: particleFloat 1s forwards ease-out;
+  z-index: 100;
+  text-shadow: 0 0 10px white;
+}
+
+@keyframes particleFloat {
+  0% { transform: translateY(0) scale(1); opacity: 1; }
+  100% { transform: translateY(-60px) scale(1.8); opacity: 0; }
+}
+
+/* Memory Match Cards */
+.memory-card {
+  width: 70px;
+  height: 70px;
+  background: linear-gradient(135deg, #4facfe, #00f2fe);
+  border-radius: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 35px;
+  border: 3px solid white;
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: 0 5px 10px rgba(0,0,0,0.3);
+}
+
+.memory-card.flipped {
+  background: linear-gradient(135deg, #FFD700, #FFA500);
+}
+
+.memory-card.matched {
+  opacity: 0.5;
+  cursor: default;
+  pointer-events: none;
+}
+
+/* Whack-a-Mole */
+.whack-mole {
+  width: 70px;
+  height: 70px;
+  background: linear-gradient(135deg, #8B4513, #CD853F);
+  border-radius: 50%;
+  border: 4px solid #FFD700;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 35px;
+  cursor: pointer;
+  transition: all 0.2s;
+  animation: molePop 0.3s ease-out;
+  position: absolute;
+}
+
+@keyframes molePop {
+  0% { transform: scale(0); }
+  80% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+.whack-mole:hover {
+  transform: scale(1.1);
+}
+
+/* Simon Says */
+.simon-button {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 45px;
+  border: 4px solid white;
+  cursor: pointer;
+  transition: all 0.3s;
+  background: rgba(255,255,255,0.2);
+  box-shadow: 0 5px 10px rgba(0,0,0,0.3);
+}
+
+.simon-button.active {
+  transform: scale(1.2);
+  filter: brightness(1.5);
+  box-shadow: 0 0 20px white;
+}
+
+/* Spin Wheel */
+.wheel-section {
+  position: absolute;
+  width: 280px;
+  height: 280px;
+  border-radius: 50%;
+  background: conic-gradient(#FF6B6B 0deg 72deg, #4ECDC4 72deg 144deg, #FFD166 144deg 216deg, #06D6A0 216deg 288deg, #118AB2 288deg 360deg);
+  border: 10px solid white;
+  left: 50%;
+  top: 30%;
+  transform: translateX(-50%);
+  animation: spinWheel 2s ease-out;
+  box-shadow: 0 0 30px rgba(255,215,0,0.5);
+}
+
+@keyframes spinWheel {
+  0% { transform: translateX(-50%) rotate(0deg); }
+  100% { transform: translateX(-50%) rotate(1440deg); }
+}
+
+.wheel-category {
+  position: absolute;
+  width: 100%;
+  text-align: center;
+  top: 50%;
+  transform: translateY(-50%);
+  color: white;
+  font-weight: bold;
+  text-shadow: 2px 2px 4px black;
+  font-size: 18px;
+}
+
+/* Option Box */
+.option-box {
+  background: linear-gradient(135deg, #4facfe, #00f2fe);
+  padding: 12px 20px;
+  border-radius: 50px;
+  font-size: 18px;
+  text-align: center;
+  border: 2px solid white;
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+  min-width: 150px;
+}
+
+.option-box:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 20px rgba(79,172,254,0.5);
+}
+
+/* Tamil Question Box */
+.tamil-question-box {
+  position: absolute;
+  left: 50%;
+  top: 25%;
+  transform: translateX(-50%);
+  background: linear-gradient(135deg, #FF6B6B, #EE5A52);
+  padding: 20px 25px;
+  border-radius: 50px;
+  border: 3px solid white;
+  width: auto;
+  max-width: 80%;
+  text-align: center;
+  font-size: 24px;
+  font-family: 'TamilFont', 'Segoe UI', sans-serif;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+  z-index: 20;
+  white-space: normal;
+  word-wrap: break-word;
+  line-height: 1.5;
+}
+
+/* Tamil Options Container */
+.tamil-options-container {
+  position: absolute;
+  bottom: 15%;
+  left: 5%;
+  width: 90%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px;
+  z-index: 20;
+  max-height: 200px;
+  overflow-y: visible;
+}
+
+.tamil-option {
+  background: linear-gradient(135deg, #4facfe, #00f2fe);
+  padding: 12px 20px;
+  border-radius: 50px;
+  font-size: 20px;
+  text-align: center;
+  border: 2px solid white;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-family: 'TamilFont', 'Segoe UI', sans-serif;
+  min-width: 160px;
+  box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+  flex: 0 1 auto;
+  white-space: normal;
+  word-wrap: break-word;
+}
+
+.tamil-option:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 20px rgba(255,215,0,0.5);
+}
+
+/* Treasure Hunt Styles */
+.treasure-item {
+  position: absolute;
+  cursor: pointer;
+  font-size: 50px;
+  animation: treasureFloat 3s infinite alternate ease-in-out;
+  filter: drop-shadow(0 0 15px gold);
+  transition: all 0.3s;
+}
+
+@keyframes treasureFloat {
+  0% { transform: translateY(0px) rotate(0deg); }
+  100% { transform: translateY(-15px) rotate(5deg); }
+}
+
+.treasure-item:hover {
+  transform: scale(1.2);
+  filter: drop-shadow(0 0 20px orange);
+}
+
+.treasure-item.found {
+  opacity: 0.3;
+  filter: grayscale(0.5);
+  pointer-events: none;
+}
+
+.treasure-map {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  background: rgba(139, 69, 19, 0.8);
+  padding: 10px;
+  border-radius: 10px;
+  border: 2px solid gold;
+  font-size: 16px;
+  z-index: 30;
+}
+
+/* Countdown Timer */
+.countdown-timer {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: rgba(0,0,0,0.7);
+  padding: 10px 20px;
+  border-radius: 50px;
+  border: 2px solid #ff9a00;
+  font-size: 24px;
+  font-weight: bold;
+  color: #ff9a00;
+  z-index: 50;
+}
+
+/* PDF Upload Styles */
+.pdf-page-range {
+  background: rgba(255,255,255,0.1);
+  padding: 20px;
+  border-radius: 15px;
+  margin: 20px 0;
+  border: 2px solid #4facfe;
+}
+
+.pdf-range-input {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.pdf-range-input label {
+  font-size: 16px;
+  color: #4facfe;
+}
+
+.pdf-range-input input {
+  padding: 8px 15px;
+  border-radius: 8px;
+  border: 2px solid #4facfe;
+  width: 80px;
+  text-align: center;
+  font-size: 16px;
+  color: black;
+  background: white;
+}
+
+.pdf-info {
+  background: rgba(255,215,0,0.2);
+  padding: 10px;
+  border-radius: 8px;
+  margin: 10px 0;
+  font-size: 14px;
+  border: 1px solid #FFD700;
+}
+
+.generated-question-item {
+  background: rgba(79,172,254,0.1);
+  padding: 15px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  border-left: 4px solid #4facfe;
+}
+
+.generated-question-item p {
+  margin: 5px 0;
+}
+
+.generated-question-item small {
+  color: #FFD700;
+}
+
+/* GAME CONTROLS */
+.game-controls {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+/* PDF MODE INDICATOR */
+.pdf-mode-indicator {
+  text-align: center;
+  margin: 10px 0;
+  padding: 10px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 8px;
+  color: #4facfe;
+  font-weight: bold;
+}
+
+/* COMPLETION SECTION */
+#completionMessage {
+  font-size: 20px;
+  text-align: center;
+  margin: 25px 0;
+  color: #ff9a00;
+  font-weight: bold;
+  line-height: 1.6;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}
+
+/* Tamil Messages */
+.tamil-message {
+  font-family: 'TamilFont', 'Segoe UI', sans-serif;
+}
+
+/* RESPONSIVE DESIGN */
+@media (max-width: 768px) {
+  h1 { font-size: 2rem; }
+  h2 { font-size: 1.5rem; }
+ 
+  .section {
+    padding: 20px;
+    margin: 15px;
+    border-radius: 20px;
+  }
+ 
+  .subject-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+  }
+ 
+  .subject {
+    height: 130px;
+    font-size: 1rem;
+  }
+ 
+  .subject .icon {
+    font-size: 40px;
+  }
+ 
+  .level-buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+ 
+  .level-btn {
+    width: 90%;
+  }
+ 
+  .score-display,
+  #languageToggle,
+  .refresh-btn,
+  .season-indicator {
+    padding: 8px 16px;
+    font-size: 14px;
+  }
+ 
+  .game-container {
+    height: 500px;
+  }
+ 
+  .game-element {
+    font-size: 30px;
+  }
+  
+  .option-box {
+    font-size: 14px;
+    min-width: 120px;
+  }
+  
+  .tamil-question-box {
+    font-size: 20px;
+    padding: 15px 20px;
+    max-width: 90%;
+  }
+  
+  .tamil-option {
+    font-size: 16px;
+    min-width: 140px;
+    padding: 10px 15px;
+  }
+  
+  .wheel-section {
+    width: 220px;
+    height: 220px;
+  }
+  
+  .treasure-item {
+    font-size: 40px;
+  }
+  
+  .pdf-range-input {
+    flex-direction: column;
+    gap: 10px;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- Background Slideshow Container -->
+<div class="background-slideshow">
+  <div class="slide" id="slide1"></div>
+  <div class="slide" id="slide2"></div>
+  <div class="slide" id="slide3"></div>
+  <div class="slide" id="slide4"></div>
+  <div class="slide" id="slide5"></div>
+  <div class="slide" id="slide6"></div>
+  <div class="slide" id="slide7"></div>
+</div>
+
+<!-- Season Indicator -->
+<div class="season-indicator" id="seasonIndicator">🌸 Spring</div>
+
+<!-- Background Music -->
+<audio id="backgroundMusic" loop style="display: none;">
+  <source src="https://cdn.pixabay.com/audio/2022/10/29/audio_92f89f6a6d.mp3" type="audio/mpeg">
+</audio>
+
+<!-- Score Display -->
+<div class="score-display">
+  🏆 Score: <span id="currentScore">0</span>
+</div>
+
+<!-- Language Toggle Button -->
+<button id="languageToggle" onclick="toggleLanguage()">🇬🇧 English Medium</button>
+
+<!-- Refresh Button -->
+<button class="refresh-btn" onclick="refreshGame()">🔄 Refresh Game</button>
+
+<h1 id="mainTitle">🚀 EduFun Galaxy – 8th Standard</h1>
+
+<!-- SUBJECT SELECTION -->
+<div id="subjectSection" class="section">
+  <h2 id="subjectSectionTitle">Select Subject</h2>
+  
+  <!-- 5 Subjects Grid -->
+  <div class="subject-grid">
+    <div class="subject maths" data-subject="Maths">
+      <div class="icon">🧮</div>
+      <span class="subject-name">Maths</span>
+    </div>
+    <div class="subject science" data-subject="Science">
+      <div class="icon">🧪</div>
+      <span class="subject-name">Science</span>
+    </div>
+    <div class="subject english" data-subject="English">
+      <div class="icon">📖</div>
+      <span class="subject-name">English</span>
+    </div>
+    <div class="subject social" data-subject="Social">
+      <div class="icon">🌍</div>
+      <span class="subject-name">Social</span>
+    </div>
+    <div class="subject tamil" data-subject="Tamil">
+      <div class="icon">📜</div>
+      <span class="subject-name">Tamil</span>
+    </div>
+  </div>
+  
+  <!-- Custom PDF Button -->
+  <div class="custom-pdf-container">
+    <button class="custom-pdf-btn" onclick="showPDFUpload()">📄 + Add Custom PDF Subject</button>
+    <p style="color: #aaa; margin-top: 10px; font-size: 14px;">Upload your own PDF to create custom questions</p>
+  </div>
+</div>
+
+<!-- PDF UPLOAD SECTION -->
+<div id="pdfUploadSection" class="section hidden">
+  <h2>📚 Upload PDF for Auto-Generated Questions</h2>
+  <div class="pdf-mode-indicator">
+    Current Mode: <strong id="pdfModeIndicator">English Medium</strong>
+  </div>
+  
+  <!-- Page Range Selection -->
+  <div class="pdf-page-range">
+    <h3 style="color: #4facfe; margin-bottom: 15px;">📄 Select Pages to Process</h3>
+    <div class="pdf-range-input">
+      <div>
+        <label>From Page:</label>
+        <input type="number" id="pdfStartPage" min="1" value="1">
+      </div>
+      <div>
+        <label>To Page:</label>
+        <input type="number" id="pdfEndPage" min="1" value="1">
+      </div>
+    </div>
+    <div id="pdfTotalPages" class="pdf-info" style="margin-top: 15px; text-align: center;">
+      Total pages: <span id="totalPagesDisplay">-</span>
+    </div>
+  </div>
+  
+  <div style="text-align: center; margin: 20px 0;">
+    <input type="file" id="pdfUpload" accept=".pdf" style="margin: 10px; padding: 10px; border: 2px dashed #4facfe; border-radius: 8px; width: 80%; cursor: pointer; background: rgba(255,255,255,0.1); color: white;">
+    <button onclick="uploadPDF()" style="margin: 10px; padding: 10px 20px; background: #4facfe; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold;">Process PDF</button>
+    <button onclick="backToSubjects()" style="margin: 10px; padding: 10px 20px; background: #ff6b6b; color: white; border: none; border-radius: 8px; cursor: pointer;">Back to Subjects</button>
+  </div>
+  <div id="pdfStatus" style="text-align: center; margin: 10px; color: #4facfe;"></div>
+  <div id="generatedQuestions" style="max-height: 400px; overflow-y: auto; margin-top: 20px; padding: 10px;"></div>
+</div>
+
+<!-- LEVEL SELECTION -->
+<div id="levelSection" class="section hidden">
+  <h2 id="levelSelectionTitle">Select Level</h2>
+  <div class="level-buttons">
+    <button class="level-btn" data-level="easy" id="easyLevelBtn">⭐ Explorer</button>
+    <button class="level-btn" data-level="medium" id="mediumLevelBtn">⭐⭐ Adventure</button>
+    <button class="level-btn" data-level="hard" id="hardLevelBtn">⭐⭐⭐ Champion</button>
+  </div>
+  <div class="level-progress" id="levelProgressInfo"></div>
+</div>
+
+<!-- PROGRESS BAR -->
+<div id="progressSection" class="section hidden">
+  <h2 id="levelTitle"></h2>
+  <div class="progress-container">
+    <div class="progress-bar" id="progressBar"></div>
+  </div>
+  <p id="questionCount" class="text-center"></p>
+</div>
+
+<!-- QUIZ SECTION -->
+<div id="quizSection" class="section hidden">
+  <h2 id="quizTitle"></h2>
+  <div id="timer">⏱ 15s</div>
+  <p id="question"></p>
+  <div class="options" id="optionsContainer"></div>
+</div>
+
+<!-- MINI GAME SECTION -->
+<div id="gameSection" class="section hidden">
+  <h2 id="gameTitle">🎮 Mini Game</h2>
+  <p class="game-instruction" id="gameInstruction"></p>
+  <div id="gameArea" class="game-container"></div>
+  <div class="game-controls">
+    <button id="hintBtn" onclick="giveHint()">💡 Hint</button>
+    <button onclick="continueToNext()" class="continue-btn" id="continueBtn" disabled>Continue →</button>
+  </div>
+</div>
+
+<!-- LEVEL COMPLETION -->
+<div id="completionSection" class="section hidden">
+  <h2 id="completionTitle">🎉 Level Completed!</h2>
+  <p id="completionMessage"></p>
+  <div class="level-buttons">
+    <button onclick="playAgain()">🔄 Play Again</button>
+    <button onclick="backToSubjects()">📚 Back to Subjects</button>
+    <button onclick="continueToNextLevel()" id="nextLevelBtn">➡️ Next Level</button>
+  </div>
+</div>
+
+<script>
+// ==================== SHOW PDF UPLOAD SECTION ====================
+function showPDFUpload() {
+  document.querySelectorAll('.section').forEach(screen => {
+    screen.classList.add('hidden');
+  });
+  document.getElementById('pdfUploadSection').classList.remove('hidden');
+}
+
+// ==================== BACKGROUND IMAGES CONFIG ====================
+const SEASON_IMAGES = {
+  winter: [
+    'https://images.pexels.com/photos/66284/winter-nature-season-trees-66284.jpeg',
+    'https://images.pexels.com/photos/773594/pexels-photo-773594.jpeg',
+    'https://images.pexels.com/photos/813871/pexels-photo-813871.jpeg',
+    'https://images.pexels.com/photos/267045/pexels-photo-267045.jpeg',
+    'https://images.pexels.com/photos/3375674/pexels-photo-3375674.jpeg',
+    'https://images.pexels.com/photos/326057/pexels-photo-326057.jpeg',
+    'https://images.pexels.com/photos/1559117/pexels-photo-1559117.jpeg'
+
+  ],
+  spring: [
+    'https://images.pexels.com/photos/992734/pexels-photo-992734.jpeg',
+    'https://images.pexels.com/photos/67857/daisy-flower-spring-marguerite-67857.jpeg',
+    'https://images.pexels.com/photos/2101187/pexels-photo-2101187.jpeg',
+    'https://images.pexels.com/photos/464336/pexels-photo-464336.jpeg',
+    'https://images.pexels.com/photos/1166209/pexels-photo-1166209.jpeg',
+    'https://images.pexels.com/photos/1043458/pexels-photo-1043458.jpeg',
+    'https://images.pexels.com/photos/909/flowers-garden-colorful-colourful.jpg'
+
+  ],
+  summer: [
+    'https://images.pexels.com/photos/358358/pexels-photo-358358.jpeg',
+     'https://images.pexels.com/photos/59990/sunflowers-sunflower-yellow-petal-59990.jpeg',
+      'https://images.pexels.com/photos/3293148/pexels-photo-3293148.jpeg',
+      'https://images.pexels.com/photos/994605/pexels-photo-994605.jpeg',
+      'https://images.pexels.com/photos/1591373/pexels-photo-1591373.jpeg',
+      'https://images.pexels.com/photos/1237119/pexels-photo-1237119.jpeg',
+      'https://images.pexels.com/photos/842711/pexels-photo-842711.jpeg'
+
+
+  ],
+  monsoon: [
+  'https://images.pexels.com/photos/1463530/pexels-photo-1463530.jpeg',
+  'https://images.pexels.com/photos/32766944/pexels-photo-32766944.jpeg',
+  'https://images.pexels.com/photos/11352914/pexels-photo-11352914.jpeg',
+  'https://images.pexels.com/photos/8354493/pexels-photo-8354493.jpeg',
+  'https://images.pexels.com/photos/5726591/pexels-photo-5726591.jpeg',
+  'https://images.pexels.com/photos/304875/pexels-photo-304875.jpeg',
+  'https://images.pexels.com/photos/352096/pexels-photo-352096.jpeg'
+],
+  autumn: [
+    'https://images.pexels.com/photos/33109/fall-autumn-red-season.jpg',
+    'https://images.pexels.com/photos/1477199/pexels-photo-1477199.jpeg',
+    'https://images.pexels.com/photos/1741696/pexels-photo-1741696.jpeg',
+    'https://images.pexels.com/photos/255381/pexels-photo-255381.jpeg',
+    'https://images.pexels.com/photos/59853/amelanchier-leaves-autumnorange-59853.jpeg',
+    'https://images.pexels.com/photos/693521/pexels-photo-693521.jpeg',
+    'https://images.pexels.com/photos/3082731/pexels-photo-3082731.jpeg'
+  ],
+  fall: [
+    'https://images.pexels.com/photos/2734469/pexels-photo-2734469.jpeg',
+    'https://images.pexels.com/photos/708932/pexels-photo-708932.jpeg',
+    'https://images.pexels.com/photos/1635236/pexels-photo-1635236.jpeg',
+    'https://images.pexels.com/photos/4012903/pexels-photo-4012903.jpeg',
+    'https://images.pexels.com/photos/211815/pexels-photo-211815.jpeg',
+    'https://images.pexels.com/photos/1089855/pexels-photo-1089855.jpeg',
+    'https://images.pexels.com/photos/1741696/pexels-photo-1741696.jpeg'
+  ],
+  food: [
+    'https://images.pexels.com/photos/35687391/pexels-photo-35687391.jpeg',
+    'https://images.pexels.com/photos/9951856/pexels-photo-9951856.jpeg',
+    'https://images.pexels.com/photos/17433352/pexels-photo-17433352.jpeg',
+    'https://images.pexels.com/photos/5618039/pexels-photo-5618039.jpeg',
+    'https://images.pexels.com/photos/15472008/pexels-photo-15472008.jpeg',
+    'https://images.pexels.com/photos/6260921/pexels-photo-6260921.jpeg',
+    'https://images.pexels.com/photos/14831540/pexels-photo-14831540.jpeg'
+  ]
+};
+
+const seasonInfo = {
+  winter: { name: 'Winter', emoji: '❄️', indicator: '❄️ Winter' },
+  spring: { name: 'Spring', emoji: '🌸', indicator: '🌸 Spring' },
+  summer: { name: 'Summer', emoji: '☀️', indicator: '☀️ Summer' },
+  monsoon: { name: 'Monsoon', emoji: '🌧️', indicator: '🌧️ Monsoon' },
+  autumn: { name: 'Autumn', emoji: '🍂', indicator: '🍂 Autumn' },
+  fall: { name: 'Fall', emoji: '🍁', indicator: '🍁 Fall' },
+  food: { name: 'Food', emoji: '🍽️', indicator: '🍽️ Food' }
+};
+
+function getCurrentSeason() {
+  const month = new Date().getMonth();
+  if (month >= 11 || month <= 1) return 'winter';
+  else if (month >= 2 && month <= 4) return 'spring';
+  else if (month >= 5 && month <= 7) return 'summer';
+  else return 'autumn';
+}
+
+const currentSeason = getCurrentSeason();
+document.getElementById('seasonIndicator').textContent = seasonInfo[currentSeason].indicator;
+
+const seasonImages = SEASON_IMAGES[currentSeason];
+for (let i = 0; i < 7; i++) {
+  document.getElementById(`slide${i+1}`).style.backgroundImage = `url('${seasonImages[i]}')`;
+}
+
+document.getElementById('slide1').classList.add('active');
+
+let currentSlide = 0;
+const totalSlides = 7;
+
+function changeSlide() {
+  document.getElementById(`slide${currentSlide + 1}`).classList.remove('active');
+  currentSlide = (currentSlide + 1) % totalSlides;
+  document.getElementById(`slide${currentSlide + 1}`).classList.add('active');
+}
+
+setInterval(changeSlide, 10000);
+
+// ==================== GAME INITIALIZATION ====================
+let player = JSON.parse(localStorage.getItem('eduFun8')) || {
+  score: 0,
+  levelProgress: {
+    Maths: { easy: false, medium: false, hard: false },
+    Science: { easy: false, medium: false, hard: false },
+    English: { easy: false, medium: false, hard: false },
+    Social: { easy: false, medium: false, hard: false },
+    Tamil: { easy: false, medium: false, hard: false }
+  }
+};
+
+function savePlayerData() {
+  localStorage.setItem('eduFun8', JSON.stringify(player));
+}
+
+function refreshGame() {
+  if (confirm('Refresh game and reset progress?')) {
+    localStorage.removeItem('eduFun8');
+    location.reload();
+  }
+}
+
+const backgroundMusic = document.getElementById('backgroundMusic');
+backgroundMusic.volume = 0.3;
+
+document.addEventListener('click', function initMusic() {
+  backgroundMusic.play().catch(e => console.log('Music play error:', e));
+  document.removeEventListener('click', initMusic);
+}, { once: true });
+
+// ==================== ORIGINAL ENGLISH QUESTIONS - FULL VERSION ====================
+const englishQuestions = {
+  Tamil: {
+    easy: [
+      { q: "ஔவையார் யாரைச் சந்திக்கிறார்?", o: ["பாரதி", "கம்பர்", "தொண்டடிமான்", "பாண்டியன்"], a: 2 },
+      { q: "சிறுமி சித்தப்பாவிடம் எதை கேட்கிறாள்?", o: ["உணவு", "செருப்பு", "புத்தகம்", "பணம்"], a: 1 },
+      { q: "இரட்டடைமலை சீனிவாசன் கலந்து கொண்ட மாநாடு?", o: ["சைமன் கமிஷன்", "வட்டமேசை மாநாடு", "சுதேசி இயக்கம்", "உப்பு சத்தியாகிரகம்"], a: 1 },
+      { q: "மெய்ஞ்ஞான ஒளி எந்த வகை பாடம்?", o: ["இலக்கணம்", "அறம்", "கதை", "கவிதை"], a: 1 },
+      { q: "திருக்குறள் இயற்றியவர் யார்?", o: ["பாரதி", "கம்பர்", "திருவள்ளுவர்", "அண்ணா"], a: 2 }
+    ],
+    medium: [
+      { q: "தொண்டடிமான் ஔவையாரை ஏன் வரவேற்கிறார்?", o: ["பாடம் சொல்ல", "வேலைக்காக", "போர் நிறுத்த தூதராக", "ஆசீர்வாதம் பெற"], a: 2 },
+      { q: "சிறுமி ஏன் செருப்பு கேட்கிறாள்?", o: ["ஓட", "கல் குத்தும், வெயில் சுடும்", "விளையாட", "அழகு பார்க்க"], a: 1 },
+      { q: "இரட்டடை வாக்குரிமை யாருக்காக?", o: ["விவசாயிகள்", "அதிகாரிகள்", "பிரித்துவைத்த சமூகத்தினர்", "பெண்கள்"], a: 2 },
+      { q: "மெய்ஞ்ஞான ஒளி என்ன கூறுகிறது?", o: ["பணம்", "சிந்தனை, ஞானம்", "இசை", "படம்"], a: 1 },
+      { q: "அறத்தால் வருவதே இன்பம் கருத்து?", o: ["கோபம் இன்பம் தரும்", "அறம் நன்மை தரும்", "பொய் நல்லது", "போராட்டம் முக்கியம்"], a: 1 }
+    ],
+    hard: [
+      { q: "ஔவையார் வருகையின் அரசியல் நோக்கம்?", o: ["போருக்கு உதவ", "போர் நிறுத்த தூது", "வருகை தர", "ஆசியளிக்க"], a: 1 },
+      { q: "தொண்டடிமான் ஏன் மரியாதை செய்கிறார்?", o: ["புரட்சி தலைவர்", "தமிழ்ப்புலவர்", "படைத் தலைவர்", "விவசாயி"], a: 1 },
+      { q: "இரட்டடை வாக்குரிமை எந்த தத்துவத்திற்கு எதிரானது?", o: ["சமத்துவம்", "பாகுபாடு", "பயம்", "பலவீனம்"], a: 0 },
+      { q: "வட்டமேசை மாநாட்டின் முக்கிய தீர்மானம்?", o: ["விளையாட்டு", "இந்திய அரசியல் உரிமை", "திருக்குறள்", "கலை"], a: 1 },
+      { q: "அயோத்திதாசர் சிந்தனைகள் எதை எதிர்க்கின்றன?", o: ["பகை", "ஜாதி பாகுபாடு", "அழகு", "சண்டை"], a: 1 }
+    ]
+  },
+  English: {
+    easy: [
+      { q: 'Choose noun', o: ['Run', 'Dog', 'Blue'], a: 1 },
+      { q: 'She __ in Chennai for three years.', o: ['lives', 'lived', 'has lived', 'living'], a: 2 },
+      { q: "In 'His First Flight', the theme mainly focuses on", o: ["fear vs courage", "love", "greed", "mystery"], a: 0 },
+      { q: "In 'The Grumble Family', the poet criticizes people who", o: ["enjoy life", "appreciate beauty", "complain constantly", "help others"], a: 2 },
+      { q: "In 'The Woman on Platform 8', the woman protects the boy from", o: ["friends", "thieves", "strangers", "railway guard"], a: 1 }
+    ],
+    medium: [
+      { q: 'Choose verb', o: ['Dog', 'Run', 'Blue'], a: 1 },
+      { q: 'Choose preposition', o: ['Under', 'Run', 'Blue'], a: 0 },
+      { q: "Choose the correct article: He is ___ honest man.", o: ["a", "an", "the", "no article"], a: 1 },
+      { q: "Choose the adjective: She has a beautiful dress.", o: ["she", "has", "beautiful", "dress"], a: 2 },
+      { q: "Choose the verb: They play football.", o: ["they", "play", "football", "none"], a: 1 }
+    ],
+    hard: [
+      { q: 'Choose adjective', o: ['Run', 'Dog', 'Blue'], a: 2 },
+      { q: 'Choose conjunction', o: ['And', 'Run', 'Blue'], a: 0 },
+      { q: "Identify the complex sentence:", o: ["I ran fast and caught the bus.", "When I arrived, the train had left.", "She sang and danced.", "He is tall but weak."], a: 1 },
+      { q: "Choose the correct indirect speech: She said, 'Where are you going?'", o: ["She asked where I was going.", "She asked where am I going.", "She asked where was I going.", "She asked where I going."], a: 0 },
+      { q: "Select the grammatically correct sentence:", o: ["Each of the boys have a pen.", "Each of the boys has a pen.", "Each boys has a pen.", "Each boys have pen."], a: 1 }
+    ]
+  },
+  Maths: {
+    easy: [
+      { q: "Which of the following is a rational number?", o: ["√2", "π", "3/5", "√7"], a: 2 },
+      { q: "Reciprocal of 4/9 is", o: ["9/4", "-9/4", "4/9", "-4/9"], a: 0 },
+      { q: "Which is a perfect square?", o: ["18", "25", "32", "45"], a: 1 },
+      { q: "Square root of 81 is", o: ["7", "8", "9", "10"], a: 2 },
+      { q: "Cube of 4 is", o: ["16", "64", "12", "48"], a: 1 }
+    ],
+    medium: [
+      { q: "Simplify: -3/4 + 5/4", o: ["1/2", "1", "2", "-1/2"], a: 1 },
+      { q: "Which is NOT a rational number?", o: ["-2", "0.25", "√3", "5/7"], a: 2 },
+      { q: "Square of 17 is", o: ["289", "256", "272", "300"], a: 0 },
+      { q: "Cube root of 216 is", o: ["4", "5", "6", "7"], a: 2 },
+      { q: "Curved surface area of a sphere depends on", o: ["radius", "diameter", "height", "edge"], a: 0 }
+    ],
+    hard: [
+      { q: 'x^2 = 9, x = ?', o: ['3', '-3', 'Both'], a: 2 },
+      { q: 'x^2 - 4 = 0, x = ?', o: ['2', '-2', 'Both'], a: 2 },
+      { q: "Value of √(169) + √(36)", o: ["17", "18", "19", "20"], a: 2 },
+      { q: "Which number is both square and cube?", o: ["16", "36", "64", "81"], a: 2 },
+      { q: "Simplify: (2/3) × (9/4)", o: ["3/2", "2/3", "9/6", "1"], a: 0 }
+    ]
+  },
+  Science: {
+    easy: [
+      { q: 'Unit of force?', o: ['Newton', 'Watt', 'Joule'], a: 0 },
+      { q: 'The amount of space occupied by a body is', o: ['mass', 'volume', 'density', 'area'], a: 1 },
+      { q: "The SI unit of energy is", o: ["joule", "watt", "newton", "pascal"], a: 0 },
+      { q: "Friction between layers of fluid is", o: ["rolling friction", "sliding friction", "static friction", "fluid friction"], a: 3 },
+      { q: "The bending of light is called", o: ["reflection", "refraction", "dispersion", "scattering"], a: 1 }
+    ],
+    medium: [
+      { q: 'What is gravity?', o: ['Push', 'Pull towards earth', 'Lift'], a: 1 },
+      { q: 'What is friction?', o: ['Force opposing motion', 'Push', 'Lift'], a: 0 },
+      { q: "The speed of light in vacuum is", o: ["3×10⁵ km/s", "3×10⁸ m/s", "3×10⁷ km/s", "8×10³ m/s"], a: 1 },
+      { q: "When a force stops acting, what happens to motion?", o: ["continues", "stops", "increases", "rotates"], a: 0 },
+      { q: "Focal length is half of", o: ["pole length", "principal axis", "radius of curvature", "diameter"], a: 2 }
+    ],
+    hard: [
+      { q: "Newton's second law?", o: ['F=ma', 'E=mc2', 'P=IV'], a: 0 },
+      { q: 'What is inertia?', o: ['Tendency to resist change', 'Force', 'Energy'], a: 0 },
+      { q: "Which one is a non-luminous body?", o: ["Sun", "Candle", "Moon", "Star"], a: 2 },
+      { q: "Pressure is measured in", o: ["N", "J", "Pa", "W"], a: 2 },
+      { q: "A body will sink if its density is", o: ["more than liquid", "less than liquid", "equal", "zero"], a: 0 }
+    ]
+  },
+  Social: {
+    easy: [
+      { q: "The primary source that provides a first-hand account of an event is:", o: ["A textbook summary", "A diary or letter from the period", "A modern encyclopedia entry", "A newspaper editorial from today"], a: 1 },
+      { q: "Which gas is most abundant in Earth's atmosphere?", o: ["Oxygen", "Nitrogen", "Carbon dioxide", "Argon"], a: 1 },
+      { q: "The head of state in a constitutional monarchy is:", o: ["The Prime Minister", "The King/Queen (monarch)", "The President", "The Chief Justice"], a: 1 },
+      { q: "The term 'democracy' means:", o: ["Rule by a few", "Rule by the people", "Rule by force", "Rule by a single party"], a: 1 },
+      { q: "Which continent is crossed by the Equator?", o: ["Africa", "Europe", "Antarctica", "All of the above"], a: 0 }
+    ],
+    medium: [
+      { q: 'Who wrote the Constitution?', o: ['Nehru', 'Ambedkar', 'Gandhi'], a: 1 },
+      { q: 'Who was the last Viceroy?', o: ['Mountbatten', 'Wavell', 'Linlithgow'], a: 0 },
+      { q: "A democratic government derives its power from:", o: ["Hereditary rule", "The consent of the governed", "Military force", "Religious authority"], a: 1 },
+      { q: "The major function of the judiciary is to:", o: ["Create laws", "Enforce laws", "Interpret and apply laws", "Organize elections"], a: 2 },
+      { q: "Which river flows through the city of Varanasi?", o: ["Yamuna", "Ganga", "Brahmaputra", "Godavari"], a: 1 }
+    ],
+    hard: [
+      { q: 'Year of Independence?', o: ['1947', '1950', '1945'], a: 0 },
+      { q: 'When was the Constitution adopted?', o: ['1950', '1949', '1947'], a: 1 },
+      { q: "The concept of 'separation of powers' means:", o: ["All powers in one person", "Dividing government into branches with separate functions", "Power centralized in a single ministry", "Power shared only with other countries"], a: 1 },
+      { q: "The term 'culture' refers to:", o: ["Only food and costumes", "Shared beliefs, customs, arts, and social behavior of a group", "Weather patterns", "Economic systems"], a: 1 },
+      { q: "Which body approves constitutional amendments in India?", o: ["The President alone", "The Parliament and the States (via ratification where required)", "The Supreme Court", "The Election Commission"], a: 1 }
+    ]
+  }
+};
+
+// ==================== TAMIL MEDIUM QUESTIONS - FULL VERSION ====================
+const tamilMediumQuestions = {
+  Tamil: {
+    easy: [
+      { q: "திருக்குறள் இயற்றியவர் யார்?", o: ["பாரதியார்", "கம்பர்", "திருவள்ளுவர்", "அண்ணாதுரை"], a: 2 },
+      { q: "தமிழ் எழுத்துக்கள் மொத்தம் எத்தனை?", o: ["247", "248", "249", "250"], a: 0 },
+      { q: "சங்க இலக்கியங்களின் எண்ணிக்கை எத்தனை?", o: ["2281", "2381", "2481", "2581"], a: 0 },
+      { q: "தமிழ்நாட்டின் மாநிலப் பறவை எது?", o: ["மயில்", "குயில்", "கிளி", "புறா"], a: 1 },
+      { q: "ஔவையார் இயற்றிய நூல் எது?", o: ["திருக்குறள்", "ஆத்திசூடி", "கம்பராமாயணம்", "சிலப்பதிகாரம்"], a: 1 }
+    ],
+    medium: [
+      { q: "தொல்காப்பியம் எத்தனை அதிகாரங்களைக் கொண்டது?", o: ["3", "4", "5", "6"], a: 0 },
+      { q: "யாமறிந்த புலவரிலே கம்பனைப் போல் என்று புகழ்ந்தவர் யார்?", o: ["பாரதியார்", "பாரதிதாசன்", "கண்ணதாசன்", "வாணிதாசன்"], a: 0 },
+      { q: "சிலப்பதிகாரத்தின் ஆசிரியர் யார்?", o: ["சீத்தலைச் சாத்தனார்", "இளங்கோவடிகள்", "நக்கீரர்", "பாரதியார்"], a: 1 },
+      { q: "தமிழில் உள்ள உயிரெழுத்துக்கள் எத்தனை?", o: ["12", "18", "16", "14"], a: 0 },
+      { q: "மெய்ஞ்ஞான ஒளி என்ன கூறுகிறது?", o: ["பணம் முக்கியம்", "சிந்தனை, ஞானம்", "இசை முக்கியம்", "படிப்பு மட்டுமே"], a: 1 }
+    ],
+    hard: [
+      { q: "திருக்குறளில் எத்தனை அதிகாரங்கள் உள்ளன?", o: ["133", "108", "120", "150"], a: 0 },
+      { q: "புறநானூற்றில் எத்தனை பாடல்கள் உள்ளன?", o: ["400", "306", "500", "278"], a: 1 },
+      { q: "தமிழ்ச் சங்கம் அமைந்திருந்த இடம் எது?", o: ["மதுரை", "காஞ்சிபுரம்", "உறையூர்", "வஞ்சி"], a: 0 },
+      { q: "தொல்காப்பியத்தில் உள்ள மூன்று அதிகாரங்கள் யாவை?", o: ["எழுத்து, சொல், பொருள்", "இயல், இசை, நாடகம்", "அகம், புறம், திணை", "வாழ்க்கை, அறம், பொருள்"], a: 0 },
+      { q: "சீவக சிந்தாமணி இயற்றியவர் யார்?", o: ["திருத்தக்க தேவர்", "கம்பர்", "சேக்கிழார்", "பட்டினத்தார்"], a: 0 }
+    ]
+  },
+  Maths: {
+    easy: [
+      { q: "5 + 3 = ?", o: ["7", "8", "9", "10"], a: 1 },
+      { q: "10 - 4 = ?", o: ["5", "6", "7", "8"], a: 1 },
+      { q: "3 × 4 = ?", o: ["10", "11", "12", "13"], a: 2 },
+      { q: "15 ÷ 3 = ?", o: ["3", "4", "5", "6"], a: 2 },
+      { q: "9-ன் வர்க்கம் எது?", o: ["81", "72", "63", "54"], a: 0 }
+    ],
+    medium: [
+      { q: "ஒரு எண்ணின் 25% ஆனது 40 எனில், அந்த எண் என்ன?", o: ["120", "140", "160", "180"], a: 2 },
+      { q: "2x + 5 = 15 எனில், x இன் மதிப்பு என்ன?", o: ["5", "6", "7", "8"], a: 0 },
+      { q: "ஒரு முக்கோணத்தின் மூன்று கோணங்களின் கூட்டுத்தொகை எவ்வளவு?", o: ["180°", "360°", "90°", "270°"], a: 0 },
+      { q: "ஒரு சதுரத்தின் பக்கம் 5 செ.மீ எனில் அதன் பரப்பளவு என்ன?", o: ["20", "25", "30", "35"], a: 1 },
+      { q: "1 முதல் 10 வரை உள்ள பகா எண்கள் எவை?", o: ["2,3,5,7", "1,2,3,4", "5,6,7,8", "2,4,6,8"], a: 0 }
+    ],
+    hard: [
+      { q: "ஒரு வட்டத்தின் ஆரம் 7 செ.மீ எனில் அதன் சுற்றளவு என்ன?", o: ["44", "22", "14", "28"], a: 0 },
+      { q: "5, 9, 13, 17,... என்ற தொடரின் 10-வது உறுப்பு எது?", o: ["37", "39", "41", "43"], a: 2 },
+      { q: "இரண்டு எண்களின் மீ.பொ.வ 12 மற்றும் மீ.சி.ம 72. ஒரு எண் 24 எனில் மற்றொரு எண் என்ன?", o: ["36", "48", "60", "72"], a: 0 },
+      { q: "ஒரு கடிகாரம் ரூ.500க்கு வாங்கி ரூ.600க்கு விற்றால் இலாப சதவீதம் என்ன?", o: ["10%", "15%", "20%", "25%"], a: 2 },
+      { q: "3x + 2y = 12 மற்றும் 2x + 3y = 13 எனில், x மற்றும் y-ன் மதிப்பு என்ன?", o: ["x=2, y=3", "x=3, y=2", "x=1, y=4", "x=4, y=1"], a: 0 }
+    ]
+  },
+  Science: {
+    easy: [
+      { q: "நமது சூரிய மண்டலத்தில் உள்ள கோள்களின் எண்ணிக்கை எத்தனை?", o: ["7", "8", "9", "10"], a: 1 },
+      { q: "மனித உடலில் எத்தனை எலும்புகள் உள்ளன?", o: ["200", "206", "210", "215"], a: 1 },
+      { q: "ஒளிச்சேர்க்கை நடைபெறும் உறுப்பு எது?", o: ["வேர்", "தண்டு", "இலை", "பூ"], a: 2 },
+      { q: "விசையின் அலகு என்ன?", o: ["நியூட்டன்", "வாட்", "ஜூல்", "பாஸ்கல்"], a: 0 },
+      { q: "உயிரினங்களின் அடிப்படை அலகு எது?", o: ["அணு", "மூலக்கூறு", "செல்", "திசு"], a: 2 }
+    ],
+    medium: [
+      { q: "இரத்தத்தில் உள்ள சிவப்பு அணுக்களின் ஆயுட்காலம் எவ்வளவு?", o: ["60 நாட்கள்", "90 நாட்கள்", "120 நாட்கள்", "150 நாட்கள்"], a: 2 },
+      { q: "நீரின் வேதியியல் சூத்திரம் எது?", o: ["H2O", "CO2", "O2", "N2"], a: 0 },
+      { q: "புவியீர்ப்பு விசையைக் கண்டறிந்தவர் யார்?", o: ["நியூட்டன்", "ஐன்ஸ்டீன்", "கலிலியோ", "ஆர்க்கிமிடீஸ்"], a: 0 },
+      { q: "ஒளியின் வேகம் எவ்வளவு?", o: ["3×10⁵ கிமீ/வி", "3×10⁸ மீ/வி", "3×10⁷ மீ/வி", "8×10³ மீ/வி"], a: 1 },
+      { q: "தாவரங்களில் நீர் மேல்நோக்கி செல்வது எந்த செயல்முறையால்?", o: ["ஒளிச்சேர்க்கை", "ஆவியுயிர்ப்பு", "சுவாசம்", "நுண்புழை இயக்கம்"], a: 3 }
+    ],
+    hard: [
+      { q: "மின்னணு அமைப்பு 2,8,3 கொண்ட தனிமம் எது?", o: ["சோடியம்", "அலுமினியம்", "சிலிக்கான்", "மெக்னீசியம்"], a: 1 },
+      { q: "மனித இரத்தத்தில் உள்ள இரும்புச் சத்து எந்த புரதத்தில் உள்ளது?", o: ["குளோபின்", "ஹீமோகுளோபின்", "மயோகுளோபின்", "ஹீம்"], a: 1 },
+      { q: "மின்காந்த அலைகளில் அதிக அலைநீளம் கொண்டது எது?", o: ["காமா கதிர்கள்", "ரேடியோ அலைகள்", "புற ஊதா", "இன்ஃப்ராரெட்"], a: 1 },
+      { q: "நியூட்டனின் இரண்டாம் விதி என்ன?", o: ["F=ma", "E=mc²", "P=IV", "V=IR"], a: 0 },
+      { q: "உயிரணுவின் 'சக்தி மையம்' எது?", o: ["நியூக்ளியஸ்", "மைட்டோகாண்ட்ரியா", "ரைபோசோம்", "கோல்கி எந்திரம்"], a: 1 }
+    ]
+  },
+  Social: {
+    easy: [
+      { q: "தமிழ்நாட்டின் தலைநகரம் எது?", o: ["சென்னை", "கோயம்புத்தூர்", "மதுரை", "திருச்சி"], a: 0 },
+      { q: "இந்தியா விடுதலை அடைந்த ஆண்டு எது?", o: ["1945", "1947", "1950", "1937"], a: 1 },
+      { q: "இந்திய அரசியலமைப்பு ஏற்றுக்கொள்ளப்பட்ட நாள் எது?", o: ["ஆகஸ்ட் 15, 1947", "ஜனவரி 26, 1950", "நவம்பர் 26, 1949", "அக்டோபர் 2, 1950"], a: 2 },
+      { q: "இந்தியாவின் மிக நீளமான ஆறு எது?", o: ["கங்கை", "யமுனை", "பிரம்மபுத்திரா", "கோதாவரி"], a: 0 },
+      { q: "காவிரி நதி எங்கு உற்பத்தியாகிறது?", o: ["மேற்குத் தொடர்ச்சி மலை", "இமயமலை", "கிழக்குத் தொடர்ச்சி மலை", "நீலகிரி"], a: 0 }
+    ],
+    medium: [
+      { q: "தமிழ்நாட்டின் முதல் முதலமைச்சர் யார்?", o: ["காமராஜர்", "அண்ணாதுரை", "சி.என்.அண்ணாதுரை", "ஓ.பி.ராமசாமி ரெட்டியார்"], a: 3 },
+      { q: "இந்திய அரசியலமைப்பை இயற்றியவர் யார்?", o: ["நேரு", "அம்பேத்கர்", "காந்தி", "படேல்"], a: 1 },
+      { q: "உலகின் மிக உயரமான சிகரம் எது?", o: ["எவரஸ்ட்", "கே2", "காஞ்சன்ஜங்கா", "அன்னபூர்ணா"], a: 0 },
+      { q: "பசிபிக் பெருங்கடலின் ஆழமான பகுதி எது?", o: ["மரியானா அகழி", "புவேர்ட்டோ ரிக்கோ அகழி", "யாப் அகழி", "பிலிப்பைன் அகழி"], a: 0 },
+      { q: "ஐக்கிய நாடுகள் சபை எத்தனை நிறுவன நாடுகளைக் கொண்டு தொடங்கப்பட்டது?", o: ["51", "193", "47", "82"], a: 0 }
+    ],
+    hard: [
+      { q: "காவிரி நீர் பங்கீடு தொடர்பான தீர்ப்பு எந்த ஆண்டு வழங்கப்பட்டது?", o: ["2007", "2018", "2020", "2022"], a: 1 },
+      { q: "இந்திய அரசியலமைப்பின் எந்த சரத்து கல்வி உரிமையை வழங்குகிறது?", o: ["21A", "14", "19", "32"], a: 0 },
+      { q: "சுதந்திரத்திற்கு முன் இந்தியாவின் கடைசி வைஸ்ராய் யார்?", o: ["மவுண்ட்பேட்டன்", "வேவல்", "லின்லித்கோ", "கர்சன்"], a: 0 },
+      { q: "'உலக மக்கள் தொகை தினம்' எப்போது கொண்டாடப்படுகிறது?", o: ["ஜூலை 11", "ஜூன் 5", "ஏப்ரல் 22", "மே 12"], a: 0 },
+      { q: "பிரெஞ்சு புரட்சி நடந்த ஆண்டு எது?", o: ["1789", "1776", "1815", "1848"], a: 0 }
+    ]
+  },
+  English: {
+    easy: [
+      { q: "'Apple' என்ற சொல்லின் தமிழ் பொருள் என்ன?", o: ["ஆரஞ்சு", "வாழைப்பழம்", "ஆப்பிள்", "மாதுளை"], a: 2 },
+      { q: "Which is a noun? (பெயர்ச்சொல் எது?)", o: ["Run", "Beautiful", "Book", "Quickly"], a: 2 },
+      { q: "What is the opposite of 'Hot'? ('Hot' இன் எதிர்ச்சொல் என்ன?)", o: ["Warm", "Cold", "Cool", "Freezing"], a: 1 },
+      { q: "Identify the verb: 'She sings beautifully' (வினைச்சொல் எது?)", o: ["She", "Sings", "Beautifully", "The"], a: 1 },
+      { q: "Choose the correct article: He is ___ honest man.", o: ["a", "an", "the", "no article"], a: 1 }
+    ],
+    medium: [
+      { q: "Choose the correct preposition: She is interested ___ music.", o: ["in", "on", "at", "for"], a: 0 },
+      { q: "What is the past tense of 'go'? ('go' வின் இறந்தகால வினைச்சொல் எது?)", o: ["goed", "went", "gone", "going"], a: 1 },
+      { q: "Which word is an adjective? (பெயரடை எது?)", o: ["happily", "happiness", "happy", "happen"], a: 2 },
+      { q: "Choose the correct plural form of 'child': ('child' இன் பன்மை வடிவம் எது?)", o: ["childs", "children", "childes", "childrens"], a: 1 },
+      { q: "Identify the conjunction: I like tea ___ coffee.", o: ["and", "but", "or", "so"], a: 2 }
+    ],
+    hard: [
+      { q: "Change to passive voice: 'She wrote a letter'", o: ["A letter is written by her", "A letter was written by her", "A letter has been written by her", "A letter had been written by her"], a: 1 },
+      { q: "Choose the correct indirect speech: She said, 'I am happy'", o: ["She said I am happy", "She said she is happy", "She said she was happy", "She said she will be happy"], a: 2 },
+      { q: "Which sentence is grammatically correct?", o: ["Each of the boys have a pen", "Each of the boys has a pen", "Each boys has a pen", "Each boys have pen"], a: 1 },
+      { q: "Identify the complex sentence:", o: ["I ran fast and caught the bus", "When I arrived, the train had left", "She sang and danced", "He is tall but weak"], a: 1 },
+      { q: "What is the meaning of 'benevolent'? ('benevolent' என்ற சொல்லின் பொருள் என்ன?)", o: ["கருணையுள்ள", "கோபமான", "அழகான", "பெரிய"], a: 0 }
+    ]
+  }
+};
+
+// ==================== LANGUAGE TOGGLE ====================
+let gameLanguage = 'english';
+let questions = JSON.parse(JSON.stringify(englishQuestions));
+
+function toggleLanguage() {
+  gameLanguage = gameLanguage === 'english' ? 'tamil' : 'english';
+  if (gameLanguage === 'tamil') {
+    questions = JSON.parse(JSON.stringify(tamilMediumQuestions));
+    document.getElementById('languageToggle').innerHTML = '🇮🇳 தமிழ் வழி';
+    document.getElementById('languageToggle').style.background = 'linear-gradient(135deg, #FF9933, #138808)';
+    document.getElementById('mainTitle').innerHTML = '🚀 எடுஃபன் கேலக்ஸி – 8-ம் வகுப்பு';
+    document.getElementById('subjectSectionTitle').innerHTML = 'பாடத்தை தேர்ந்தெடுக்கவும்';
+  } else {
+    questions = JSON.parse(JSON.stringify(englishQuestions));
+    document.getElementById('languageToggle').innerHTML = '🇬🇧 English Medium';
+    document.getElementById('languageToggle').style.background = 'linear-gradient(135deg, #4facfe, #00f2fe)';
+    document.getElementById('mainTitle').innerHTML = '🚀 EduFun Galaxy – 8th Standard';
+    document.getElementById('subjectSectionTitle').innerHTML = 'Select Subject';
+  }
+  updateSubjectNames();
+  document.getElementById('pdfModeIndicator').innerHTML = gameLanguage === 'tamil' ? 'Tamil Medium' : 'English Medium';
+}
+
+function updateSubjectNames() {
+  const subjectMap = {
+    'Maths': { en: 'Maths', ta: 'கணிதம்' },
+    'Science': { en: 'Science', ta: 'அறிவியல்' },
+    'English': { en: 'English', ta: 'ஆங்கிலம்' },
+    'Social': { en: 'Social', ta: 'சமூகம்' },
+    'Tamil': { en: 'Tamil', ta: 'தமிழ்' }
+  };
+  document.querySelectorAll('.subject').forEach(subject => {
+    const subjectKey = subject.dataset.subject;
+    const span = subject.querySelector('.subject-name');
+    if (span && subjectMap[subjectKey]) {
+      span.textContent = gameLanguage === 'tamil' ? subjectMap[subjectKey].ta : subjectMap[subjectKey].en;
+    }
+  });
+}
+
+// ==================== GAME VARIABLES ====================
+let currentSubject = null;
+let currentLevel = null;
+let currentQuestionIndex = 0;
+let gameTimer = null;
+let gameScore = 0;
+let timeLimit = 15;
+let gameElements = [];
+
+function updateScoreDisplay() {
+  document.getElementById('currentScore').textContent = player.score;
+}
+
+function showScreen(screenId) {
+  document.querySelectorAll('.section').forEach(screen => {
+    screen.classList.add('hidden');
+  });
+  const screenElement = document.getElementById(screenId);
+  if (screenElement) {
+    screenElement.classList.remove('hidden');
+  }
+}
+
+// ==================== SUBJECT MUSIC ====================
+const MAIN_BACKGROUND_MUSIC_SRC = 'https://cdn.pixabay.com/audio/2022/10/29/audio_92f89f6a6d.mp3';
+
+function playSubjectMusic(subject) {
+  const musicElement = document.getElementById('backgroundMusic');
+  if (musicElement) {
+    musicElement.pause();
+    musicElement.src = `https://cdn.pixabay.com/audio/2023/08/04/audio_9a7f8e3d2b.mp3`;
+    musicElement.load();
+    musicElement.play().catch(e => console.log('Music play error:', e));
+  }
+}
+
+function resumeBackgroundMusic() {
+  const musicElement = document.getElementById('backgroundMusic');
+  if (musicElement) {
+    musicElement.pause();
+    musicElement.src = MAIN_BACKGROUND_MUSIC_SRC;
+    musicElement.load();
+    musicElement.play().catch(err => console.log('Audio play failed:', err));
+  }
+}
+
+// ==================== SUBJECT SELECTION ====================
+document.querySelectorAll('.subject').forEach(subjectCard => {
+  subjectCard.addEventListener('click', function() {
+    currentSubject = this.dataset.subject;
+    playSubjectMusic(currentSubject);
+   
+    document.getElementById('levelSelectionTitle').textContent =
+      gameLanguage === 'tamil'
+        ? `நிலை தேர்ந்தெடுக்கவும் - ${currentSubject === 'Maths' ? 'கணிதம்' : currentSubject === 'Science' ? 'அறிவியல்' : currentSubject === 'English' ? 'ஆங்கிலம்' : currentSubject === 'Social' ? 'சமூகம்' : 'தமிழ்'}`
+        : `Select Level - ${currentSubject}`;
+   
+    showScreen('levelSection');
+    updateLevelButtons();
+  });
+});
+
+// ==================== LEVEL SELECTION ====================
+function updateLevelButtons() {
+  const easyBtn = document.getElementById('easyLevelBtn');
+  const mediumBtn = document.getElementById('mediumLevelBtn');
+  const hardBtn = document.getElementById('hardLevelBtn');
+  const progressInfo = document.getElementById('levelProgressInfo');
+ 
+  const subjectProgress = player.levelProgress[currentSubject] || { easy: false, medium: false, hard: false };
+ 
+  if (gameLanguage === 'tamil') {
+    easyBtn.innerHTML = '⭐ ஆரம்ப நிலை';
+    mediumBtn.innerHTML = '⭐⭐ இடைநிலை';
+    hardBtn.innerHTML = '⭐⭐⭐ மேம்பட்ட நிலை';
+  } else {
+    easyBtn.innerHTML = '⭐ Explorer';
+    mediumBtn.innerHTML = '⭐⭐ Adventure';
+    hardBtn.innerHTML = '⭐⭐⭐ Champion';
+  }
+ 
+  easyBtn.disabled = false;
+  easyBtn.classList.remove('locked');
+ 
+  if (subjectProgress.easy) {
+    mediumBtn.disabled = false;
+    mediumBtn.classList.remove('locked');
+    mediumBtn.innerHTML += ' ✓';
+  } else {
+    mediumBtn.disabled = true;
+    mediumBtn.classList.add('locked');
+    mediumBtn.innerHTML += ' 🔒';
+  }
+ 
+  if (subjectProgress.medium) {
+    hardBtn.disabled = false;
+    hardBtn.classList.remove('locked');
+    hardBtn.innerHTML += ' ✓';
+  } else {
+    hardBtn.disabled = true;
+    hardBtn.classList.add('locked');
+    hardBtn.innerHTML += ' 🔒';
+  }
+ 
+  let completed = 0;
+  if (subjectProgress.easy) completed++;
+  if (subjectProgress.medium) completed++;
+  if (subjectProgress.hard) completed++;
+ 
+  progressInfo.innerHTML = gameLanguage === 'tamil'
+    ? `முன்னேற்றம்: <strong>${completed}/3</strong> நிலைகள் முடிந்தன`
+    : `Progress: <strong>${completed}/3</strong> levels completed`;
+}
+
+document.getElementById('easyLevelBtn').addEventListener('click', function() {
+  if (!this.disabled) selectLevel('easy');
+});
+
+document.getElementById('mediumLevelBtn').addEventListener('click', function() {
+  if (!this.disabled && player.levelProgress[currentSubject]?.easy) {
+    selectLevel('medium');
+  } else {
+    alert(gameLanguage === 'tamil' ? "முதலில் ஆரம்ப நிலையை முடிக்கவும்!" : "Please complete EASY level first!");
+  }
+});
+
+document.getElementById('hardLevelBtn').addEventListener('click', function() {
+  if (!this.disabled && player.levelProgress[currentSubject]?.medium) {
+    selectLevel('hard');
+  } else {
+    alert(gameLanguage === 'tamil' ? "முதலில் இடைநிலையை முடிக்கவும்!" : "Please complete MEDIUM level first!");
+  }
+});
+
+function selectLevel(level) {
+  currentLevel = level;
+  currentQuestionIndex = 0;
+  gameScore = 0;
+  timeLimit = level === 'easy' ? 15 : level === 'medium' ? 15 : 10;
+ 
+  showScreen('progressSection');
+ 
+  const levelTitle = gameLanguage === 'tamil'
+    ? `${currentSubject === 'Maths' ? 'கணிதம்' : currentSubject === 'Science' ? 'அறிவியல்' : currentSubject === 'English' ? 'ஆங்கிலம்' : currentSubject === 'Social' ? 'சமூகம்' : 'தமிழ்'} - ${level === 'easy' ? 'ஆரம்ப நிலை' : level === 'medium' ? 'இடைநிலை' : 'மேம்பட்ட நிலை'}`
+    : `${currentSubject} - ${level.toUpperCase()} Level`;
+   
+  document.getElementById('levelTitle').textContent = levelTitle;
+ 
+  const questionCount = questions[currentSubject][level].length;
+  document.getElementById('questionCount').textContent =
+    gameLanguage === 'tamil'
+      ? `${questionCount} கேள்விகளுக்கு தயாராகுங்கள்!`
+      : `Get ready for ${questionCount} questions!`;
+ 
+  let progress = 0;
+  const progressBar = document.getElementById('progressBar');
+  progressBar.style.width = '0%';
+ 
+  const progressInterval = setInterval(() => {
+    progress += 2;
+    progressBar.style.width = `${Math.min(progress, 100)}%`;
+    if (progress >= 100) {
+      clearInterval(progressInterval);
+      setTimeout(startQuiz, 500);
+    }
+  }, 30);
+}
+
+// ==================== QUIZ FUNCTIONS ====================
+function startQuiz() {
+  showScreen('quizSection');
+ 
+  const quizTitle = gameLanguage === 'tamil'
+    ? `${currentSubject === 'Maths' ? 'கணிதம்' : currentSubject === 'Science' ? 'அறிவியல்' : currentSubject === 'English' ? 'ஆங்கிலம்' : currentSubject === 'Social' ? 'சமூகம்' : 'தமிழ்'} - ${currentLevel === 'easy' ? 'ஆரம்ப நிலை' : currentLevel === 'medium' ? 'இடைநிலை' : 'மேம்பட்ட நிலை'}`
+    : `${currentSubject} - ${currentLevel.toUpperCase()} Level`;
+   
+  document.getElementById('quizTitle').textContent = quizTitle;
+  loadQuestion();
+  startTimer();
+}
+
+function loadQuestion() {
+  const questionData = questions[currentSubject][currentLevel][currentQuestionIndex];
+  if (!questionData) {
+    finishQuiz();
+    return;
+  }
+ 
+  document.getElementById('question').textContent = questionData.q;
+ 
+  const totalQuestions = questions[currentSubject][currentLevel].length;
+  document.getElementById('questionCount').textContent =
+    gameLanguage === 'tamil'
+      ? `கேள்வி ${currentQuestionIndex + 1}/${totalQuestions}`
+      : `Question ${currentQuestionIndex + 1} of ${totalQuestions}`;
+ 
+  const optionsContainer = document.getElementById('optionsContainer');
+  optionsContainer.innerHTML = '';
+ 
+  questionData.o.forEach((option, index) => {
+    const button = document.createElement('button');
+    button.textContent = `${String.fromCharCode(65 + index)}. ${option}`;
+    button.onclick = () => checkAnswer(index, questionData.a);
+    optionsContainer.appendChild(button);
+  });
+}
+
+function startTimer() {
+  let timeLeft = timeLimit;
+  document.getElementById('timer').textContent = `⏱ ${timeLeft}s`;
+ 
+  clearInterval(gameTimer);
+  gameTimer = setInterval(() => {
+    timeLeft--;
+    document.getElementById('timer').textContent = `⏱ ${timeLeft}s`;
+   
+    if (timeLeft <= 5) {
+      document.getElementById('timer').style.color = '#ff6b6b';
+    }
+   
+    if (timeLeft <= 0) {
+      clearInterval(gameTimer);
+      nextQuestion();
+    }
+  }, 1000);
+}
+
+function checkAnswer(selectedIndex, correctIndex) {
+  clearInterval(gameTimer);
+ 
+  const buttons = document.querySelectorAll('#optionsContainer button');
+  buttons.forEach(btn => btn.disabled = true);
+ 
+  if (selectedIndex === correctIndex) {
+    buttons[selectedIndex].classList.add('correct');
+    player.score += 10;
+    gameScore += 10;
+    updateScoreDisplay();
+    savePlayerData();
+    document.getElementById('timer').textContent = gameLanguage === 'tamil' ? '✅ சரியான விடை! +10' : '✅ Correct! +10';
+    document.getElementById('timer').style.color = '#2ecc71';
+  } else {
+    buttons[selectedIndex].classList.add('incorrect');
+    buttons[correctIndex].classList.add('correct');
+    document.getElementById('timer').textContent = gameLanguage === 'tamil' ? '❌ முயற்சி செய்!' : '❌ Try Again!';
+    document.getElementById('timer').style.color = '#e74c3c';
+  }
+ 
+  setTimeout(nextQuestion, 1500);
+}
+
+function nextQuestion() {
+  currentQuestionIndex++;
+  if (currentQuestionIndex < questions[currentSubject][currentLevel].length) {
+    document.getElementById('timer').style.color = '#ff9a00';
+    loadQuestion();
+    startTimer();
+  } else {
+    finishQuiz();
+  }
+}
+
+function finishQuiz() {
+  if (!player.levelProgress[currentSubject]) {
+    player.levelProgress[currentSubject] = { easy: false, medium: false, hard: false };
+  }
+  player.levelProgress[currentSubject][currentLevel] = true;
+  savePlayerData();
+  startSubjectMiniGame();
+}
+
+// ==================== MINI GAMES ====================
+function startSubjectMiniGame() {
+  showScreen('gameSection');
+  document.getElementById('continueBtn').disabled = true;
+ 
+  const gameArea = document.getElementById('gameArea');
+  gameArea.innerHTML = '';
+  gameElements = [];
+ 
+  const gameTitle = gameLanguage === 'tamil'
+    ? `🎮 ${currentSubject === 'Maths' ? 'கணிதம்' : currentSubject === 'Science' ? 'அறிவியல்' : currentSubject === 'English' ? 'ஆங்கிலம்' : currentSubject === 'Social' ? 'சமூகம்' : 'தமிழ்'} - ${currentLevel === 'easy' ? 'வேடிக்கையான விளையாட்டு' : currentLevel === 'medium' ? 'கற்றல் விளையாட்டு' : 'மேம்பட்ட பயிற்சி'}`
+    : `🎮 ${currentSubject} - ${currentLevel === 'easy' ? 'Fun Game' : currentLevel === 'medium' ? 'Learning Game' : 'Advanced Practice'}`;
+   
+  document.getElementById('gameTitle').textContent = gameTitle;
+ 
+  switch(currentSubject) {
+    case 'Maths':
+      if (currentLevel === 'easy') startMathsMemoryGame();
+      else if (currentLevel === 'medium') startMathsTablesGame();
+      else startMathsAlgebraGame();
+      break;
+    case 'Science':
+      if (currentLevel === 'easy') startScienceSimonGame();
+      else if (currentLevel === 'medium') startScienceBodyImagesGame();
+      else startSciencePhysicsGame();
+      break;
+    case 'English':
+      if (currentLevel === 'easy') startEnglishWhackGame();
+      else if (currentLevel === 'medium') startEnglishOppositesGame();
+      else startEnglishGrammarGame();
+      break;
+    case 'Social':
+      if (currentLevel === 'easy') startSocialTreasureHuntGame();
+      else if (currentLevel === 'medium') startSocialStatesGame();
+      else startSocialMonumentsGame();
+      break;
+    case 'Tamil':
+      if (currentLevel === 'easy') startTamilRiddleGame();
+      else if (currentLevel === 'medium') startTamilProverbGame();
+      else startTamilSpinWheelGame();
+      break;
+  }
+}
+
+// ==================== MATHS GAMES ====================
+function startMathsMemoryGame() {
+  const gameArea = document.getElementById('gameArea');
+  
+  const images = ['🍎', '🚗', '🐕', '🐱', '🌞', '⭐', '🦁', '🐘'];
+  const cards = [];
+  
+  images.forEach((img, index) => {
+    cards.push({ id: index, img: img, matched: false });
+    cards.push({ id: index, img: img, matched: false });
+  });
+  
+  for (let i = cards.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [cards[i], cards[j]] = [cards[j], cards[i]];
+  }
+  
+  let flippedCards = [];
+  let lockBoard = false;
+  let matchedCount = 0;
+  const totalPairs = images.length;
+  
+  const instruction = gameLanguage === 'tamil'
+    ? '🧠 ஜோடிகளை பொருத்தவும்! 8 ஜோடிகள்'
+    : '🧠 Match the pairs! 8 pairs';
+  document.getElementById('gameInstruction').textContent = instruction;
+  
+  const gridSize = 4;
+  const cardWidth = 70;
+  const startX = (gameArea.offsetWidth - (gridSize * cardWidth + (gridSize - 1) * 10)) / 2;
+  const startY = 80;
+  
+  cards.forEach((card, index) => {
+    const cardEl = document.createElement('div');
+    cardEl.className = 'game-element memory-card';
+    cardEl.style.left = startX + (index % gridSize) * (cardWidth + 10) + 'px';
+    cardEl.style.top = startY + Math.floor(index / gridSize) * (cardWidth + 10) + 'px';
+    cardEl.style.width = cardWidth + 'px';
+    cardEl.style.height = cardWidth + 'px';
+    cardEl.textContent = '?';
+    cardEl.dataset.id = card.id;
+    cardEl.dataset.img = card.img;
+    cardEl.dataset.matched = 'false';
+    
+    cardEl.onclick = function() {
+      if (lockBoard) return;
+      if (this.dataset.matched === 'true') return;
+      if (flippedCards.includes(this)) return;
+      if (flippedCards.length >= 2) return;
+      
+      this.textContent = this.dataset.img;
+      this.style.background = 'linear-gradient(135deg, #FFD700, #FFA500)';
+      flippedCards.push(this);
+      
+      if (flippedCards.length === 2) {
+        lockBoard = true;
+        
+        if (flippedCards[0].dataset.id === flippedCards[1].dataset.id) {
+          setTimeout(() => {
+            flippedCards[0].style.background = 'linear-gradient(135deg, #2ecc71, #27ae60)';
+            flippedCards[1].style.background = 'linear-gradient(135deg, #2ecc71, #27ae60)';
+            flippedCards[0].dataset.matched = 'true';
+            flippedCards[1].dataset.matched = 'true';
+            matchedCount++;
+            
+            player.score += 10;
+            gameScore += 10;
+            updateScoreDisplay();
+            savePlayerData();
+            
+            createParticle(flippedCards[0], '+10', '#2ecc71');
+            
+            flippedCards = [];
+            lockBoard = false;
+            
+            if (matchedCount === totalPairs) {
+              document.getElementById('continueBtn').disabled = false;
+              player.score += 30;
+              gameScore += 30;
+              updateScoreDisplay();
+              savePlayerData();
+              document.getElementById('gameInstruction').textContent = gameLanguage === 'tamil'
+                ? '🎉 அருமை! விளையாட்டு முடிந்தது! +30 புள்ளிகள்'
+                : '🎉 Great! Game Complete! +30 points';
+            }
+          }, 500);
+        } else {
+          setTimeout(() => {
+            flippedCards[0].textContent = '?';
+            flippedCards[1].textContent = '?';
+            flippedCards[0].style.background = 'linear-gradient(135deg, #4facfe, #00f2fe)';
+            flippedCards[1].style.background = 'linear-gradient(135deg, #4facfe, #00f2fe)';
+            flippedCards = [];
+            lockBoard = false;
+          }, 1000);
+        }
+      }
+    };
+    
+    gameArea.appendChild(cardEl);
+  });
+}
+
+function startMathsTablesGame() {
+  const gameArea = document.getElementById('gameArea');
+  
+  const allQuestions = [];
+  for (let i = 1; i <= 10; i++) {
+    for (let j = 1; j <= 5; j++) {
+      const multiplier = Math.floor(Math.random() * 10) + 1;
+      allQuestions.push({
+        question: `${i} × ${multiplier} = ?`,
+        answer: i * multiplier,
+        options: [
+          i * multiplier,
+          i * multiplier + Math.floor(Math.random() * 5) + 1,
+          i * multiplier - Math.floor(Math.random() * 5) - 1,
+          i * multiplier + Math.floor(Math.random() * 10) + 2
+        ].sort(() => Math.random() - 0.5)
+      });
+    }
+  }
+  
+  const shuffled = [...allQuestions].sort(() => Math.random() - 0.5);
+  const questions = shuffled.slice(0, 5);
+  let currentQ = 0;
+  
+  const instruction = gameLanguage === 'tamil'
+    ? `📊 வாய்ப்பாட்டு கேள்வி 1/5`
+    : `📊 Table Question 1/5`;
+  document.getElementById('gameInstruction').textContent = instruction;
+  
+  function loadQuestion() {
+    gameArea.innerHTML = '';
+    
+    const q = questions[currentQ];
+    
+    const questionDisplay = document.createElement('div');
+    questionDisplay.className = 'game-element';
+    questionDisplay.style.left = '50%';
+    questionDisplay.style.top = '30%';
+    questionDisplay.style.transform = 'translateX(-50%)';
+    questionDisplay.style.fontSize = '40px';
+    questionDisplay.style.background = 'linear-gradient(135deg, #FFD700, #FFA500)';
+    questionDisplay.style.padding = '30px';
+    questionDisplay.style.borderRadius = '20px';
+    questionDisplay.textContent = q.question;
+    gameArea.appendChild(questionDisplay);
+    
+    q.options.forEach((opt, index) => {
+      const optEl = document.createElement('div');
+      optEl.className = 'game-element option-box';
+      optEl.textContent = opt;
+      optEl.style.left = (index * 25) + 5 + '%';
+      optEl.style.top = '60%';
+      
+      optEl.onclick = function() {
+        if (parseInt(this.textContent) === q.answer) {
+          createParticle(this, '✓ +15', '#2ecc71');
+          player.score += 15;
+          gameScore += 15;
+          updateScoreDisplay();
+          savePlayerData();
+          
+          currentQ++;
+          
+          if (currentQ < questions.length) {
+            document.getElementById('gameInstruction').textContent = gameLanguage === 'tamil'
+              ? `📊 வாய்ப்பாட்டு கேள்வி ${currentQ + 1}/5`
+              : `📊 Table Question ${currentQ + 1}/5`;
+            loadQuestion();
+          } else {
+            document.getElementById('continueBtn').disabled = false;
+            player.score += 30;
+            gameScore += 30;
+            updateScoreDisplay();
+            savePlayerData();
+            document.getElementById('gameInstruction').textContent = gameLanguage === 'tamil'
+              ? '🎉 வாய்ப்பாட்டு வல்லுநர்! +30 புள்ளிகள்'
+              : '🎉 Tables Expert! +30 points';
+            gameArea.innerHTML = '<div style="position: absolute; top: 40%; left: 50%; transform: translateX(-50%); font-size: 60px;">🏆</div>';
+          }
+        } else {
+          createParticle(this, '❌', '#e74c3c');
+        }
+      };
+      
+      gameArea.appendChild(optEl);
+    });
+  }
+  
+  loadQuestion();
+}
+
+function startMathsAlgebraGame() {
+  const gameArea = document.getElementById('gameArea');
+  
+  const allEquations = [
+    { eq: 'x + 5 = 10', ans: '5' },
+    { eq: '2x = 8', ans: '4' },
+    { eq: 'x - 3 = 7', ans: '10' },
+    { eq: 'x/2 = 6', ans: '12' },
+    { eq: '3x = 15', ans: '5' },
+    { eq: 'x + 8 = 20', ans: '12' },
+    { eq: 'x - 5 = 9', ans: '14' },
+    { eq: '4x = 24', ans: '6' },
+    { eq: 'x/3 = 5', ans: '15' },
+    { eq: '2x + 1 = 11', ans: '5' },
+    { eq: '3x - 2 = 13', ans: '5' },
+    { eq: 'x + 12 = 20', ans: '8' },
+    { eq: '5x = 30', ans: '6' },
+    { eq: 'x/4 = 4', ans: '16' }
+  ];
+  
+  const shuffled = [...allEquations].sort(() => Math.random() - 0.5);
+  const questions = shuffled.slice(0, 10);
+  let currentQ = 0;
+  
+  const instruction = gameLanguage === 'tamil'
+    ? `🔢 இயற்கணிதம் கேள்வி 1/10`
+    : `🔢 Algebra Question 1/10`;
+  document.getElementById('gameInstruction').textContent = instruction;
+  
+  function loadQuestion() {
+    gameArea.innerHTML = '';
+    
+    const q = questions[currentQ];
+    
+    const eqDisplay = document.createElement('div');
+    eqDisplay.className = 'game-element';
+    eqDisplay.style.left = '50%';
+    eqDisplay.style.top = '30%';
+    eqDisplay.style.transform = 'translateX(-50%)';
+    eqDisplay.style.fontSize = '40px';
+    eqDisplay.style.background = 'linear-gradient(135deg, #FF6B6B, #FF8E53)';
+    eqDisplay.style.padding = '30px';
+    eqDisplay.style.borderRadius = '20px';
+    eqDisplay.textContent = q.eq;
+    gameArea.appendChild(eqDisplay);
+    
+    const options = [
+      q.ans,
+      (parseInt(q.ans) + Math.floor(Math.random() * 5) + 2).toString(),
+      (parseInt(q.ans) - Math.floor(Math.random() * 5) - 2).toString(),
+      (parseInt(q.ans) * 2).toString()
+    ].sort(() => Math.random() - 0.5);
+    
+    options.forEach((opt, index) => {
+      const optEl = document.createElement('div');
+      optEl.className = 'game-element option-box';
+      optEl.textContent = opt;
+      optEl.style.left = (index * 25) + 5 + '%';
+      optEl.style.top = '60%';
+      
+      optEl.onclick = function() {
+        if (this.textContent === q.ans) {
+          createParticle(this, '✓ +10', '#2ecc71');
+          player.score += 10;
+          gameScore += 10;
+          updateScoreDisplay();
+          savePlayerData();
+          
+          currentQ++;
+          
+          if (currentQ < questions.length) {
+            document.getElementById('gameInstruction').textContent = gameLanguage === 'tamil'
+              ? `🔢 இயற்கணிதம் கேள்வி ${currentQ + 1}/10`
+              : `🔢 Algebra Question ${currentQ + 1}/10`;
+            loadQuestion();
+          } else {
+            document.getElementById('continueBtn').disabled = false;
+            player.score += 50;
+            gameScore += 50;
+            updateScoreDisplay();
+            savePlayerData();
+            document.getElementById('gameInstruction').textContent = gameLanguage === 'tamil'
+              ? '🎉 இயற்கணித வல்லுநர்! +50 புள்ளிகள்'
+              : '🎉 Algebra Expert! +50 points';
+            gameArea.innerHTML = '<div style="position: absolute; top: 40%; left: 50%; transform: translateX(-50%); font-size: 60px;">🏆</div>';
+          }
+        } else {
+          createParticle(this, '❌', '#e74c3c');
+        }
+      };
+      
+      gameArea.appendChild(optEl);
+    });
+  }
+  
+  loadQuestion();
+}
+
+// ==================== SCIENCE GAMES ====================
+function startScienceSimonGame() {
+  const gameArea = document.getElementById('gameArea');
+  
+  const bodyParts = [
+    { name: 'nose', emoji: '👃', command: 'Touch your nose!' },
+    { name: 'eyes', emoji: '👀', command: 'Touch your eyes!' },
+    { name: 'ears', emoji: '👂', command: 'Touch your ears!' },
+    { name: 'mouth', emoji: '👄', command: 'Touch your mouth!' },
+    { name: 'head', emoji: '👤', command: 'Touch your head!' },
+    { name: 'hands', emoji: '✋', command: 'Show your hands!' }
+  ];
+  
+  let round = 0;
+  const totalRounds = 10;
+  let currentCommand = null;
+  
+  const instruction = gameLanguage === 'tamil'
+    ? `🧠 சைமன் சொல்கிறார்: சுற்று 1/${totalRounds}`
+    : `🧠 Simon Says: Round 1/${totalRounds}`;
+  document.getElementById('gameInstruction').textContent = instruction;
+  
+  function nextRound() {
+    if (round >= totalRounds) {
+      document.getElementById('continueBtn').disabled = false;
+      player.score += 30;
+      gameScore += 30;
+      updateScoreDisplay();
+      savePlayerData();
+      document.getElementById('gameInstruction').textContent = gameLanguage === 'tamil'
+        ? '🎉 அருமை! விளையாட்டு முடிந்தது! +30 புள்ளிகள்'
+        : '🎉 Great! Game Complete! +30 points';
+      gameArea.innerHTML = '<div style="position: absolute; top: 40%; left: 50%; transform: translateX(-50%); font-size: 60px;">🏆</div>';
+      return;
+    }
+    
+    gameArea.innerHTML = '';
+    
+    const randomIndex = Math.floor(Math.random() * bodyParts.length);
+    currentCommand = bodyParts[randomIndex];
+    
+    const simonDisplay = document.createElement('div');
+    simonDisplay.className = 'game-element';
+    simonDisplay.style.left = '50%';
+    simonDisplay.style.top = '15%';
+    simonDisplay.style.transform = 'translateX(-50%)';
+    simonDisplay.style.fontSize = '28px';
+    simonDisplay.style.background = 'linear-gradient(135deg, #4facfe, #00f2fe)';
+    simonDisplay.style.padding = '15px 25px';
+    simonDisplay.style.borderRadius = '50px';
+    simonDisplay.textContent = gameLanguage === 'tamil' 
+      ? `சைமன் சொல்கிறார்: ${currentCommand.command}`
+      : `Simon Says: ${currentCommand.command}`;
+    gameArea.appendChild(simonDisplay);
+    
+    const positions = [
+      { emoji: '👃', top: '35%', left: '50%', name: 'nose' },
+      { emoji: '👀', top: '25%', left: '40%', name: 'eyes' },
+      { emoji: '👀', top: '25%', left: '60%', name: 'eyes' },
+      { emoji: '👂', top: '30%', left: '30%', name: 'ears' },
+      { emoji: '👂', top: '30%', left: '70%', name: 'ears' },
+      { emoji: '👄', top: '40%', left: '50%', name: 'mouth' },
+      { emoji: '👤', top: '15%', left: '50%', name: 'head' },
+      { emoji: '✋', top: '55%', left: '30%', name: 'hands' },
+      { emoji: '✋', top: '55%', left: '70%', name: 'hands' }
+    ];
+    
+    positions.forEach((pos) => {
+      const part = document.createElement('div');
+      part.className = 'game-element simon-button';
+      part.textContent = pos.emoji;
+      part.style.left = pos.left;
+      part.style.top = pos.top;
+      part.style.width = '70px';
+      part.style.height = '70px';
+      part.style.fontSize = '40px';
+      part.dataset.part = pos.name;
+      
+      part.onclick = function() {
+        if (this.dataset.part === currentCommand.name || 
+            (currentCommand.name === 'eyes' && this.dataset.part === 'eyes') ||
+            (currentCommand.name === 'ears' && this.dataset.part === 'ears') ||
+            (currentCommand.name === 'hands' && this.dataset.part === 'hands')) {
+          createParticle(this, '✓ +5', '#2ecc71');
+          player.score += 5;
+          gameScore += 5;
+          updateScoreDisplay();
+          savePlayerData();
+          
+          round++;
+          document.getElementById('gameInstruction').textContent = gameLanguage === 'tamil'
+            ? `🧠 சைமன் சொல்கிறார்: சுற்று ${round + 1}/${totalRounds}`
+            : `🧠 Simon Says: Round ${round + 1}/${totalRounds}`;
+          nextRound();
+        } else {
+          createParticle(this, '❌', '#e74c3c');
+        }
+      };
+      
+      gameArea.appendChild(part);
+    });
+  }
+  
+  nextRound();
+}
+
+function startScienceBodyImagesGame() {
+  const gameArea = document.getElementById('gameArea');
+  
+  const bodyQuestions = [
+    { question: 'Which is the heart?', image: '❤️', options: ['❤️ Heart', '🧠 Brain', '🫁 Lungs', '👀 Eyes'], answer: '❤️ Heart' },
+    { question: 'Which is the brain?', image: '🧠', options: ['❤️ Heart', '🧠 Brain', '🫁 Lungs', '👀 Eyes'], answer: '🧠 Brain' },
+    { question: 'Which are the lungs?', image: '🫁', options: ['❤️ Heart', '🧠 Brain', '🫁 Lungs', '👀 Eyes'], answer: '🫁 Lungs' },
+    { question: 'Which are the eyes?', image: '👀', options: ['❤️ Heart', '🧠 Brain', '🫁 Lungs', '👀 Eyes'], answer: '👀 Eyes' },
+    { question: 'Which is the stomach?', image: '🫃', options: ['❤️ Heart', '🧠 Brain', '🫃 Stomach', '👂 Ears'], answer: '🫃 Stomach' },
+    { question: 'Which are the ears?', image: '👂', options: ['👂 Ears', '👃 Nose', '👄 Mouth', '✋ Hands'], answer: '👂 Ears' },
+    { question: 'Which is the nose?', image: '👃', options: ['👂 Ears', '👃 Nose', '👄 Mouth', '✋ Hands'], answer: '👃 Nose' },
+    { question: 'Which is the mouth?', image: '👄', options: ['👂 Ears', '👃 Nose', '👄 Mouth', '✋ Hands'], answer: '👄 Mouth' },
+    { question: 'Which are the hands?', image: '✋', options: ['✋ Hands', '🦶 Feet', '💪 Arms', '🦵 Legs'], answer: '✋ Hands' },
+    { question: 'Which are the feet?', image: '🦶', options: ['✋ Hands', '🦶 Feet', '💪 Arms', '🦵 Legs'], answer: '🦶 Feet' },
+    { question: 'Which are the arms?', image: '💪', options: ['✋ Hands', '🦶 Feet', '💪 Arms', '🦵 Legs'], answer: '💪 Arms' },
+    { question: 'Which are the legs?', image: '🦵', options: ['✋ Hands', '🦶 Feet', '💪 Arms', '🦵 Legs'], answer: '🦵 Legs' }
+  ];
+  
+  const shuffled = [...bodyQuestions].sort(() => Math.random() - 0.5);
+  const questions = shuffled.slice(0, 10);
+  let currentQ = 0;
+  
+  const instruction = gameLanguage === 'tamil'
+    ? `🔬 உடல் உறுப்புகள் கேள்வி 1/10`
+    : `🔬 Body Parts Question 1/10`;
+  document.getElementById('gameInstruction').textContent = instruction;
+  
+  function loadQuestion() {
+    gameArea.innerHTML = '';
+    
+    const q = questions[currentQ];
+    
+    const questionDisplay = document.createElement('div');
+    questionDisplay.className = 'game-element';
+    questionDisplay.style.left = '50%';
+    questionDisplay.style.top = '20%';
+    questionDisplay.style.transform = 'translateX(-50%)';
+    questionDisplay.style.fontSize = '70px';
+    questionDisplay.style.background = 'linear-gradient(135deg, #4facfe, #00f2fe)';
+    questionDisplay.style.padding = '15px 25px';
+    questionDisplay.style.borderRadius = '50px';
+    questionDisplay.textContent = q.image;
+    gameArea.appendChild(questionDisplay);
+    
+    const questionText = document.createElement('div');
+    questionText.className = 'game-element';
+    questionText.style.left = '50%';
+    questionText.style.top = '35%';
+    questionText.style.transform = 'translateX(-50%)';
+    questionText.style.fontSize = '24px';
+    questionText.style.background = 'rgba(0,0,0,0.3)';
+    questionText.style.padding = '10px';
+    questionText.style.borderRadius = '10px';
+    questionText.textContent = q.question;
+    gameArea.appendChild(questionText);
+    
+    const options = [...q.options].sort(() => Math.random() - 0.5);
+    
+    options.forEach((opt, index) => {
+      const optEl = document.createElement('div');
+      optEl.className = 'game-element option-box';
+      optEl.textContent = opt;
+      optEl.style.left = (index * 25) + 5 + '%';
+      optEl.style.top = '55%';
+      optEl.style.fontSize = '18px';
+      
+      optEl.onclick = function() {
+        if (this.textContent === q.answer) {
+          createParticle(this, '✓ +10', '#2ecc71');
+          player.score += 10;
+          gameScore += 10;
+          updateScoreDisplay();
+          savePlayerData();
+          
+          currentQ++;
+          
+          if (currentQ < questions.length) {
+            document.getElementById('gameInstruction').textContent = gameLanguage === 'tamil'
+              ? `🔬 உடல் உறுப்புகள் கேள்வி ${currentQ + 1}/10`
+              : `🔬 Body Parts Question ${currentQ + 1}/10`;
+            loadQuestion();
+          } else {
+            document.getElementById('continueBtn').disabled = false;
+            player.score += 50;
+            gameScore += 50;
+            updateScoreDisplay();
+            savePlayerData();
+            document.getElementById('gameInstruction').textContent = gameLanguage === 'tamil'
+              ? '🎉 உடற்கூறியல் வல்லுநர்! +50 புள்ளிகள்'
+              : '🎉 Anatomy Expert! +50 points';
+            gameArea.innerHTML = '<div style="position: absolute; top: 40%; left: 50%; transform: translateX(-50%); font-size: 60px;">🏆</div>';
+          }
+        } else {
+          createParticle(this, '❌', '#e74c3c');
+        }
+      };
+      
+      gameArea.appendChild(optEl);
+    });
+  }
+  
+  loadQuestion();
+}
+
+function startSciencePhysicsGame() {
+  const gameArea = document.getElementById('gameArea');
+  
+  const physics = [
+    { term: 'Force', unit: 'Newton' },
+    { term: 'Energy', unit: 'Joule' },
+    { term: 'Power', unit: 'Watt' },
+    { term: 'Pressure', unit: 'Pascal' },
+    { term: 'Current', unit: 'Ampere' }
+  ];
+  
+  let current = physics[Math.floor(Math.random() * physics.length)];
+  let questionCount = 0;
+  const maxQuestions = 5;
+  
+  const instruction = gameLanguage === 'tamil'
+    ? `⚡ பொருத்தவும்: ${current.term} - அலகு?`
+    : `⚡ Match: ${current.term} - Unit?`;
+  document.getElementById('gameInstruction').textContent = instruction;
+  
+  const termDisplay = document.createElement('div');
+  termDisplay.className = 'game-element';
+  termDisplay.style.left = '50%';
+  termDisplay.style.top = '30%';
+  termDisplay.style.transform = 'translateX(-50%)';
+  termDisplay.style.background = 'linear-gradient(135deg, #4facfe, #00f2fe)';
+  termDisplay.style.padding = '20px';
+  termDisplay.style.borderRadius = '15px';
+  termDisplay.textContent = current.term;
+  gameArea.appendChild(termDisplay);
+  
+  const options = physics.map(p => p.unit);
+  options.sort(() => Math.random() - 0.5);
+  
+  options.forEach((opt, index) => {
+    const card = document.createElement('div');
+    card.className = 'game-element';
+    card.textContent = opt;
+    card.style.left = (index * 20) + 5 + '%';
+    card.style.top = '60%';
+    card.style.fontSize = '22px';
+    card.style.background = 'rgba(79,172,254,0.5)';
+    card.style.padding = '12px 15px';
+    card.style.borderRadius = '10px';
+    
+    card.onclick = function() {
+      if (this.textContent === current.unit) {
+        createParticle(this, '✓ +10', '#2ecc71');
+        player.score += 10;
+        gameScore += 10;
+        updateScoreDisplay();
+        savePlayerData();
+        
+        questionCount++;
+        
+        if (questionCount < maxQuestions) {
+          current = physics[Math.floor(Math.random() * physics.length)];
+          termDisplay.textContent = current.term;
+          document.getElementById('gameInstruction').textContent = 
+            gameLanguage === 'tamil' ? `⚡ பொருத்தவும்: ${current.term} - அலகு?` : `⚡ Match: ${current.term} - Unit?`;
+          
+          const newOptions = physics.map(p => p.unit);
+          newOptions.sort(() => Math.random() - 0.5);
+          
+          document.querySelectorAll('#gameArea .game-element').forEach((el, idx) => {
+            if (idx > 0) el.textContent = newOptions[idx-1];
+          });
+        } else {
+          document.getElementById('continueBtn').disabled = false;
+          player.score += 30;
+          gameScore += 30;
+          updateScoreDisplay();
+          savePlayerData();
+          document.getElementById('gameInstruction').textContent = gameLanguage === 'tamil'
+            ? '🎉 இயற்பியல் வல்லுநர்! +30 புள்ளிகள்'
+            : '🎉 Physics Expert! +30 points';
+          gameArea.innerHTML = '<div style="position: absolute; top: 40%; left: 50%; transform: translateX(-50%); font-size: 60px;">🏆</div>';
+        }
+      } else {
+        createParticle(this, '❌', '#e74c3c');
+      }
+    };
+    
+    gameArea.appendChild(card);
+  });
+}
+
+// ==================== ENGLISH GAMES ====================
+function startEnglishWhackGame() {
+  const gameArea = document.getElementById('gameArea');
+  
+  const animals = ['🐶', '🐱', '🐭', '🐸', '🐷', '🐮', '🐔', '🐦', '🐟', '🦁'];
+  let round = 0;
+  const totalRounds = 10;
+  let currentAnimal = null;
+  
+  const instruction = gameLanguage === 'tamil'
+    ? `🐭 விலங்கைத் தட்டவும்: சுற்று 1/${totalRounds}`
+    : `🐭 Whack the animal: Round 1/${totalRounds}`;
+  document.getElementById('gameInstruction').textContent = instruction;
+  
+  function nextRound() {
+    if (round >= totalRounds) {
+      document.getElementById('continueBtn').disabled = false;
+      player.score += 30;
+      gameScore += 30;
+      updateScoreDisplay();
+      savePlayerData();
+      document.getElementById('gameInstruction').textContent = gameLanguage === 'tamil'
+        ? '🎉 அருமை! விளையாட்டு முடிந்தது! +30 புள்ளிகள்'
+        : '🎉 Great! Game Complete! +30 points';
+      gameArea.innerHTML = '<div style="position: absolute; top: 40%; left: 50%; transform: translateX(-50%); font-size: 60px;">🏆</div>';
+      return;
+    }
+    
+    gameArea.innerHTML = '';
+    
+    currentAnimal = animals[Math.floor(Math.random() * animals.length)];
+    
+    const targetDisplay = document.createElement('div');
+    targetDisplay.className = 'game-element';
+    targetDisplay.style.left = '50%';
+    targetDisplay.style.top = '10%';
+    targetDisplay.style.transform = 'translateX(-50%)';
+    targetDisplay.style.fontSize = '40px';
+    targetDisplay.style.background = 'linear-gradient(135deg, #FFD700, #FFA500)';
+    targetDisplay.style.padding = '15px 25px';
+    targetDisplay.style.borderRadius = '50px';
+    targetDisplay.style.whiteSpace = 'nowrap';
+    targetDisplay.textContent = gameLanguage === 'tamil'
+      ? `தேடுங்கள்: ${currentAnimal}`
+      : `Find: ${currentAnimal}`;
+    gameArea.appendChild(targetDisplay);
+    
+    for (let i = 0; i < 8; i++) {
+      const mole = document.createElement('div');
+      mole.className = 'whack-mole game-element';
+      
+      const left = 10 + Math.random() * 70;
+      const top = 20 + Math.random() * 50;
+      
+      mole.style.left = left + '%';
+      mole.style.top = top + '%';
+      mole.style.fontSize = '45px';
+      
+      let moleAnimal;
+      if (i < 3) {
+        moleAnimal = currentAnimal;
+      } else {
+        moleAnimal = animals[Math.floor(Math.random() * animals.length)];
+      }
+      
+      mole.textContent = moleAnimal;
+      mole.dataset.animal = moleAnimal;
+      
+      mole.onclick = function() {
+        if (this.dataset.animal === currentAnimal) {
+          createParticle(this, '+10 ⭐', '#FFD700');
+          player.score += 10;
+          gameScore += 10;
+          updateScoreDisplay();
+          savePlayerData();
+          
+          round++;
+          document.getElementById('gameInstruction').textContent = gameLanguage === 'tamil'
+            ? `🐭 விலங்கைத் தட்டவும்: சுற்று ${round + 1}/${totalRounds}`
+            : `🐭 Whack the animal: Round ${round + 1}/${totalRounds}`;
+          nextRound();
+        } else {
+          createParticle(this, '❌', '#e74c3c');
+        }
+      };
+      
+      gameArea.appendChild(mole);
+    }
+  }
+  
+  nextRound();
+}
+
+function startEnglishOppositesGame() {
+  const gameArea = document.getElementById('gameArea');
+  
+  const allOpposites = [
+    { word: 'HOT', opposite: 'COLD', options: ['HOT', 'COLD', 'WARM', 'COOL'] },
+    { word: 'BIG', opposite: 'SMALL', options: ['BIG', 'SMALL', 'LARGE', 'TINY'] },
+    { word: 'FAST', opposite: 'SLOW', options: ['FAST', 'SLOW', 'QUICK', 'RAPID'] },
+    { word: 'HAPPY', opposite: 'SAD', options: ['HAPPY', 'SAD', 'GLAD', 'JOYFUL'] },
+    { word: 'GOOD', opposite: 'BAD', options: ['GOOD', 'BAD', 'GREAT', 'POOR'] },
+    { word: 'DAY', opposite: 'NIGHT', options: ['DAY', 'NIGHT', 'MORNING', 'EVENING'] },
+    { word: 'LIGHT', opposite: 'DARK', options: ['LIGHT', 'DARK', 'BRIGHT', 'DIM'] },
+    { word: 'UP', opposite: 'DOWN', options: ['UP', 'DOWN', 'ABOVE', 'BELOW'] },
+    { word: 'IN', opposite: 'OUT', options: ['IN', 'OUT', 'INSIDE', 'OUTSIDE'] },
+    { word: 'NEW', opposite: 'OLD', options: ['NEW', 'OLD', 'FRESH', 'ANCIENT'] },
+    { word: 'YOUNG', opposite: 'OLD', options: ['YOUNG', 'OLD', 'BABY', 'AGED'] },
+    { word: 'RICH', opposite: 'POOR', options: ['RICH', 'POOR', 'WEALTHY', 'BROKE'] }
+  ];
+  
+  const shuffled = [...allOpposites].sort(() => Math.random() - 0.5);
+  const questions = shuffled.slice(0, 10);
+  let currentQ = 0;
+  
+  const instruction = gameLanguage === 'tamil'
+    ? `🔄 எதிர்ச்சொல் கேள்வி 1/10`
+    : `🔄 Opposites Question 1/10`;
+  document.getElementById('gameInstruction').textContent = instruction;
+  
+  function loadQuestion() {
+    gameArea.innerHTML = '';
+    
+    const q = questions[currentQ];
+    
+    const wordDisplay = document.createElement('div');
+    wordDisplay.className = 'game-element';
+    wordDisplay.style.left = '50%';
+    wordDisplay.style.top = '30%';
+    wordDisplay.style.transform = 'translateX(-50%)';
+    wordDisplay.style.fontSize = '40px';
+    wordDisplay.style.background = 'linear-gradient(135deg, #43e97b, #38f9d7)';
+    wordDisplay.style.padding = '30px';
+    wordDisplay.style.borderRadius = '20px';
+    wordDisplay.textContent = q.word;
+    gameArea.appendChild(wordDisplay);
+    
+    const options = [...q.options].sort(() => Math.random() - 0.5);
+    
+    options.forEach((opt, index) => {
+      const optEl = document.createElement('div');
+      optEl.className = 'game-element option-box';
+      optEl.textContent = opt;
+      optEl.style.left = (index * 25) + 5 + '%';
+      optEl.style.top = '60%';
+      
+      optEl.onclick = function() {
+        if (this.textContent === q.opposite) {
+          createParticle(this, '✓ +10', '#2ecc71');
+          player.score += 10;
+          gameScore += 10;
+          updateScoreDisplay();
+          savePlayerData();
+          
+          currentQ++;
+          
+          if (currentQ < questions.length) {
+            document.getElementById('gameInstruction').textContent = gameLanguage === 'tamil'
+              ? `🔄 எதிர்ச்சொல் கேள்வி ${currentQ + 1}/10`
+              : `🔄 Opposites Question ${currentQ + 1}/10`;
+            loadQuestion();
+          } else {
+            document.getElementById('continueBtn').disabled = false;
+            player.score += 50;
+            gameScore += 50;
+            updateScoreDisplay();
+            savePlayerData();
+            document.getElementById('gameInstruction').textContent = gameLanguage === 'tamil'
+              ? '🎉 எதிர்ச்சொல் வல்லுநர்! +50 புள்ளிகள்'
+              : '🎉 Opposites Expert! +50 points';
+            gameArea.innerHTML = '<div style="position: absolute; top: 40%; left: 50%; transform: translateX(-50%); font-size: 60px;">🏆</div>';
+          }
+        } else {
+          createParticle(this, '❌', '#e74c3c');
+        }
+      };
+      
+      gameArea.appendChild(optEl);
+    });
+  }
+  
+  loadQuestion();
+}
+
+function startEnglishGrammarGame() {
+  const gameArea = document.getElementById('gameArea');
+  
+  const allGrammar = [
+    { sentence: 'She ___ to school', options: ['go', 'goes', 'going', 'went'], answer: 'goes' },
+    { sentence: 'They ___ playing', options: ['is', 'am', 'are', 'be'], answer: 'are' },
+    { sentence: 'I ___ a student', options: ['is', 'am', 'are', 'be'], answer: 'am' },
+    { sentence: 'He ___ eaten', options: ['has', 'have', 'is', 'are'], answer: 'has' },
+    { sentence: 'We ___ happy', options: ['is', 'am', 'are', 'be'], answer: 'are' },
+    { sentence: '___ you like ice cream?', options: ['Do', 'Does', 'Is', 'Are'], answer: 'Do' },
+    { sentence: 'She ___ not here', options: ['is', 'am', 'are', 'be'], answer: 'is' },
+    { sentence: 'They ___ finished', options: ['has', 'have', 'is', 'are'], answer: 'have' },
+    { sentence: '___ he play cricket?', options: ['Do', 'Does', 'Is', 'Are'], answer: 'Does' },
+    { sentence: 'I ___ watching TV', options: ['is', 'am', 'are', 'be'], answer: 'am' },
+    { sentence: 'We ___ going to school', options: ['is', 'am', 'are', 'be'], answer: 'are' },
+    { sentence: 'It ___ raining', options: ['is', 'am', 'are', 'be'], answer: 'is' }
+  ];
+  
+  const shuffled = [...allGrammar].sort(() => Math.random() - 0.5);
+  const questions = shuffled.slice(0, 10);
+  let currentQ = 0;
+  
+  const instruction = gameLanguage === 'tamil'
+    ? `📝 இலக்கணம் கேள்வி 1/10`
+    : `📝 Grammar Question 1/10`;
+  document.getElementById('gameInstruction').textContent = instruction;
+  
+  function loadQuestion() {
+    gameArea.innerHTML = '';
+    
+    const q = questions[currentQ];
+    
+    const sentenceDisplay = document.createElement('div');
+    sentenceDisplay.className = 'game-element';
+    sentenceDisplay.style.left = '50%';
+    sentenceDisplay.style.top = '30%';
+    sentenceDisplay.style.transform = 'translateX(-50%)';
+    sentenceDisplay.style.fontSize = '28px';
+    sentenceDisplay.style.background = 'linear-gradient(135deg, #667eea, #764ba2)';
+    sentenceDisplay.style.padding = '25px';
+    sentenceDisplay.style.borderRadius = '20px';
+    sentenceDisplay.textContent = q.sentence;
+    gameArea.appendChild(sentenceDisplay);
+    
+    const options = [...q.options].sort(() => Math.random() - 0.5);
+    
+    options.forEach((opt, index) => {
+      const optEl = document.createElement('div');
+      optEl.className = 'game-element option-box';
+      optEl.textContent = opt;
+      optEl.style.left = (index * 25) + 5 + '%';
+      optEl.style.top = '60%';
+      
+      optEl.onclick = function() {
+        if (this.textContent === q.answer) {
+          createParticle(this, '✓ +10', '#2ecc71');
+          player.score += 10;
+          gameScore += 10;
+          updateScoreDisplay();
+          savePlayerData();
+          
+          currentQ++;
+          
+          if (currentQ < questions.length) {
+            document.getElementById('gameInstruction').textContent = gameLanguage === 'tamil'
+              ? `📝 இலக்கணம் கேள்வி ${currentQ + 1}/10`
+              : `📝 Grammar Question ${currentQ + 1}/10`;
+            loadQuestion();
+          } else {
+            document.getElementById('continueBtn').disabled = false;
+            player.score += 50;
+            gameScore += 50;
+            updateScoreDisplay();
+            savePlayerData();
+            document.getElementById('gameInstruction').textContent = gameLanguage === 'tamil'
+              ? '🎉 இலக்கண வல்லுநர்! +50 புள்ளிகள்'
+              : '🎉 Grammar Expert! +50 points';
+            gameArea.innerHTML = '<div style="position: absolute; top: 40%; left: 50%; transform: translateX(-50%); font-size: 60px;">🏆</div>';
+          }
+        } else {
+          createParticle(this, '❌', '#e74c3c');
+        }
+      };
+      
+      gameArea.appendChild(optEl);
+    });
+  }
+  
+  loadQuestion();
+}
+
+// ==================== SOCIAL GAMES ====================
+function startSocialTreasureHuntGame() {
+  const gameArea = document.getElementById('gameArea');
+  
+  const treasures = [
+    { emoji: '💎', name: 'Diamond', found: false },
+    { emoji: '👑', name: 'Crown', found: false },
+    { emoji: '⚱️', name: 'Treasure Chest', found: false },
+    { emoji: '🔑', name: 'Golden Key', found: false },
+    { emoji: '📜', name: 'Ancient Scroll', found: false },
+    { emoji: '🏺', name: 'Amphora', found: false },
+    { emoji: '🪙', name: 'Gold Coin', found: false },
+    { emoji: '💍', name: 'Ring', found: false },
+    { emoji: '🔮', name: 'Crystal Ball', found: false },
+    { emoji: '⚜️', name: 'Fleur de Lis', found: false },
+    { emoji: '💶', name: 'Gold Bar', found: false },
+    { emoji: '💷', name: 'Treasure Map', found: false },
+    { emoji: '💴', name: 'Ancient Coin', found: false },
+    { emoji: '💵', name: 'Money Bag', found: false },
+    { emoji: '💎', name: 'Ruby', found: false },
+    { emoji: '👑', name: 'Tiara', found: false }
+  ];
+  
+  let score = 0;
+  const target = 15;
+  let foundCount = 0;
+  
+  const instruction = gameLanguage === 'tamil'
+    ? '💎 15 புதையல்களை கண்டுபிடி!'
+    : '💎 Find 15 hidden treasures!';
+  document.getElementById('gameInstruction').textContent = instruction;
+  
+  const mapDisplay = document.createElement('div');
+  mapDisplay.className = 'treasure-map';
+  mapDisplay.textContent = gameLanguage === 'tamil'
+    ? `🗺️ கண்டுபிடித்தவை: 0/${target}`
+    : `🗺️ Found: 0/${target}`;
+  gameArea.appendChild(mapDisplay);
+  
+  function placeTreasures() {
+    gameArea.innerHTML = '';
+    gameArea.appendChild(mapDisplay);
+    
+    for (let i = 0; i < treasures.length; i++) {
+      const treasure = document.createElement('div');
+      treasure.className = 'treasure-item';
+      treasure.textContent = treasures[i].emoji;
+      treasure.style.left = Math.random() * 80 + 10 + '%';
+      treasure.style.top = Math.random() * 60 + 15 + '%';
+      treasure.style.fontSize = '45px';
+      treasure.style.animation = `treasureFloat ${3 + Math.random() * 3}s infinite alternate`;
+      treasure.dataset.index = i;
+      treasure.dataset.found = 'false';
+      treasure.dataset.name = treasures[i].name;
+      
+      treasure.onclick = function() {
+        if (this.dataset.found === 'true') return;
+        
+        this.dataset.found = 'true';
+        this.classList.add('found');
+        foundCount++;
+        treasures[this.dataset.index].found = true;
+        
+        createParticle(this, '+5 💎', '#FFD700');
+        
+        player.score += 5;
+        gameScore += 5;
+        updateScoreDisplay();
+        savePlayerData();
+        
+        mapDisplay.textContent = gameLanguage === 'tamil'
+          ? `🗺️ கண்டுபிடித்தவை: ${foundCount}/${target}`
+          : `🗺️ Found: ${foundCount}/${target}`;
+        
+        document.getElementById('gameInstruction').textContent = gameLanguage === 'tamil'
+          ? `💎 ${foundCount}/${target} புதையல்கள் கிடைத்தன!`
+          : `💎 Found ${foundCount}/${target} treasures!`;
+        
+        if (foundCount >= target) {
+          document.getElementById('continueBtn').disabled = false;
+          player.score += 50;
+          gameScore += 50;
+          updateScoreDisplay();
+          savePlayerData();
+          document.getElementById('gameInstruction').textContent = gameLanguage === 'tamil'
+            ? '🎉 அருமை! புதையல் வேட்டை முடிந்தது! +50 புள்ளிகள்'
+            : '🎉 Great! Treasure Hunt Complete! +50 points';
+          
+          gameArea.innerHTML = '<div style="position: absolute; top: 40%; left: 50%; transform: translateX(-50%); font-size: 60px;">🏆</div>';
+          for (let i = 0; i < 10; i++) {
+            setTimeout(() => {
+              const confetti = document.createElement('div');
+              confetti.textContent = '✨';
+              confetti.style.position = 'absolute';
+              confetti.style.left = Math.random() * 100 + '%';
+              confetti.style.top = Math.random() * 100 + '%';
+              confetti.style.fontSize = '30px';
+              confetti.style.animation = 'particleFloat 1s forwards';
+              gameArea.appendChild(confetti);
+              setTimeout(() => confetti.remove(), 1000);
+            }, i * 100);
+          }
+        }
+      };
+      
+      gameArea.appendChild(treasure);
+    }
+  }
+  
+  placeTreasures();
+}
+
+function startSocialStatesGame() {
+  const gameArea = document.getElementById('gameArea');
+  
+  const allStates = [
+    { state: 'Tamil Nadu', capital: 'Chennai', options: ['Chennai', 'Coimbatore', 'Madurai', 'Tiruchirappalli'] },
+    { state: 'Kerala', capital: 'Thiruvananthapuram', options: ['Thiruvananthapuram', 'Kochi', 'Kozhikode', 'Idukki'] },
+    { state: 'Karnataka', capital: 'Bengaluru', options: ['Bengaluru', 'Mysuru', 'Mangaluru', 'Hubballi'] },
+    { state: 'Andhra Pradesh', capital: 'Amaravati', options: ['Amaravati', 'Visakhapatnam', 'Vijayawada', 'Tirupati'] },
+    { state: 'Maharashtra', capital: 'Mumbai', options: ['Mumbai', 'Pune', 'Nagpur', 'Nashik'] },
+    { state: 'Uttar Pradesh', capital: 'Lucknow', options: ['Lucknow', 'Kanpur', 'Varanasi', 'Agra'] },
+    { state: 'Gujarat', capital: 'Gandhinagar', options: ['Gandhinagar', 'Ahmedabad', 'Surat', 'Vadodara'] },
+    { state: 'Rajasthan', capital: 'Jaipur', options: ['Jaipur', 'Jodhpur', 'Udaipur', 'Kota'] },
+    { state: 'West Bengal', capital: 'Kolkata', options: ['Kolkata', 'Darjeeling', 'Siliguri', 'Howrah'] },
+    { state: 'Bihar', capital: 'Patna', options: ['Patna', 'Gaya', 'Bhagalpur', 'Muzaffarpur'] }
+  ];
+  
+  const shuffled = [...allStates].sort(() => Math.random() - 0.5);
+  const questions = shuffled.slice(0, 10);
+  let currentQ = 0;
+  
+  const instruction = gameLanguage === 'tamil'
+    ? `🇮🇳 மாநிலங்கள் & தலைநகரங்கள் 1/10`
+    : `🇮🇳 States & Capitals 1/10`;
+  document.getElementById('gameInstruction').textContent = instruction;
+  
+  function loadQuestion() {
+    gameArea.innerHTML = '';
+    
+    const q = questions[currentQ];
+    
+    const stateDisplay = document.createElement('div');
+    stateDisplay.className = 'game-element';
+    stateDisplay.style.left = '50%';
+    stateDisplay.style.top = '30%';
+    stateDisplay.style.transform = 'translateX(-50%)';
+    stateDisplay.style.fontSize = '30px';
+    stateDisplay.style.background = 'linear-gradient(135deg, #FF9933, #138808)';
+    stateDisplay.style.padding = '30px';
+    stateDisplay.style.borderRadius = '20px';
+    stateDisplay.textContent = q.state + ' - Capital?';
+    gameArea.appendChild(stateDisplay);
+    
+    const options = [...q.options].sort(() => Math.random() - 0.5);
+    
+    options.forEach((opt, index) => {
+      const optEl = document.createElement('div');
+      optEl.className = 'game-element option-box';
+      optEl.textContent = opt;
+      optEl.style.left = (index * 25) + 5 + '%';
+      optEl.style.top = '60%';
+      
+      optEl.onclick = function() {
+        if (this.textContent === q.capital) {
+          createParticle(this, '✓ +10', '#2ecc71');
+          player.score += 10;
+          gameScore += 10;
+          updateScoreDisplay();
+          savePlayerData();
+          
+          currentQ++;
+          
+          if (currentQ < questions.length) {
+            document.getElementById('gameInstruction').textContent = gameLanguage === 'tamil'
+              ? `🇮🇳 மாநிலங்கள் & தலைநகரங்கள் ${currentQ + 1}/10`
+              : `🇮🇳 States & Capitals ${currentQ + 1}/10`;
+            loadQuestion();
+          } else {
+            document.getElementById('continueBtn').disabled = false;
+            player.score += 50;
+            gameScore += 50;
+            updateScoreDisplay();
+            savePlayerData();
+            document.getElementById('gameInstruction').textContent = gameLanguage === 'tamil'
+              ? '🎉 புவியியல் வல்லுநர்! +50 புள்ளிகள்'
+              : '🎉 Geography Expert! +50 points';
+            gameArea.innerHTML = '<div style="position: absolute; top: 40%; left: 50%; transform: translateX(-50%); font-size: 60px;">🏆</div>';
+          }
+        } else {
+          createParticle(this, '❌', '#e74c3c');
+        }
+      };
+      
+      gameArea.appendChild(optEl);
+    });
+  }
+  
+  loadQuestion();
+}
+
+function startSocialMonumentsGame() {
+  const gameArea = document.getElementById('gameArea');
+  
+  const allMonuments = [
+    { monument: 'Taj Mahal', location: 'Uttar Pradesh', options: ['Uttar Pradesh', 'Delhi', 'Madhya Pradesh', 'Rajasthan'] },
+    { monument: 'Meenakshi Temple', location: 'Tamil Nadu', options: ['Tamil Nadu', 'Kerala', 'Karnataka', 'Andhra Pradesh'] },
+    { monument: 'Mysore Palace', location: 'Karnataka', options: ['Karnataka', 'Tamil Nadu', 'Kerala', 'Andhra Pradesh'] },
+    { monument: 'Charminar', location: 'Telangana', options: ['Telangana', 'Andhra Pradesh', 'Tamil Nadu', 'Karnataka'] },
+    { monument: 'Qutub Minar', location: 'Delhi', options: ['Delhi', 'Mumbai', 'Chennai', 'Kolkata'] },
+    { monument: 'Gateway of India', location: 'Mumbai', options: ['Mumbai', 'Delhi', 'Kolkata', 'Chennai'] },
+    { monument: 'India Gate', location: 'Delhi', options: ['Delhi', 'Mumbai', 'Kolkata', 'Chennai'] },
+    { monument: 'Hawa Mahal', location: 'Jaipur', options: ['Jaipur', 'Jodhpur', 'Udaipur', 'Ajmer'] },
+    { monument: 'Golden Temple', location: 'Amritsar', options: ['Amritsar', 'Ludhiana', 'Patiala', 'Chandigarh'] },
+    { monument: 'Sun Temple', location: 'Odisha', options: ['Odisha', 'West Bengal', 'Jharkhand', 'Bihar'] }
+  ];
+  
+  const shuffled = [...allMonuments].sort(() => Math.random() - 0.5);
+  const questions = shuffled.slice(0, 10);
+  let currentQ = 0;
+  
+  const instruction = gameLanguage === 'tamil'
+    ? `🏛️ வரலாற்று நினைவுச்சின்னங்கள் 1/10`
+    : `🏛️ Historical Monuments 1/10`;
+  document.getElementById('gameInstruction').textContent = instruction;
+  
+  function loadQuestion() {
+    gameArea.innerHTML = '';
+    
+    const q = questions[currentQ];
+    
+    const monumentDisplay = document.createElement('div');
+    monumentDisplay.className = 'game-element';
+    monumentDisplay.style.left = '50%';
+    monumentDisplay.style.top = '30%';
+    monumentDisplay.style.transform = 'translateX(-50%)';
+    monumentDisplay.style.fontSize = '30px';
+    monumentDisplay.style.background = 'linear-gradient(135deg, #FF6B6B, #FF8E53)';
+    monumentDisplay.style.padding = '30px';
+    monumentDisplay.style.borderRadius = '20px';
+    monumentDisplay.textContent = q.monument;
+    gameArea.appendChild(monumentDisplay);
+    
+    const options = [...q.options].sort(() => Math.random() - 0.5);
+    
+    options.forEach((opt, index) => {
+      const optEl = document.createElement('div');
+      optEl.className = 'game-element option-box';
+      optEl.textContent = opt;
+      optEl.style.left = (index * 25) + 5 + '%';
+      optEl.style.top = '60%';
+      
+      optEl.onclick = function() {
+        if (this.textContent === q.location) {
+          createParticle(this, '✓ +10', '#2ecc71');
+          player.score += 10;
+          gameScore += 10;
+          updateScoreDisplay();
+          savePlayerData();
+          
+          currentQ++;
+          
+          if (currentQ < questions.length) {
+            document.getElementById('gameInstruction').textContent = gameLanguage === 'tamil'
+              ? `🏛️ வரலாற்று நினைவுச்சின்னங்கள் ${currentQ + 1}/10`
+              : `🏛️ Historical Monuments ${currentQ + 1}/10`;
+            loadQuestion();
+          } else {
+            document.getElementById('continueBtn').disabled = false;
+            player.score += 50;
+            gameScore += 50;
+            updateScoreDisplay();
+            savePlayerData();
+            document.getElementById('gameInstruction').textContent = gameLanguage === 'tamil'
+              ? '🎉 வரலாற்று வல்லுநர்! +50 புள்ளிகள்'
+              : '🎉 History Expert! +50 points';
+            gameArea.innerHTML = '<div style="position: absolute; top: 40%; left: 50%; transform: translateX(-50%); font-size: 60px;">🏆</div>';
+          }
+        } else {
+          createParticle(this, '❌', '#e74c3c');
+        }
+      };
+      
+      gameArea.appendChild(optEl);
+    });
+  }
+  
+  loadQuestion();
+}
+
+// ==================== TAMIL GAMES ====================
+function startTamilRiddleGame() {
+  const gameArea = document.getElementById('gameArea');
+  
+  const riddles = [
+    { riddle: 'ஒரு வீட்டில் 5 சகோதரர்கள் இருக்கிறார்கள். எல்லாருக்கும் பெயர் ஒரே மாதிரி. அவர்கள் யார்?', options: ['விரல்கள் 👋', 'சகோதரர்கள் 👨‍👦', 'நண்பர்கள் 👥'], answer: 'விரல்கள் 👋' },
+    { riddle: 'நான் பிறந்ததும் பெரியவன், வயது ஆக ஆக சிறியவனாகிறேன். நான் யார்?', options: ['மனிதன் 👨', 'மெழுகுவர்த்தி 🕯️', 'மரம் 🌳'], answer: 'மெழுகுவர்த்தி 🕯️' },
+    { riddle: 'என்னை எடுத்தால் பெரிதாகிறேன், விட்டால் சிறிதாகிறேன். நான் யார்?', options: ['பலூன் 🎈', 'குழி 🕳️', 'நிழல் 👤'], answer: 'குழி 🕳️' },
+    { riddle: 'நான் பேச மாட்டேன், ஆனால் எல்லா மொழியையும் புரிந்து கொள்வேன். நான் யார்?', options: ['கண்ணாடி 🪞', 'புத்தகம் 📖', 'ரேடியோ 📻'], answer: 'கண்ணாடி 🪞' },
+    { riddle: 'என்னிடம் நகரங்கள் இருக்கிறது, நதிகள் இருக்கிறது, மலைகள் இருக்கிறது. ஆனால் தண்ணீர் இல்லை, மக்கள் இல்லை. நான் யார்?', options: ['படம் 🖼️', 'வரைபடம் 🗺️', 'புகைப்படம் 📸'], answer: 'வரைபடம் 🗺️' },
+    { riddle: 'ஒரு காடு உள்ளது. அதில் பல மரங்கள் உள்ளன. அந்த மரங்களில் எந்தப் பறவையும் உட்காராது. அது என்ன காடு?', options: ['முடி 💇‍♂️', 'பூங்கா 🌳', 'காட்டுப்பகுதி 🌲'], answer: 'முடி 💇‍♂️' }
+  ];
+  
+  const shuffled = [...riddles].sort(() => Math.random() - 0.5);
+  const questions = shuffled.slice(0, 6);
+  let currentQ = 0;
+  
+  document.getElementById('gameInstruction').textContent = `🤔 விடுகதை கேள்வி 1/6`;
+  
+  function loadQuestion() {
+    gameArea.innerHTML = '';
+    
+    const q = questions[currentQ];
+    
+    const riddleDisplay = document.createElement('div');
+    riddleDisplay.className = 'tamil-question-box';
+    riddleDisplay.textContent = q.riddle;
+    riddleDisplay.style.fontSize = '22px';
+    riddleDisplay.style.maxWidth = '85%';
+    riddleDisplay.style.padding = '15px 20px';
+    gameArea.appendChild(riddleDisplay);
+    
+    const optionsContainer = document.createElement('div');
+    optionsContainer.className = 'tamil-options-container';
+    optionsContainer.style.gap = '12px';
+    optionsContainer.style.bottom = '10%';
+    
+    const options = [...q.options].sort(() => Math.random() - 0.5);
+    
+    options.forEach((opt) => {
+      const optEl = document.createElement('div');
+      optEl.className = 'tamil-option';
+      optEl.textContent = opt;
+      optEl.style.fontSize = '20px';
+      optEl.style.padding = '10px 18px';
+      optEl.style.minWidth = '140px';
+      
+      optEl.onclick = function() {
+        if (this.textContent === q.answer) {
+          createParticle(this, '✓ +15', '#2ecc71');
+          player.score += 15;
+          gameScore += 15;
+          updateScoreDisplay();
+          savePlayerData();
+          
+          currentQ++;
+          
+          if (currentQ < questions.length) {
+            document.getElementById('gameInstruction').textContent = `🤔 விடுகதை கேள்வி ${currentQ + 1}/6`;
+            loadQuestion();
+          } else {
+            document.getElementById('continueBtn').disabled = false;
+            player.score += 40;
+            gameScore += 40;
+            updateScoreDisplay();
+            savePlayerData();
+            document.getElementById('gameInstruction').textContent = '🎉 விடுகதை வல்லுநர்! +40 புள்ளிகள்';
+            gameArea.innerHTML = '<div style="position: absolute; top: 40%; left: 50%; transform: translateX(-50%); font-size: 60px;">🏆</div>';
+          }
+        } else {
+          createParticle(this, '❌', '#e74c3c');
+        }
+      };
+      
+      optionsContainer.appendChild(optEl);
+    });
+    
+    gameArea.appendChild(optionsContainer);
+  }
+  
+  loadQuestion();
+}
+
+function startTamilProverbGame() {
+  const gameArea = document.getElementById('gameArea');
+  
+  const proverbs = [
+    { proverb: 'கற்றது கைமண் அளவு', meaning: 'கற்றது சிறிது', options: ['கற்றது சிறிது', 'கற்றது பெரிது', 'கல்லாதது சிறிது', 'எல்லாம் தெரியும்'] },
+    { proverb: 'ஆற அமர சிந்தி', meaning: 'அமைதியாக சிந்தி', options: ['அவசரப்படு', 'அமைதியாக சிந்தி', 'கோபப்படு', 'சிரி'] },
+    { proverb: 'உழைப்பே உயர்வு தரும்', meaning: 'உழைப்பு முக்கியம்', options: ['உழைப்பு தேவையில்லை', 'உழைப்பு முக்கியம்', 'சோம்பல் நல்லது', 'விளையாட்டு முக்கியம்'] },
+    { proverb: 'காலம் பொன் போன்றது', meaning: 'நேரம் முக்கியம்', options: ['நேரத்தை வீணாக்கு', 'நேரம் முக்கியம்', 'பணம் முக்கியம்', 'பொன் முக்கியம்'] },
+    { proverb: 'முயன்றால் முடியாதது ஒன்றுமில்லை', meaning: 'முயற்சி செய்தால் வெற்றி கிடைக்கும்', options: ['முயற்சி தேவையில்லை', 'முயற்சி செய்தால் வெற்றி கிடைக்கும்', 'முயற்சி கடினம்', 'வெற்றி எளிது'] },
+    { proverb: 'அகப்பட்டது பிச்சை, விடப்பட்டது பாக்கியம்', meaning: 'கிடைத்தது குறைவு', options: ['கிடைத்தது குறைவு', 'கிடைத்தது அதிகம்', 'பிச்சை எடுப்பது', 'விடுவது நல்லது'] },
+    { proverb: 'ஆத்தி இலையும் பறித்த முனி', meaning: 'கோபக்காரர்', options: ['கோபக்காரர்', 'அமைதியானவர்', 'பயந்தவர்', 'தைரியசாலி'] },
+    { proverb: 'இருந்தும் இல்லாதார் போல', meaning: 'வறுமையில் வாடுபவர்', options: ['வறுமையில் வாடுபவர்', 'செல்வந்தர்', 'வயதானவர்', 'இளைஞர்'] },
+    { proverb: 'உப்பிட்டவரை உள்ளளவும் நினை', meaning: 'உதவி செய்தவரை மறக்காதே', options: ['உதவி செய்தவரை மறக்காதே', 'உதவி செய்தவரை மற', 'உப்பு சாப்பிடு', 'நன்றி மற'] },
+    { proverb: 'ஊருடன் கூடி வாழ்', meaning: 'சமூகத்துடன் இணைந்து வாழ்', options: ['சமூகத்துடன் இணைந்து வாழ்', 'தனிமையில் வாழ்', 'எல்லோரையும் வெறு', 'யாருடனும் சேராதே'] }
+  ];
+  
+  const shuffled = [...proverbs].sort(() => Math.random() - 0.5);
+  const questions = shuffled.slice(0, 10);
+  let currentQ = 0;
+  
+  document.getElementById('gameInstruction').textContent = `📜 பழமொழி கேள்வி 1/10`;
+  
+  function loadQuestion() {
+    gameArea.innerHTML = '';
+    
+    const q = questions[currentQ];
+    
+    const proverbDisplay = document.createElement('div');
+    proverbDisplay.className = 'tamil-question-box';
+    proverbDisplay.textContent = q.proverb;
+    proverbDisplay.style.fontSize = '24px';
+    proverbDisplay.style.maxWidth = '85%';
+    gameArea.appendChild(proverbDisplay);
+    
+    const optionsContainer = document.createElement('div');
+    optionsContainer.className = 'tamil-options-container';
+    optionsContainer.style.gap = '12px';
+    optionsContainer.style.bottom = '10%';
+    
+    const options = [...q.options].sort(() => Math.random() - 0.5);
+    
+    options.forEach((opt) => {
+      const optEl = document.createElement('div');
+      optEl.className = 'tamil-option';
+      optEl.textContent = opt;
+      optEl.style.fontSize = '18px';
+      optEl.style.padding = '10px 15px';
+      optEl.style.minWidth = '130px';
+      
+      optEl.onclick = function() {
+        if (this.textContent === q.meaning) {
+          createParticle(this, '✓ +10', '#2ecc71');
+          player.score += 10;
+          gameScore += 10;
+          updateScoreDisplay();
+          savePlayerData();
+          
+          currentQ++;
+          
+          if (currentQ < questions.length) {
+            document.getElementById('gameInstruction').textContent = `📜 பழமொழி கேள்வி ${currentQ + 1}/10`;
+            loadQuestion();
+          } else {
+            document.getElementById('continueBtn').disabled = false;
+            player.score += 50;
+            gameScore += 50;
+            updateScoreDisplay();
+            savePlayerData();
+            document.getElementById('gameInstruction').textContent = '🎉 பழமொழி வல்லுநர்! +50 புள்ளிகள்';
+            gameArea.innerHTML = '<div style="position: absolute; top: 40%; left: 50%; transform: translateX(-50%); font-size: 60px;">🏆</div>';
+          }
+        } else {
+          createParticle(this, '❌', '#e74c3c');
+        }
+      };
+      
+      optionsContainer.appendChild(optEl);
+    });
+    
+    gameArea.appendChild(optionsContainer);
+  }
+  
+  loadQuestion();
+}
+
+function startTamilSpinWheelGame() {
+  const gameArea = document.getElementById('gameArea');
+  
+  const categories = ['பழமொழி', 'விடுகதை', 'எதிர்ச்சொல்', 'பொருள்', 'விடுபட்ட சொல்'];
+  
+  const questionBank = {
+    'பழமொழி': [
+      { q: 'கற்றது கைமண் அளவு - இதன் பொருள்?', options: ['கற்றது சிறிது', 'கற்றது பெரிது', 'கல்லாதது சிறிது', 'எல்லாம் தெரியும்'], a: 'கற்றது சிறிது' },
+      { q: 'ஆற அமர சிந்தி - இதன் பொருள்?', options: ['அவசரப்படு', 'அமைதியாக சிந்தி', 'கோபப்படு', 'சிரி'], a: 'அமைதியாக சிந்தி' },
+      { q: 'உழைப்பே உயர்வு தரும் - இதன் பொருள்?', options: ['உழைப்பு தேவையில்லை', 'உழைப்பு முக்கியம்', 'சோம்பல் நல்லது', 'விளையாட்டு முக்கியம்'], a: 'உழைப்பு முக்கியம்' },
+      { q: 'காலம் பொன் போன்றது - இதன் பொருள்?', options: ['நேரத்தை வீணாக்கு', 'நேரம் முக்கியம்', 'பணம் முக்கியம்', 'பொன் முக்கியம்'], a: 'நேரம் முக்கியம்' },
+      { q: 'முயன்றால் முடியாதது ஒன்றுமில்லை - இதன் பொருள்?', options: ['முயற்சி தேவையில்லை', 'முயற்சி செய்தால் வெற்றி கிடைக்கும்', 'முயற்சி கடினம்', 'வெற்றி எளிது'], a: 'முயற்சி செய்தால் வெற்றி கிடைக்கும்' }
+    ],
+    'விடுகதை': [
+      { q: 'என்னை எல்லாரும் கேட்கிறார்கள், ஆனால் யாரும் பார்க்க முடியாது. நான் யார்?', options: ['காற்று 💨', 'சத்தம் 🔊', 'ஒளி 💡', 'நிழல் 👤'], a: 'சத்தம் 🔊' },
+      { q: 'என்னை வெட்டினால் நான் பெரியவனாகிறேன். நான் யார்?', options: ['மரம் 🌳', 'குழி 🕳️', 'காய்கறி 🥕', 'பழம் 🍎'], a: 'குழி 🕳️' },
+      { q: 'நான் எப்போதும் முன்னால் போவேன், ஆனால் ஒருபோதும் பின்னால் வர மாட்டேன். நான் யார்?', options: ['கார் 🚗', 'நேரம் ⏰', 'நதி 🌊', 'காற்று 💨'], a: 'நேரம் ⏰' },
+      { q: 'ஒரு தந்தைக்கு 4 மகன்கள். ஒவ்வொரு மகனுக்கும் ஒரு சகோதரி இருக்கிறாள். மொத்தம் எத்தனை குழந்தைகள்?', options: ['4', '5', '6', '7'], a: '5' },
+      { q: 'ஒரு மனிதன் மழையில் நனைந்தும், முடி நனைக்கவில்லை. ஏன்?', options: ['குடை வைத்திருந்தார் ☂️', 'முடி இல்லாதவர் 👨‍🦲', 'வீட்டில் இருந்தார் 🏠', 'காரில் இருந்தார் 🚗'], a: 'முடி இல்லாதவர் 👨‍🦲' }
+    ],
+    'எதிர்ச்சொல்': [
+      { q: '"பெரிய" - இதன் எதிர்ச்சொல்?', options: ['சிறிய', 'நீண்ட', 'குட்டையான', 'அகலமான'], a: 'சிறிய' },
+      { q: '"நல்ல" - இதன் எதிர்ச்சொல்?', options: ['கெட்ட', 'மோசமான', 'தீய', 'அழகான'], a: 'கெட்ட' },
+      { q: '"வெப்பம்" - இதன் எதிர்ச்சொல்?', options: ['குளிர்ச்சி', 'சூடு', 'உஷ்ணம்', 'பனி'], a: 'குளிர்ச்சி' },
+      { q: '"ஒளி" - இதன் எதிர்ச்சொல்?', options: ['இருட்டு', 'நிழல்', 'கண்', 'வெளிச்சம்'], a: 'இருட்டு' },
+      { q: '"மேல்" - இதன் எதிர்ச்சொல்?', options: ['கீழ்', 'அடி', 'தாழ', 'பக்கம்'], a: 'கீழ்' }
+    ],
+    'பொருள்': [
+      { q: '"அமைதி" - இதன் ஆங்கிலப் பொருள்?', options: ['Peace', 'War', 'Love', 'Hate'], a: 'Peace' },
+      { q: '"சந்தோஷம்" - இதன் ஆங்கிலப் பொருள்?', options: ['Sadness', 'Happiness', 'Anger', 'Fear'], a: 'Happiness' },
+      { q: '"தாய்" - இதன் ஆங்கிலப் பொருள்?', options: ['Father', 'Mother', 'Brother', 'Sister'], a: 'Mother' },
+      { q: '"நண்பன்" - இதன் ஆங்கிலப் பொருள்?', options: ['Enemy', 'Friend', 'Teacher', 'Student'], a: 'Friend' },
+      { q: '"புத்தகம்" - இதன் ஆங்கிலப் பொருள்?', options: ['Pen', 'Book', 'Paper', 'Pencil'], a: 'Book' }
+    ],
+    'விடுபட்ட சொல்': [
+      { q: '"கற்றது கைமண் ____" - விடுபட்ட சொல்?', options: ['அளவு', 'பெரிது', 'சிறிது', 'உயர்வு'], a: 'அளவு' },
+      { q: '"ஆற அமர ____" - விடுபட்ட சொல்?', options: ['சிந்தி', 'ஓடு', 'பேசு', 'விளையாடு'], a: 'சிந்தி' },
+      { q: '"காலம் ____ போன்றது" - விடுபட்ட சொல்?', options: ['பொன்', 'மண்', 'கல்', 'மரம்'], a: 'பொன்' },
+      { q: '"உழைப்பே உயர்வு ____" - விடுபட்ட சொல்?', options: ['தரும்', 'ஆகும்', 'போகும்', 'வரும்'], a: 'தரும்' },
+      { q: '"முயன்றால் முடியாதது ____" - விடுபட்ட சொல்?', options: ['ஒன்றுமில்லை', 'எல்லாம்', 'ஏதோ', 'பல'], a: 'ஒன்றுமில்லை' }
+    ]
+  };
+  
+  let spinDone = false;
+  let currentQuestions = [];
+  let currentQIndex = 0;
+  let selectedCategory = '';
+  
+  document.getElementById('gameInstruction').textContent = '🎡 சில்லினைச் சுழற்றவும்! 5 வினாடிகள் காத்திருக்கவும்';
+  
+  const wheel = document.createElement('div');
+  wheel.className = 'wheel-section';
+  wheel.style.animation = 'none';
+  gameArea.appendChild(wheel);
+  
+  categories.forEach((cat, index) => {
+    const angle = index * 72;
+    const label = document.createElement('div');
+    label.className = 'wheel-category';
+    label.style.transform = `rotate(${angle}deg) translate(0, -80px) rotate(-${angle}deg)`;
+    label.textContent = cat;
+    wheel.appendChild(label);
+  });
+  
+  const spinBtn = document.createElement('button');
+  spinBtn.textContent = '🎡 சுழற்று';
+  spinBtn.style.position = 'absolute';
+  spinBtn.style.left = '50%';
+  spinBtn.style.transform = 'translateX(-50%)';
+  spinBtn.style.top = '70%';
+  spinBtn.style.padding = '15px 30px';
+  spinBtn.style.fontSize = '20px';
+  spinBtn.style.background = 'linear-gradient(135deg, #FFD700, #FFA500)';
+  spinBtn.style.border = 'none';
+  spinBtn.style.borderRadius = '50px';
+  spinBtn.style.color = 'white';
+  spinBtn.style.cursor = 'pointer';
+  spinBtn.style.zIndex = '20';
+  
+  const countdownDisplay = document.createElement('div');
+  countdownDisplay.className = 'countdown-timer';
+  countdownDisplay.style.display = 'none';
+  gameArea.appendChild(countdownDisplay);
+  
+  spinBtn.onclick = function() {
+    if (spinDone) return;
+    
+    spinDone = true;
+    spinBtn.disabled = true;
+    
+    wheel.style.animation = 'spinWheel 2s ease-out';
+    
+    countdownDisplay.style.display = 'block';
+    let countdown = 5;
+    countdownDisplay.textContent = `⏱ ${countdown}s`;
+    
+    const countdownInterval = setInterval(() => {
+      countdown--;
+      countdownDisplay.textContent = `⏱ ${countdown}s`;
+      
+      if (countdown <= 0) {
+        clearInterval(countdownInterval);
+        countdownDisplay.style.display = 'none';
+      }
+    }, 1000);
+    
+    setTimeout(() => {
+      wheel.style.animation = 'none';
+      
+      const randomIndex = Math.floor(Math.random() * categories.length);
+      selectedCategory = categories[randomIndex];
+      
+      document.getElementById('gameInstruction').textContent = `🎡 சில்லு நின்றது: ${selectedCategory} - 5 கேள்விகள்`;
+      
+      const allQuestions = questionBank[selectedCategory] || questionBank['பழமொழி'];
+      const shuffled = [...allQuestions].sort(() => Math.random() - 0.5);
+      currentQuestions = shuffled.slice(0, 5);
+      currentQIndex = 0;
+      
+      spinBtn.remove();
+      wheel.remove();
+      
+      loadSpinQuestion();
+    }, 5000);
+  };
+  
+  gameArea.appendChild(spinBtn);
+  
+  function loadSpinQuestion() {
+    if (currentQIndex >= currentQuestions.length) {
+      document.getElementById('continueBtn').disabled = false;
+      player.score += 50;
+      gameScore += 50;
+      updateScoreDisplay();
+      savePlayerData();
+      document.getElementById('gameInstruction').textContent = '🎉 சில்லு விளையாட்டு முடிந்தது! +50 புள்ளிகள்';
+      gameArea.innerHTML = '<div style="position: absolute; top: 40%; left: 50%; transform: translateX(-50%); font-size: 60px;">🏆</div>';
+      return;
+    }
+    
+    gameArea.innerHTML = '';
+    
+    const q = currentQuestions[currentQIndex];
+    
+    const questionDisplay = document.createElement('div');
+    questionDisplay.className = 'tamil-question-box';
+    questionDisplay.textContent = q.q;
+    questionDisplay.style.fontSize = '22px';
+    questionDisplay.style.maxWidth = '85%';
+    gameArea.appendChild(questionDisplay);
+    
+    const optionsContainer = document.createElement('div');
+    optionsContainer.className = 'tamil-options-container';
+    optionsContainer.style.gap = '12px';
+    optionsContainer.style.bottom = '10%';
+    
+    const options = [...q.options].sort(() => Math.random() - 0.5);
+    
+    options.forEach((opt) => {
+      const optEl = document.createElement('div');
+      optEl.className = 'tamil-option';
+      optEl.textContent = opt;
+      optEl.style.fontSize = '18px';
+      optEl.style.padding = '10px 15px';
+      optEl.style.minWidth = '130px';
+      
+      optEl.onclick = function() {
+        if (this.textContent === q.a) {
+          createParticle(this, '✓ +10', '#2ecc71');
+          player.score += 10;
+          gameScore += 10;
+          updateScoreDisplay();
+          savePlayerData();
+          
+          currentQIndex++;
+          document.getElementById('gameInstruction').textContent = `${selectedCategory} - கேள்வி ${currentQIndex + 1}/5`;
+          loadSpinQuestion();
+        } else {
+          createParticle(this, '❌', '#e74c3c');
+        }
+      };
+      
+      optionsContainer.appendChild(optEl);
+    });
+    
+    gameArea.appendChild(optionsContainer);
+  }
+}
+
+function createParticle(element, text, color) {
+  const particle = document.createElement('div');
+  particle.className = 'particle';
+  particle.textContent = text;
+  particle.style.left = element.style.left;
+  particle.style.top = element.style.top;
+  particle.style.color = color;
+  document.getElementById('gameArea').appendChild(particle);
+  setTimeout(() => particle.remove(), 1000);
+}
+
+function giveHint() {
+  let hintText = gameLanguage === 'tamil'
+    ? '💡 விரைவாக கிளிக் செய்து புள்ளிகள் சேகரிக்கவும்!'
+    : '💡 Click quickly to collect points!';
+  alert(hintText);
+}
+
+// ==================== COMPLETION SCREEN ====================
+function continueToNext() {
+  showScreen('completionSection');
+ 
+  const completionTitle = gameLanguage === 'tamil'
+    ? `🎉 ${currentSubject === 'Maths' ? 'கணிதம்' :
+        currentSubject === 'Science' ? 'அறிவியல்' :
+        currentSubject === 'English' ? 'ஆங்கிலம்' :
+        currentSubject === 'Social' ? 'சமூகம்' : 'தமிழ்'} - ${
+          currentLevel === 'easy' ? 'ஆரம்ப நிலை' : currentLevel === 'medium' ? 'இடைநிலை' : 'மேம்பட்ட நிலை'
+        } முடிந்தது!`
+    : `🎉 ${currentSubject} - ${currentLevel.toUpperCase()} Level Completed!`;
+   
+  document.getElementById('completionTitle').textContent = completionTitle;
+ 
+  const completionMessage = gameLanguage === 'tamil'
+    ? `இந்த நிலையில் ${gameScore} புள்ளிகள் பெற்றீர்கள்! 🏆\nமொத்த புள்ளிகள்: ${player.score}`
+    : `You scored ${gameScore} points in this level! 🏆\nTotal Score: ${player.score}`;
+   
+  document.getElementById('completionMessage').textContent = completionMessage;
+ 
+  const nextLevelBtn = document.getElementById('nextLevelBtn');
+  const levels = ['easy', 'medium', 'hard'];
+  const currentIndex = levels.indexOf(currentLevel);
+ 
+  if (currentIndex < levels.length - 1) {
+    nextLevelBtn.style.display = 'inline-block';
+   
+    const nextLevelText = gameLanguage === 'tamil'
+      ? `➡️ ${levels[currentIndex + 1] === 'medium' ? 'இடைநிலை' : 'மேம்பட்ட நிலை'}க்கு செல்ல`
+      : `➡️ Continue to ${levels[currentIndex + 1].toUpperCase()}`;
+     
+    nextLevelBtn.textContent = nextLevelText;
+  } else {
+    nextLevelBtn.style.display = 'none';
+  }
+}
+
+function continueToNextLevel() {
+  const levels = ['easy', 'medium', 'hard'];
+  const currentIndex = levels.indexOf(currentLevel);
+  if (currentIndex < 2) {
+    currentLevel = levels[currentIndex + 1];
+    selectLevel(currentLevel);
+  }
+}
+
+function playAgain() {
+  currentQuestionIndex = 0;
+  gameScore = 0;
+  selectLevel(currentLevel);
+}
+
+function backToSubjects() {
+  currentSubject = null;
+  currentLevel = null;
+  resumeBackgroundMusic();
+  showScreen('subjectSection');
+}
+
+// ==================== PDF UPLOAD FUNCTIONS ====================
+let pdfDoc = null;
+let pdfTotalPages = 0;
+
+document.getElementById('pdfUpload').addEventListener('change', function(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  
+  const reader = new FileReader();
+  reader.onload = async function(e) {
+    try {
+      pdfDoc = await pdfjsLib.getDocument(e.target.result).promise;
+      pdfTotalPages = pdfDoc.numPages;
+      document.getElementById('totalPagesDisplay').textContent = pdfTotalPages;
+      document.getElementById('pdfEndPage').max = pdfTotalPages;
+      document.getElementById('pdfEndPage').value = pdfTotalPages;
+      document.getElementById('pdfStartPage').max = pdfTotalPages;
+    } catch (err) {
+      console.error('Error loading PDF:', err);
+    }
+  };
+  reader.readAsArrayBuffer(file);
+});
+
+async function uploadPDF() {
+  const pdfInput = document.getElementById('pdfUpload');
+  const statusDiv = document.getElementById('pdfStatus');
+  const generatedDiv = document.getElementById('generatedQuestions');
+  const startPage = parseInt(document.getElementById('pdfStartPage').value) || 1;
+  const endPage = parseInt(document.getElementById('pdfEndPage').value) || pdfTotalPages;
+ 
+  if (!pdfInput.files[0]) {
+    statusDiv.textContent = '❌ Please select a PDF file';
+    return;
+  }
+ 
+  if (startPage < 1 || endPage > pdfTotalPages || startPage > endPage) {
+    statusDiv.textContent = '❌ Invalid page range. Please check your inputs.';
+    return;
+  }
+ 
+  statusDiv.textContent = '⏳ Processing PDF...';
+  generatedDiv.innerHTML = '';
+ 
+  const file = pdfInput.files[0];
+  const reader = new FileReader();
+ 
+  reader.onload = async (e) => {
+    try {
+      const pdf = await pdfjsLib.getDocument(e.target.result).promise;
+      let allText = '';
+     
+      for (let i = startPage; i <= endPage; i++) {
+        const page = await pdf.getPage(i);
+        const textContent = await page.getTextContent();
+        allText += textContent.items.map(item => item.str).join(' ') + ' ';
+      }
+     
+      statusDiv.textContent = '✅ PDF processed! Generating questions...';
+      let generatedQuestions = generateSmartQuestions(allText, 10);
+      displayGeneratedQuestions(generatedQuestions, startPage, endPage);
+     
+    } catch (err) {
+      statusDiv.textContent = '❌ Error processing PDF: ' + err.message;
+    }
+  };
+ 
+  reader.readAsArrayBuffer(file);
+}
+
+function generateSmartQuestions(text, maxQuestions = 10) {
+  text = text.replace(/\s+/g, ' ').trim();
+  
+  const sentences = text.match(/[^.!?]+[.!?]+/g) || [];
+  const questions = [];
+  
+  const commonWords = ['the', 'a', 'an', 'and', 'or', 'but', 'in', 'on', 'at', 'to', 'for', 'of', 'with', 'by', 'is', 'are', 'was', 'were', 'have', 'has', 'had'];
+  
+  for (let s of sentences) {
+    if (questions.length >= maxQuestions) break;
+    
+    const sentence = s.trim();
+    if (sentence.length < 20 || sentence.length > 150) continue;
+    
+    const words = sentence.split(' ').filter(w => 
+      w.length > 3 && 
+      !commonWords.includes(w.toLowerCase()) &&
+      !w.includes('_') &&
+      !w.match(/^\d+$/)
+    );
+    
+    if (words.length < 4) continue;
+    
+    const answerIndex = Math.floor(Math.random() * words.length);
+    const answerWord = words[answerIndex];
+    
+    const questionText = sentence.replace(new RegExp(answerWord, 'i'), '_____');
+    
+    let wrongOptions = words.filter((w, i) => i !== answerIndex && w !== answerWord);
+    wrongOptions = [...new Set(wrongOptions)];
+    
+    const commonNouns = ['teacher', 'student', 'school', 'book', 'lesson', 'chapter', 'page', 'question', 'answer', 'example', 'problem', 'solution', 'method', 'theory', 'practice', 'knowledge', 'learning', 'education', 'study', 'class', 'subject', 'science', 'math', 'history', 'language'];
+    
+    while (wrongOptions.length < 3) {
+      const randomNoun = commonNouns[Math.floor(Math.random() * commonNouns.length)];
+      if (!wrongOptions.includes(randomNoun) && randomNoun !== answerWord) {
+        wrongOptions.push(randomNoun);
+      }
+    }
+    
+    const options = [answerWord, ...wrongOptions.slice(0, 3)];
+    
+    for (let i = options.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [options[i], options[j]] = [options[j], options[i]];
+    }
+    
+    const correctIndex = options.indexOf(answerWord);
+    
+    questions.push({
+      q: questionText,
+      o: options,
+      a: correctIndex
+    });
+  }
+  
+  return questions.slice(0, maxQuestions);
+}
+
+function displayGeneratedQuestions(questions, startPage, endPage) {
+  const generatedDiv = document.getElementById('generatedQuestions');
+  const statusDiv = document.getElementById('pdfStatus');
+ 
+  if (questions.length === 0) {
+    statusDiv.textContent = '❌ Could not generate good questions. Try different pages.';
+    return;
+  }
+ 
+  let html = `<h3 style="color: #4facfe;">📄 Generated ${questions.length} Quality Questions from Pages ${startPage}-${endPage}:</h3>`;
+  html += '<div style="max-height: 300px; overflow-y: auto; padding: 10px;">';
+ 
+  questions.forEach((q, idx) => {
+    html += `<div class="generated-question-item">
+      <p><strong>Q${idx + 1}:</strong> ${q.q}</p>
+      <small>Options: ${q.o.join(' | ')} (Correct: ${q.o[q.a]})</small>
+    </div>`;
+  });
+ 
+  html += '</div>';
+  html += `<div style="margin-top: 20px; padding: 20px; background: rgba(255,255,255,0.08); border-radius: 8px;">
+    <label style="display: block; margin-bottom: 10px; font-weight: bold; color: #4facfe;">
+      Subject Name:
+    </label>
+    <input type="text" id="pdfSubjectName" placeholder="Enter subject name (e.g., Science)" value="CustomPDF" style="width: 80%; padding: 10px; border-radius: 8px; border: 2px solid #4facfe; margin-bottom: 15px; color: black; font-size: 16px; background: white;">
+    <p style="font-size: 14px; color: #FFD700; margin-bottom: 15px;">
+      ⚠️ Current language mode: <strong>${gameLanguage === 'tamil' ? 'Tamil' : 'English'}</strong>
+    </p>
+    <button onclick="submitGeneratedQuestions(${JSON.stringify(questions).replace(/"/g, '&quot;')})" style="padding: 15px 30px; background: linear-gradient(135deg, #43e97b, #38f9d7); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 16px;">
+      ✅ Add to Subjects
+    </button>
+  </div>`;
+ 
+  generatedDiv.innerHTML = html;
+  statusDiv.textContent = `✅ ${questions.length} quality questions generated!`;
+}
+
+function submitGeneratedQuestions(qs) {
+  const subjectName = document.getElementById('pdfSubjectName').value.trim();
+ 
+  if (!subjectName) {
+    alert('❌ Please enter a subject name');
+    return;
+  }
+ 
+  if (!questions[subjectName]) {
+    questions[subjectName] = {};
+  }
+ 
+  const totalQs = qs.length;
+  const easyCount = Math.ceil(totalQs * 0.4);
+  const mediumCount = Math.ceil(totalQs * 0.3);
+  
+  const shuffled = [...qs].sort(() => Math.random() - 0.5);
+  
+  questions[subjectName].easy = shuffled.slice(0, easyCount);
+  questions[subjectName].medium = shuffled.slice(easyCount, easyCount + mediumCount);
+  questions[subjectName].hard = shuffled.slice(easyCount + mediumCount);
+ 
+  if (!player.levelProgress[subjectName]) {
+    player.levelProgress[subjectName] = { easy: false, medium: false, hard: false };
+  }
+ 
+  const subjectContainer = document.querySelector('.subject-grid');
+  let existingBtn = document.querySelector(`.subject[data-subject="${subjectName}"]`);
+ 
+  if (!existingBtn) {
+    const btn = document.createElement('div');
+    btn.className = 'subject';
+    btn.setAttribute('data-subject', subjectName);
+    btn.innerHTML = `<div class="icon">📚</div><span class="subject-name">${subjectName}</span>`;
+    btn.style.cursor = 'pointer';
+    btn.style.background = 'linear-gradient(135deg, #667eea, #764ba2)';
+   
+    btn.addEventListener('click', function() {
+      currentSubject = this.dataset.subject;
+      playSubjectMusic(currentSubject);
+      document.getElementById('levelSelectionTitle').textContent =
+        gameLanguage === 'tamil' ? `நிலை தேர்ந்தெடுக்கவும் - ${subjectName}` : `Select Level - ${subjectName}`;
+      showScreen('levelSection');
+      updateLevelButtons();
+    });
+   
+    subjectContainer.appendChild(btn);
+  }
+ 
+  showScreen('subjectSection');
+ 
+  alert(gameLanguage === 'tamil'
+    ? `✅ ${qs.length} தரமான கேள்விகள் சேர்க்கப்பட்டன! "${subjectName}" பாடத்தைத் தேர்ந்தெடுக்கவும்.`
+    : `✅ ${qs.length} quality questions added! Select "${subjectName}" to start.`);
+}
+
+// Initialize
+window.addEventListener('DOMContentLoaded', () => {
+  updateScoreDisplay();
+  document.getElementById('pdfModeIndicator').innerHTML = 'English Medium';
+});
+</script>
+</body>
+</html>
