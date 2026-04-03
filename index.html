@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>EduFun Galaxy – 8th Std Learning Game</title>
+<title> Game on Study</title>
+<link rel="icon" type="images/png" href="images/logo1.png">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <script>
   pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
@@ -15,14 +16,21 @@
   padding: 0;
   box-sizing: border-box;
 }
-
+#mainTitle {
+    color: #00ffff;
+  text-shadow: 
+    0 0 5px #f50aa7,
+    0 0 10px #ff9900,
+    0 0 20px #2600ff;
+    font-size: 70px;
+}
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   color: white;
   min-height: 100vh;
   overflow-x: hidden;
   position: relative;
-  background: #000;
+  background: linear-gradient(135deg, #04193F 0%, #032B71 50%, #040E2B 100%);
 }
 
 /* Background Slideshow Container */
@@ -75,8 +83,10 @@ body {
   src: url('https://cdn.jsdelivr.net/npm/tamil-fonts@1.0.0/Latha.ttf');
 }
 
-.tamil-text, .tamil-message {
-  font-family: 'TamilFont', 'Segoe UI', sans-serif;
+.tamil-text, .tamil-message, .tamil-question {
+  font-family: 'TamilFont', 'Segoe UI', 'Noto Sans Tamil', sans-serif;
+  font-size: 16px;
+  line-height: 1.8;
 }
 
 /* Score Display */
@@ -84,13 +94,13 @@ body {
   position: fixed;
   top: 20px;
   right: 20px;
-  background: linear-gradient(135deg, rgba(79, 172, 254, 0.9), rgba(0, 242, 254, 0.9));
+  background: linear-gradient(135deg, rgba(248, 201, 50, 0.95), rgba(255, 222, 115, 0.95));
   padding: 12px 24px;
   border-radius: 15px;
   font-weight: bold;
   z-index: 1000;
-  border: 2px solid white;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  border: 2px solid #FFD700;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.25);
   font-size: 18px;
   backdrop-filter: blur(5px);
 }
@@ -153,11 +163,11 @@ h1 {
   font-size: 2.8rem;
   margin: 30px 0;
   text-align: center;
-  background: linear-gradient(135deg, #ff9a00, #ff3cac, #4facfe, #00f2fe);
+  background: linear-gradient(135deg, #640b1775, #ffffff);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  text-shadow: 2px 2px 4px rgb(250, 250, 250);
   padding-top: 60px;
 }
 
@@ -237,14 +247,33 @@ button:disabled {
 
 /* SUBJECT SELECTION */
 .subject-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 20px;
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 14px;
   margin-top: 20px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+}
+
+.subject-grid::-webkit-scrollbar {
+  height: 6px;
+}
+
+.subject-grid::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.3);
+  border-radius: 3px;
+}
+
+.subject-grid::-webkit-scrollbar-track {
+  background: rgba(0,0,0,0.15);
 }
 
 .subject {
+  width: 160px;
   height: 160px;
+  flex-shrink: 0;
   border-radius: 20px;
   display: flex;
   flex-direction: column;
@@ -405,9 +434,9 @@ button:disabled {
   border-radius: 20px;
   position: relative;
   overflow: hidden;
-  border: 3px solid #4facfe;
+  border: 3px solid #FFD700; /* 8th standard gold accent */
   margin: 20px auto;
-  background: rgba(0, 0, 0, 0.3);
+  background: linear-gradient(135deg, rgba(8, 18, 64, 0.7), rgba(22, 40, 108, 0.6));
   backdrop-filter: blur(5px);
   padding: 20px;
   width: 100%;
@@ -417,7 +446,7 @@ button:disabled {
   font-size: 18px;
   text-align: center;
   margin: 15px 0;
-  color: #4facfe;
+  color: #FFD700; /* 8th standard gold accent */
   font-weight: bold;
   text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
 }
@@ -587,7 +616,7 @@ button:disabled {
   max-width: 80%;
   text-align: center;
   font-size: 24px;
-  font-family: 'TamilFont', 'Segoe UI', sans-serif;
+  font-family: 'TamilFont', 'Segoe UI', 'Noto Sans Tamil', sans-serif;
   box-shadow: 0 10px 20px rgba(0,0,0,0.3);
   z-index: 20;
   white-space: normal;
@@ -619,7 +648,7 @@ button:disabled {
   border: 2px solid white;
   cursor: pointer;
   transition: all 0.3s;
-  font-family: 'TamilFont', 'Segoe UI', sans-serif;
+  font-family: 'TamilFont', 'Segoe UI', 'Noto Sans Tamil', sans-serif;
   min-width: 160px;
   box-shadow: 0 5px 10px rgba(0,0,0,0.2);
   flex: 0 1 auto;
@@ -727,22 +756,6 @@ button:disabled {
   border: 1px solid #FFD700;
 }
 
-.generated-question-item {
-  background: rgba(79,172,254,0.1);
-  padding: 15px;
-  border-radius: 10px;
-  margin-bottom: 10px;
-  border-left: 4px solid #4facfe;
-}
-
-.generated-question-item p {
-  margin: 5px 0;
-}
-
-.generated-question-item small {
-  color: #FFD700;
-}
-
 /* GAME CONTROLS */
 .game-controls {
   display: flex;
@@ -775,7 +788,49 @@ button:disabled {
 
 /* Tamil Messages */
 .tamil-message {
-  font-family: 'TamilFont', 'Segoe UI', sans-serif;
+  font-family: 'TamilFont', 'Segoe UI', 'Noto Sans Tamil', sans-serif;
+}
+
+/* PDF Question Display - Clean & Proper */
+.pdf-question-item {
+  background: rgba(79,172,254,0.15);
+  padding: 20px;
+  border-radius: 12px;
+  margin-bottom: 15px;
+  border-left: 5px solid #4facfe;
+  font-family: 'TamilFont', 'Segoe UI', 'Noto Sans Tamil', sans-serif;
+  line-height: 1.8;
+}
+
+.pdf-question-item p {
+  margin: 8px 0;
+  color: white;
+  line-height: 1.8;
+}
+
+.pdf-question-item strong {
+  color: #FFD700;
+  font-size: 18px;
+}
+
+.pdf-question-item .options-list {
+  color: #4facfe;
+  font-weight: 500;
+  background: rgba(0,0,0,0.3);
+  padding: 8px 12px;
+  border-radius: 8px;
+  display: inline-block;
+  margin-top: 5px;
+}
+
+.pdf-question-item .correct-answer {
+  color: #2ecc71;
+  font-weight: bold;
+  background: rgba(46,204,113,0.2);
+  padding: 4px 10px;
+  border-radius: 20px;
+  display: inline-block;
+  margin-left: 10px;
 }
 
 /* RESPONSIVE DESIGN */
@@ -827,42 +882,76 @@ button:disabled {
   .game-element {
     font-size: 30px;
   }
-  
+ 
   .option-box {
     font-size: 14px;
     min-width: 120px;
   }
-  
+ 
   .tamil-question-box {
     font-size: 20px;
     padding: 15px 20px;
     max-width: 90%;
   }
-  
+ 
   .tamil-option {
     font-size: 16px;
     min-width: 140px;
     padding: 10px 15px;
   }
-  
+ 
   .wheel-section {
     width: 220px;
     height: 220px;
   }
-  
+ 
   .treasure-item {
     font-size: 40px;
   }
-  
+ 
   .pdf-range-input {
     flex-direction: column;
     gap: 10px;
   }
+ 
+  .pdf-question-item {
+    padding: 15px;
+  }
+ 
+  .pdf-question-item .options-list {
+    display: block;
+    margin-top: 8px;
+  }
+ 
+  .pdf-question-item .correct-answer {
+    display: inline-block;
+    margin-top: 8px;
+    margin-left: 0;
+  }
 }
+#logo {
+  position: relative;
+  top: auto;
+  left: auto;
+  transform: none;
+  width: 260px;
+  max-width: 85%;
+  height: auto;
+  margin: 0 auto 6px;
+  z-index: 1;
+}
+
+.logo-section {
+  position: relative;
+  margin: 12px auto 6px;
+  width: 100%;
+  max-width: 340px;
+  text-align: center;
+}
+
 </style>
 </head>
 <body>
-
 <!-- Background Slideshow Container -->
 <div class="background-slideshow">
   <div class="slide" id="slide1"></div>
@@ -877,10 +966,7 @@ button:disabled {
 <!-- Season Indicator -->
 <div class="season-indicator" id="seasonIndicator">🌸 Spring</div>
 
-<!-- Background Music -->
-<audio id="backgroundMusic" loop style="display: none;">
-  <source src="https://cdn.pixabay.com/audio/2022/10/29/audio_92f89f6a6d.mp3" type="audio/mpeg">
-</audio>
+
 
 <!-- Score Display -->
 <div class="score-display">
@@ -893,12 +979,15 @@ button:disabled {
 <!-- Refresh Button -->
 <button class="refresh-btn" onclick="refreshGame()">🔄 Refresh Game</button>
 
-<h1 id="mainTitle">🚀 EduFun Galaxy – 8th Standard</h1>
+<!-- Logo above subject box -->
+<div class="logo-section" style="margin-bottom: 18px;">
+  <img src="images/logo1.png" id="logo" alt="Game on Study logo" style="width: 100%; height: auto; display: inline-block;">
+</div>
 
 <!-- SUBJECT SELECTION -->
-<div id="subjectSection" class="section">
+<div id="subjectSection" class="section" style="max-width: 900px; margin: 0 auto 20px; padding: 20px 10px; width: fit-content;">
   <h2 id="subjectSectionTitle">Select Subject</h2>
-  
+ 
   <!-- 5 Subjects Grid -->
   <div class="subject-grid">
     <div class="subject maths" data-subject="Maths">
@@ -922,7 +1011,7 @@ button:disabled {
       <span class="subject-name">Tamil</span>
     </div>
   </div>
-  
+ 
   <!-- Custom PDF Button -->
   <div class="custom-pdf-container">
     <button class="custom-pdf-btn" onclick="showPDFUpload()">📄 + Add Custom PDF Subject</button>
@@ -936,7 +1025,7 @@ button:disabled {
   <div class="pdf-mode-indicator">
     Current Mode: <strong id="pdfModeIndicator">English Medium</strong>
   </div>
-  
+ 
   <!-- Page Range Selection -->
   <div class="pdf-page-range">
     <h3 style="color: #4facfe; margin-bottom: 15px;">📄 Select Pages to Process</h3>
@@ -954,7 +1043,7 @@ button:disabled {
       Total pages: <span id="totalPagesDisplay">-</span>
     </div>
   </div>
-  
+ 
   <div style="text-align: center; margin: 20px 0;">
     <input type="file" id="pdfUpload" accept=".pdf" style="margin: 10px; padding: 10px; border: 2px dashed #4facfe; border-radius: 8px; width: 80%; cursor: pointer; background: rgba(255,255,255,0.1); color: white;">
     <button onclick="uploadPDF()" style="margin: 10px; padding: 10px 20px; background: #4facfe; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold;">Process PDF</button>
@@ -1033,38 +1122,34 @@ const SEASON_IMAGES = {
     'https://images.pexels.com/photos/3375674/pexels-photo-3375674.jpeg',
     'https://images.pexels.com/photos/326057/pexels-photo-326057.jpeg',
     'https://images.pexels.com/photos/1559117/pexels-photo-1559117.jpeg'
-
   ],
   spring: [
-    'https://images.pexels.com/photos/992734/pexels-photo-992734.jpeg',
-    'https://images.pexels.com/photos/67857/daisy-flower-spring-marguerite-67857.jpeg',
-    'https://images.pexels.com/photos/2101187/pexels-photo-2101187.jpeg',
+    'https://images.pexels.com/photos/35913119/pexels-photo-35913119.jpeg',
+    'https://images.pexels.com/photos/298246/pexels-photo-298246.jpeg',
+    'https://images.pexels.com/photos/36393664/pexels-photo-36393664.jpeg',
     'https://images.pexels.com/photos/464336/pexels-photo-464336.jpeg',
     'https://images.pexels.com/photos/1166209/pexels-photo-1166209.jpeg',
-    'https://images.pexels.com/photos/1043458/pexels-photo-1043458.jpeg',
-    'https://images.pexels.com/photos/909/flowers-garden-colorful-colourful.jpg'
-
-  ],
+    'https://images.pexels.com/photos/36562408/pexels-photo-36562408.jpeg',
+    'https://images.pexels.com/photos/4748380/pexels-photo-4748380.jpeg'
+],
   summer: [
     'https://images.pexels.com/photos/358358/pexels-photo-358358.jpeg',
-     'https://images.pexels.com/photos/59990/sunflowers-sunflower-yellow-petal-59990.jpeg',
-      'https://images.pexels.com/photos/3293148/pexels-photo-3293148.jpeg',
-      'https://images.pexels.com/photos/994605/pexels-photo-994605.jpeg',
-      'https://images.pexels.com/photos/1591373/pexels-photo-1591373.jpeg',
-      'https://images.pexels.com/photos/1237119/pexels-photo-1237119.jpeg',
-      'https://images.pexels.com/photos/842711/pexels-photo-842711.jpeg'
-
-
+    'https://images.pexels.com/photos/59990/sunflowers-sunflower-yellow-petal-59990.jpeg',
+    'https://images.pexels.com/photos/3293148/pexels-photo-3293148.jpeg',
+    'https://images.pexels.com/photos/994605/pexels-photo-994605.jpeg',
+    'https://images.pexels.com/photos/1591373/pexels-photo-1591373.jpeg',
+    'https://images.pexels.com/photos/1237119/pexels-photo-1237119.jpeg',
+    'https://images.pexels.com/photos/842711/pexels-photo-842711.jpeg'
   ],
   monsoon: [
-  'https://images.pexels.com/photos/1463530/pexels-photo-1463530.jpeg',
-  'https://images.pexels.com/photos/32766944/pexels-photo-32766944.jpeg',
-  'https://images.pexels.com/photos/11352914/pexels-photo-11352914.jpeg',
-  'https://images.pexels.com/photos/8354493/pexels-photo-8354493.jpeg',
-  'https://images.pexels.com/photos/5726591/pexels-photo-5726591.jpeg',
-  'https://images.pexels.com/photos/304875/pexels-photo-304875.jpeg',
-  'https://images.pexels.com/photos/352096/pexels-photo-352096.jpeg'
-],
+    'https://images.pexels.com/photos/1463530/pexels-photo-1463530.jpeg',
+    'https://images.pexels.com/photos/32766944/pexels-photo-32766944.jpeg',
+    'https://images.pexels.com/photos/11352914/pexels-photo-11352914.jpeg',
+    'https://images.pexels.com/photos/8354493/pexels-photo-8354493.jpeg',
+    'https://images.pexels.com/photos/5726591/pexels-photo-5726591.jpeg',
+    'https://images.pexels.com/photos/304875/pexels-photo-304875.jpeg',
+    'https://images.pexels.com/photos/352096/pexels-photo-352096.jpeg'
+  ],
   autumn: [
     'https://images.pexels.com/photos/33109/fall-autumn-red-season.jpg',
     'https://images.pexels.com/photos/1477199/pexels-photo-1477199.jpeg',
@@ -1156,6 +1241,8 @@ function refreshGame() {
   }
 }
 
+// Background music initialization - DISABLED
+/*
 const backgroundMusic = document.getElementById('backgroundMusic');
 backgroundMusic.volume = 0.3;
 
@@ -1163,8 +1250,14 @@ document.addEventListener('click', function initMusic() {
   backgroundMusic.play().catch(e => console.log('Music play error:', e));
   document.removeEventListener('click', initMusic);
 }, { once: true });
+*/
 
-// ==================== ORIGINAL ENGLISH QUESTIONS - FULL VERSION ====================
+// ==================== PDF GLOBAL VARIABLES ====================
+let pdfGeneratedQuestions = null;
+let pdfSubjectName = '';
+let pdfQuestionsForGame = [];
+
+// ==================== ORIGINAL ENGLISH QUESTIONS ====================
 const englishQuestions = {
   Tamil: {
     easy: [
@@ -1283,7 +1376,7 @@ const englishQuestions = {
   }
 };
 
-// ==================== TAMIL MEDIUM QUESTIONS - FULL VERSION ====================
+// ==================== TAMIL MEDIUM QUESTIONS ====================
 const tamilMediumQuestions = {
   Tamil: {
     easy: [
@@ -1422,7 +1515,7 @@ function toggleLanguage() {
     document.getElementById('subjectSectionTitle').innerHTML = 'Select Subject';
   }
   updateSubjectNames();
-  document.getElementById('pdfModeIndicator').innerHTML = gameLanguage === 'tamil' ? 'Tamil Medium' : 'English Medium';
+  document.getElementById('pdfModeIndicator').innerHTML = gameLanguage === 'tamil' ? 'தமிழ் (Tamil)' : 'English';
 }
 
 function updateSubjectNames() {
@@ -1466,25 +1559,24 @@ function showScreen(screenId) {
 }
 
 // ==================== SUBJECT MUSIC ====================
-const MAIN_BACKGROUND_MUSIC_SRC = 'https://cdn.pixabay.com/audio/2022/10/29/audio_92f89f6a6d.mp3';
+const MAIN_BACKGROUND_MUSIC_SRC = 'https://pixabay.com/sound-effects/classical-fun-30-sec-happy-music-473666/';
 
 function playSubjectMusic(subject) {
   const musicElement = document.getElementById('backgroundMusic');
   if (musicElement) {
-    musicElement.pause();
-    musicElement.src = `https://cdn.pixabay.com/audio/2023/08/04/audio_9a7f8e3d2b.mp3`;
-    musicElement.load();
-    musicElement.play().catch(e => console.log('Music play error:', e));
+    // Keep playing background music without pause
+    if (musicElement.paused) {
+      musicElement.play().catch(e => console.log('Music play error:', e));
+    }
   }
 }
 
 function resumeBackgroundMusic() {
   const musicElement = document.getElementById('backgroundMusic');
   if (musicElement) {
-    musicElement.pause();
-    musicElement.src = MAIN_BACKGROUND_MUSIC_SRC;
-    musicElement.load();
-    musicElement.play().catch(err => console.log('Audio play failed:', err));
+    if (musicElement.paused) {
+      musicElement.play().catch(err => console.log('Audio play failed:', err));
+    }
   }
 }
 
@@ -1754,1518 +1846,506 @@ function startSubjectMiniGame() {
       else if (currentLevel === 'medium') startTamilProverbGame();
       else startTamilSpinWheelGame();
       break;
+    default:
+      // PDF Subject - 3 DIFFERENT GAMES BASED ON LEVEL!
+      startPDFMiniGame();
+      break;
   }
 }
 
-// ==================== MATHS GAMES ====================
-function startMathsMemoryGame() {
+// ==================== PDF MINI GAMES - 3 LEVELS ====================
+
+function startPDFMiniGame() {
+  if (currentLevel === 'easy') {
+    startFruitCatcherGame();
+  } else if (currentLevel === 'medium') {
+    startWhackMoleGame();
+  } else if (currentLevel === 'hard') {
+    startSpaceShooterGame();
+  }
+}
+
+// ==================== LEVEL 1 - EASY: FRUIT CATCHER GAME ====================
+function startFruitCatcherGame() {
   const gameArea = document.getElementById('gameArea');
-  
-  const images = ['🍎', '🚗', '🐕', '🐱', '🌞', '⭐', '🦁', '🐘'];
-  const cards = [];
-  
-  images.forEach((img, index) => {
-    cards.push({ id: index, img: img, matched: false });
-    cards.push({ id: index, img: img, matched: false });
+  const totalFruits = 15;
+  let caughtCount = 0;
+ 
+  const instruction = gameLanguage === 'tamil'
+    ? `🍎 ${pdfSubjectName || 'PDF'} - பழங்களை பிடியுங்கள்! ${totalFruits} பழங்கள்`
+    : `🍎 ${pdfSubjectName || 'PDF'} - Catch the Fruits! ${totalFruits} Fruits`;
+  document.getElementById('gameInstruction').textContent = instruction;
+ 
+  let basket = null;
+  let gameRunning = true;
+ 
+  basket = document.createElement('div');
+  basket.className = 'game-element';
+  basket.textContent = '🧺';
+  basket.style.left = '45%';
+  basket.style.bottom = '20px';
+  basket.style.fontSize = '60px';
+  basket.style.cursor = 'grab';
+  basket.style.zIndex = '50';
+  basket.style.filter = 'drop-shadow(0 5px 10px rgba(0,0,0,0.3))';
+  gameArea.appendChild(basket);
+ 
+  gameArea.addEventListener('mousemove', (e) => {
+    if (!gameRunning) return;
+    const rect = gameArea.getBoundingClientRect();
+    let x = e.clientX - rect.left;
+    x = Math.max(30, Math.min(x, rect.width - 70));
+    basket.style.left = (x / rect.width * 100) + '%';
   });
-  
-  for (let i = cards.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [cards[i], cards[j]] = [cards[j], cards[i]];
-  }
-  
-  let flippedCards = [];
-  let lockBoard = false;
-  let matchedCount = 0;
-  const totalPairs = images.length;
-  
-  const instruction = gameLanguage === 'tamil'
-    ? '🧠 ஜோடிகளை பொருத்தவும்! 8 ஜோடிகள்'
-    : '🧠 Match the pairs! 8 pairs';
-  document.getElementById('gameInstruction').textContent = instruction;
-  
-  const gridSize = 4;
-  const cardWidth = 70;
-  const startX = (gameArea.offsetWidth - (gridSize * cardWidth + (gridSize - 1) * 10)) / 2;
-  const startY = 80;
-  
-  cards.forEach((card, index) => {
-    const cardEl = document.createElement('div');
-    cardEl.className = 'game-element memory-card';
-    cardEl.style.left = startX + (index % gridSize) * (cardWidth + 10) + 'px';
-    cardEl.style.top = startY + Math.floor(index / gridSize) * (cardWidth + 10) + 'px';
-    cardEl.style.width = cardWidth + 'px';
-    cardEl.style.height = cardWidth + 'px';
-    cardEl.textContent = '?';
-    cardEl.dataset.id = card.id;
-    cardEl.dataset.img = card.img;
-    cardEl.dataset.matched = 'false';
-    
-    cardEl.onclick = function() {
-      if (lockBoard) return;
-      if (this.dataset.matched === 'true') return;
-      if (flippedCards.includes(this)) return;
-      if (flippedCards.length >= 2) return;
-      
-      this.textContent = this.dataset.img;
-      this.style.background = 'linear-gradient(135deg, #FFD700, #FFA500)';
-      flippedCards.push(this);
-      
-      if (flippedCards.length === 2) {
-        lockBoard = true;
-        
-        if (flippedCards[0].dataset.id === flippedCards[1].dataset.id) {
-          setTimeout(() => {
-            flippedCards[0].style.background = 'linear-gradient(135deg, #2ecc71, #27ae60)';
-            flippedCards[1].style.background = 'linear-gradient(135deg, #2ecc71, #27ae60)';
-            flippedCards[0].dataset.matched = 'true';
-            flippedCards[1].dataset.matched = 'true';
-            matchedCount++;
-            
-            player.score += 10;
-            gameScore += 10;
-            updateScoreDisplay();
-            savePlayerData();
-            
-            createParticle(flippedCards[0], '+10', '#2ecc71');
-            
-            flippedCards = [];
-            lockBoard = false;
-            
-            if (matchedCount === totalPairs) {
-              document.getElementById('continueBtn').disabled = false;
-              player.score += 30;
-              gameScore += 30;
-              updateScoreDisplay();
-              savePlayerData();
-              document.getElementById('gameInstruction').textContent = gameLanguage === 'tamil'
-                ? '🎉 அருமை! விளையாட்டு முடிந்தது! +30 புள்ளிகள்'
-                : '🎉 Great! Game Complete! +30 points';
-            }
-          }, 500);
-        } else {
-          setTimeout(() => {
-            flippedCards[0].textContent = '?';
-            flippedCards[1].textContent = '?';
-            flippedCards[0].style.background = 'linear-gradient(135deg, #4facfe, #00f2fe)';
-            flippedCards[1].style.background = 'linear-gradient(135deg, #4facfe, #00f2fe)';
-            flippedCards = [];
-            lockBoard = false;
-          }, 1000);
-        }
-      }
-    };
-    
-    gameArea.appendChild(cardEl);
+ 
+  gameArea.addEventListener('touchmove', (e) => {
+    if (!gameRunning) return;
+    e.preventDefault();
+    const rect = gameArea.getBoundingClientRect();
+    let x = e.touches[0].clientX - rect.left;
+    x = Math.max(30, Math.min(x, rect.width - 70));
+    basket.style.left = (x / rect.width * 100) + '%';
   });
-}
-
-function startMathsTablesGame() {
-  const gameArea = document.getElementById('gameArea');
-  
-  const allQuestions = [];
-  for (let i = 1; i <= 10; i++) {
-    for (let j = 1; j <= 5; j++) {
-      const multiplier = Math.floor(Math.random() * 10) + 1;
-      allQuestions.push({
-        question: `${i} × ${multiplier} = ?`,
-        answer: i * multiplier,
-        options: [
-          i * multiplier,
-          i * multiplier + Math.floor(Math.random() * 5) + 1,
-          i * multiplier - Math.floor(Math.random() * 5) - 1,
-          i * multiplier + Math.floor(Math.random() * 10) + 2
-        ].sort(() => Math.random() - 0.5)
-      });
-    }
-  }
-  
-  const shuffled = [...allQuestions].sort(() => Math.random() - 0.5);
-  const questions = shuffled.slice(0, 5);
-  let currentQ = 0;
-  
-  const instruction = gameLanguage === 'tamil'
-    ? `📊 வாய்ப்பாட்டு கேள்வி 1/5`
-    : `📊 Table Question 1/5`;
-  document.getElementById('gameInstruction').textContent = instruction;
-  
-  function loadQuestion() {
-    gameArea.innerHTML = '';
-    
-    const q = questions[currentQ];
-    
-    const questionDisplay = document.createElement('div');
-    questionDisplay.className = 'game-element';
-    questionDisplay.style.left = '50%';
-    questionDisplay.style.top = '30%';
-    questionDisplay.style.transform = 'translateX(-50%)';
-    questionDisplay.style.fontSize = '40px';
-    questionDisplay.style.background = 'linear-gradient(135deg, #FFD700, #FFA500)';
-    questionDisplay.style.padding = '30px';
-    questionDisplay.style.borderRadius = '20px';
-    questionDisplay.textContent = q.question;
-    gameArea.appendChild(questionDisplay);
-    
-    q.options.forEach((opt, index) => {
-      const optEl = document.createElement('div');
-      optEl.className = 'game-element option-box';
-      optEl.textContent = opt;
-      optEl.style.left = (index * 25) + 5 + '%';
-      optEl.style.top = '60%';
-      
-      optEl.onclick = function() {
-        if (parseInt(this.textContent) === q.answer) {
-          createParticle(this, '✓ +15', '#2ecc71');
-          player.score += 15;
-          gameScore += 15;
-          updateScoreDisplay();
-          savePlayerData();
-          
-          currentQ++;
-          
-          if (currentQ < questions.length) {
-            document.getElementById('gameInstruction').textContent = gameLanguage === 'tamil'
-              ? `📊 வாய்ப்பாட்டு கேள்வி ${currentQ + 1}/5`
-              : `📊 Table Question ${currentQ + 1}/5`;
-            loadQuestion();
-          } else {
-            document.getElementById('continueBtn').disabled = false;
-            player.score += 30;
-            gameScore += 30;
-            updateScoreDisplay();
-            savePlayerData();
-            document.getElementById('gameInstruction').textContent = gameLanguage === 'tamil'
-              ? '🎉 வாய்ப்பாட்டு வல்லுநர்! +30 புள்ளிகள்'
-              : '🎉 Tables Expert! +30 points';
-            gameArea.innerHTML = '<div style="position: absolute; top: 40%; left: 50%; transform: translateX(-50%); font-size: 60px;">🏆</div>';
-          }
-        } else {
-          createParticle(this, '❌', '#e74c3c');
-        }
-      };
-      
-      gameArea.appendChild(optEl);
-    });
-  }
-  
-  loadQuestion();
-}
-
-function startMathsAlgebraGame() {
-  const gameArea = document.getElementById('gameArea');
-  
-  const allEquations = [
-    { eq: 'x + 5 = 10', ans: '5' },
-    { eq: '2x = 8', ans: '4' },
-    { eq: 'x - 3 = 7', ans: '10' },
-    { eq: 'x/2 = 6', ans: '12' },
-    { eq: '3x = 15', ans: '5' },
-    { eq: 'x + 8 = 20', ans: '12' },
-    { eq: 'x - 5 = 9', ans: '14' },
-    { eq: '4x = 24', ans: '6' },
-    { eq: 'x/3 = 5', ans: '15' },
-    { eq: '2x + 1 = 11', ans: '5' },
-    { eq: '3x - 2 = 13', ans: '5' },
-    { eq: 'x + 12 = 20', ans: '8' },
-    { eq: '5x = 30', ans: '6' },
-    { eq: 'x/4 = 4', ans: '16' }
-  ];
-  
-  const shuffled = [...allEquations].sort(() => Math.random() - 0.5);
-  const questions = shuffled.slice(0, 10);
-  let currentQ = 0;
-  
-  const instruction = gameLanguage === 'tamil'
-    ? `🔢 இயற்கணிதம் கேள்வி 1/10`
-    : `🔢 Algebra Question 1/10`;
-  document.getElementById('gameInstruction').textContent = instruction;
-  
-  function loadQuestion() {
-    gameArea.innerHTML = '';
-    
-    const q = questions[currentQ];
-    
-    const eqDisplay = document.createElement('div');
-    eqDisplay.className = 'game-element';
-    eqDisplay.style.left = '50%';
-    eqDisplay.style.top = '30%';
-    eqDisplay.style.transform = 'translateX(-50%)';
-    eqDisplay.style.fontSize = '40px';
-    eqDisplay.style.background = 'linear-gradient(135deg, #FF6B6B, #FF8E53)';
-    eqDisplay.style.padding = '30px';
-    eqDisplay.style.borderRadius = '20px';
-    eqDisplay.textContent = q.eq;
-    gameArea.appendChild(eqDisplay);
-    
-    const options = [
-      q.ans,
-      (parseInt(q.ans) + Math.floor(Math.random() * 5) + 2).toString(),
-      (parseInt(q.ans) - Math.floor(Math.random() * 5) - 2).toString(),
-      (parseInt(q.ans) * 2).toString()
-    ].sort(() => Math.random() - 0.5);
-    
-    options.forEach((opt, index) => {
-      const optEl = document.createElement('div');
-      optEl.className = 'game-element option-box';
-      optEl.textContent = opt;
-      optEl.style.left = (index * 25) + 5 + '%';
-      optEl.style.top = '60%';
-      
-      optEl.onclick = function() {
-        if (this.textContent === q.ans) {
-          createParticle(this, '✓ +10', '#2ecc71');
-          player.score += 10;
-          gameScore += 10;
-          updateScoreDisplay();
-          savePlayerData();
-          
-          currentQ++;
-          
-          if (currentQ < questions.length) {
-            document.getElementById('gameInstruction').textContent = gameLanguage === 'tamil'
-              ? `🔢 இயற்கணிதம் கேள்வி ${currentQ + 1}/10`
-              : `🔢 Algebra Question ${currentQ + 1}/10`;
-            loadQuestion();
-          } else {
-            document.getElementById('continueBtn').disabled = false;
-            player.score += 50;
-            gameScore += 50;
-            updateScoreDisplay();
-            savePlayerData();
-            document.getElementById('gameInstruction').textContent = gameLanguage === 'tamil'
-              ? '🎉 இயற்கணித வல்லுநர்! +50 புள்ளிகள்'
-              : '🎉 Algebra Expert! +50 points';
-            gameArea.innerHTML = '<div style="position: absolute; top: 40%; left: 50%; transform: translateX(-50%); font-size: 60px;">🏆</div>';
-          }
-        } else {
-          createParticle(this, '❌', '#e74c3c');
-        }
-      };
-      
-      gameArea.appendChild(optEl);
-    });
-  }
-  
-  loadQuestion();
-}
-
-// ==================== SCIENCE GAMES ====================
-function startScienceSimonGame() {
-  const gameArea = document.getElementById('gameArea');
-  
-  const bodyParts = [
-    { name: 'nose', emoji: '👃', command: 'Touch your nose!' },
-    { name: 'eyes', emoji: '👀', command: 'Touch your eyes!' },
-    { name: 'ears', emoji: '👂', command: 'Touch your ears!' },
-    { name: 'mouth', emoji: '👄', command: 'Touch your mouth!' },
-    { name: 'head', emoji: '👤', command: 'Touch your head!' },
-    { name: 'hands', emoji: '✋', command: 'Show your hands!' }
-  ];
-  
-  let round = 0;
-  const totalRounds = 10;
-  let currentCommand = null;
-  
-  const instruction = gameLanguage === 'tamil'
-    ? `🧠 சைமன் சொல்கிறார்: சுற்று 1/${totalRounds}`
-    : `🧠 Simon Says: Round 1/${totalRounds}`;
-  document.getElementById('gameInstruction').textContent = instruction;
-  
-  function nextRound() {
-    if (round >= totalRounds) {
-      document.getElementById('continueBtn').disabled = false;
-      player.score += 30;
-      gameScore += 30;
-      updateScoreDisplay();
-      savePlayerData();
-      document.getElementById('gameInstruction').textContent = gameLanguage === 'tamil'
-        ? '🎉 அருமை! விளையாட்டு முடிந்தது! +30 புள்ளிகள்'
-        : '🎉 Great! Game Complete! +30 points';
-      gameArea.innerHTML = '<div style="position: absolute; top: 40%; left: 50%; transform: translateX(-50%); font-size: 60px;">🏆</div>';
-      return;
-    }
-    
-    gameArea.innerHTML = '';
-    
-    const randomIndex = Math.floor(Math.random() * bodyParts.length);
-    currentCommand = bodyParts[randomIndex];
-    
-    const simonDisplay = document.createElement('div');
-    simonDisplay.className = 'game-element';
-    simonDisplay.style.left = '50%';
-    simonDisplay.style.top = '15%';
-    simonDisplay.style.transform = 'translateX(-50%)';
-    simonDisplay.style.fontSize = '28px';
-    simonDisplay.style.background = 'linear-gradient(135deg, #4facfe, #00f2fe)';
-    simonDisplay.style.padding = '15px 25px';
-    simonDisplay.style.borderRadius = '50px';
-    simonDisplay.textContent = gameLanguage === 'tamil' 
-      ? `சைமன் சொல்கிறார்: ${currentCommand.command}`
-      : `Simon Says: ${currentCommand.command}`;
-    gameArea.appendChild(simonDisplay);
-    
-    const positions = [
-      { emoji: '👃', top: '35%', left: '50%', name: 'nose' },
-      { emoji: '👀', top: '25%', left: '40%', name: 'eyes' },
-      { emoji: '👀', top: '25%', left: '60%', name: 'eyes' },
-      { emoji: '👂', top: '30%', left: '30%', name: 'ears' },
-      { emoji: '👂', top: '30%', left: '70%', name: 'ears' },
-      { emoji: '👄', top: '40%', left: '50%', name: 'mouth' },
-      { emoji: '👤', top: '15%', left: '50%', name: 'head' },
-      { emoji: '✋', top: '55%', left: '30%', name: 'hands' },
-      { emoji: '✋', top: '55%', left: '70%', name: 'hands' }
-    ];
-    
-    positions.forEach((pos) => {
-      const part = document.createElement('div');
-      part.className = 'game-element simon-button';
-      part.textContent = pos.emoji;
-      part.style.left = pos.left;
-      part.style.top = pos.top;
-      part.style.width = '70px';
-      part.style.height = '70px';
-      part.style.fontSize = '40px';
-      part.dataset.part = pos.name;
-      
-      part.onclick = function() {
-        if (this.dataset.part === currentCommand.name || 
-            (currentCommand.name === 'eyes' && this.dataset.part === 'eyes') ||
-            (currentCommand.name === 'ears' && this.dataset.part === 'ears') ||
-            (currentCommand.name === 'hands' && this.dataset.part === 'hands')) {
-          createParticle(this, '✓ +5', '#2ecc71');
-          player.score += 5;
-          gameScore += 5;
-          updateScoreDisplay();
-          savePlayerData();
-          
-          round++;
-          document.getElementById('gameInstruction').textContent = gameLanguage === 'tamil'
-            ? `🧠 சைமன் சொல்கிறார்: சுற்று ${round + 1}/${totalRounds}`
-            : `🧠 Simon Says: Round ${round + 1}/${totalRounds}`;
-          nextRound();
-        } else {
-          createParticle(this, '❌', '#e74c3c');
-        }
-      };
-      
-      gameArea.appendChild(part);
-    });
-  }
-  
-  nextRound();
-}
-
-function startScienceBodyImagesGame() {
-  const gameArea = document.getElementById('gameArea');
-  
-  const bodyQuestions = [
-    { question: 'Which is the heart?', image: '❤️', options: ['❤️ Heart', '🧠 Brain', '🫁 Lungs', '👀 Eyes'], answer: '❤️ Heart' },
-    { question: 'Which is the brain?', image: '🧠', options: ['❤️ Heart', '🧠 Brain', '🫁 Lungs', '👀 Eyes'], answer: '🧠 Brain' },
-    { question: 'Which are the lungs?', image: '🫁', options: ['❤️ Heart', '🧠 Brain', '🫁 Lungs', '👀 Eyes'], answer: '🫁 Lungs' },
-    { question: 'Which are the eyes?', image: '👀', options: ['❤️ Heart', '🧠 Brain', '🫁 Lungs', '👀 Eyes'], answer: '👀 Eyes' },
-    { question: 'Which is the stomach?', image: '🫃', options: ['❤️ Heart', '🧠 Brain', '🫃 Stomach', '👂 Ears'], answer: '🫃 Stomach' },
-    { question: 'Which are the ears?', image: '👂', options: ['👂 Ears', '👃 Nose', '👄 Mouth', '✋ Hands'], answer: '👂 Ears' },
-    { question: 'Which is the nose?', image: '👃', options: ['👂 Ears', '👃 Nose', '👄 Mouth', '✋ Hands'], answer: '👃 Nose' },
-    { question: 'Which is the mouth?', image: '👄', options: ['👂 Ears', '👃 Nose', '👄 Mouth', '✋ Hands'], answer: '👄 Mouth' },
-    { question: 'Which are the hands?', image: '✋', options: ['✋ Hands', '🦶 Feet', '💪 Arms', '🦵 Legs'], answer: '✋ Hands' },
-    { question: 'Which are the feet?', image: '🦶', options: ['✋ Hands', '🦶 Feet', '💪 Arms', '🦵 Legs'], answer: '🦶 Feet' },
-    { question: 'Which are the arms?', image: '💪', options: ['✋ Hands', '🦶 Feet', '💪 Arms', '🦵 Legs'], answer: '💪 Arms' },
-    { question: 'Which are the legs?', image: '🦵', options: ['✋ Hands', '🦶 Feet', '💪 Arms', '🦵 Legs'], answer: '🦵 Legs' }
-  ];
-  
-  const shuffled = [...bodyQuestions].sort(() => Math.random() - 0.5);
-  const questions = shuffled.slice(0, 10);
-  let currentQ = 0;
-  
-  const instruction = gameLanguage === 'tamil'
-    ? `🔬 உடல் உறுப்புகள் கேள்வி 1/10`
-    : `🔬 Body Parts Question 1/10`;
-  document.getElementById('gameInstruction').textContent = instruction;
-  
-  function loadQuestion() {
-    gameArea.innerHTML = '';
-    
-    const q = questions[currentQ];
-    
-    const questionDisplay = document.createElement('div');
-    questionDisplay.className = 'game-element';
-    questionDisplay.style.left = '50%';
-    questionDisplay.style.top = '20%';
-    questionDisplay.style.transform = 'translateX(-50%)';
-    questionDisplay.style.fontSize = '70px';
-    questionDisplay.style.background = 'linear-gradient(135deg, #4facfe, #00f2fe)';
-    questionDisplay.style.padding = '15px 25px';
-    questionDisplay.style.borderRadius = '50px';
-    questionDisplay.textContent = q.image;
-    gameArea.appendChild(questionDisplay);
-    
-    const questionText = document.createElement('div');
-    questionText.className = 'game-element';
-    questionText.style.left = '50%';
-    questionText.style.top = '35%';
-    questionText.style.transform = 'translateX(-50%)';
-    questionText.style.fontSize = '24px';
-    questionText.style.background = 'rgba(0,0,0,0.3)';
-    questionText.style.padding = '10px';
-    questionText.style.borderRadius = '10px';
-    questionText.textContent = q.question;
-    gameArea.appendChild(questionText);
-    
-    const options = [...q.options].sort(() => Math.random() - 0.5);
-    
-    options.forEach((opt, index) => {
-      const optEl = document.createElement('div');
-      optEl.className = 'game-element option-box';
-      optEl.textContent = opt;
-      optEl.style.left = (index * 25) + 5 + '%';
-      optEl.style.top = '55%';
-      optEl.style.fontSize = '18px';
-      
-      optEl.onclick = function() {
-        if (this.textContent === q.answer) {
-          createParticle(this, '✓ +10', '#2ecc71');
-          player.score += 10;
-          gameScore += 10;
-          updateScoreDisplay();
-          savePlayerData();
-          
-          currentQ++;
-          
-          if (currentQ < questions.length) {
-            document.getElementById('gameInstruction').textContent = gameLanguage === 'tamil'
-              ? `🔬 உடல் உறுப்புகள் கேள்வி ${currentQ + 1}/10`
-              : `🔬 Body Parts Question ${currentQ + 1}/10`;
-            loadQuestion();
-          } else {
-            document.getElementById('continueBtn').disabled = false;
-            player.score += 50;
-            gameScore += 50;
-            updateScoreDisplay();
-            savePlayerData();
-            document.getElementById('gameInstruction').textContent = gameLanguage === 'tamil'
-              ? '🎉 உடற்கூறியல் வல்லுநர்! +50 புள்ளிகள்'
-              : '🎉 Anatomy Expert! +50 points';
-            gameArea.innerHTML = '<div style="position: absolute; top: 40%; left: 50%; transform: translateX(-50%); font-size: 60px;">🏆</div>';
-          }
-        } else {
-          createParticle(this, '❌', '#e74c3c');
-        }
-      };
-      
-      gameArea.appendChild(optEl);
-    });
-  }
-  
-  loadQuestion();
-}
-
-function startSciencePhysicsGame() {
-  const gameArea = document.getElementById('gameArea');
-  
-  const physics = [
-    { term: 'Force', unit: 'Newton' },
-    { term: 'Energy', unit: 'Joule' },
-    { term: 'Power', unit: 'Watt' },
-    { term: 'Pressure', unit: 'Pascal' },
-    { term: 'Current', unit: 'Ampere' }
-  ];
-  
-  let current = physics[Math.floor(Math.random() * physics.length)];
-  let questionCount = 0;
-  const maxQuestions = 5;
-  
-  const instruction = gameLanguage === 'tamil'
-    ? `⚡ பொருத்தவும்: ${current.term} - அலகு?`
-    : `⚡ Match: ${current.term} - Unit?`;
-  document.getElementById('gameInstruction').textContent = instruction;
-  
-  const termDisplay = document.createElement('div');
-  termDisplay.className = 'game-element';
-  termDisplay.style.left = '50%';
-  termDisplay.style.top = '30%';
-  termDisplay.style.transform = 'translateX(-50%)';
-  termDisplay.style.background = 'linear-gradient(135deg, #4facfe, #00f2fe)';
-  termDisplay.style.padding = '20px';
-  termDisplay.style.borderRadius = '15px';
-  termDisplay.textContent = current.term;
-  gameArea.appendChild(termDisplay);
-  
-  const options = physics.map(p => p.unit);
-  options.sort(() => Math.random() - 0.5);
-  
-  options.forEach((opt, index) => {
-    const card = document.createElement('div');
-    card.className = 'game-element';
-    card.textContent = opt;
-    card.style.left = (index * 20) + 5 + '%';
-    card.style.top = '60%';
-    card.style.fontSize = '22px';
-    card.style.background = 'rgba(79,172,254,0.5)';
-    card.style.padding = '12px 15px';
-    card.style.borderRadius = '10px';
-    
-    card.onclick = function() {
-      if (this.textContent === current.unit) {
-        createParticle(this, '✓ +10', '#2ecc71');
-        player.score += 10;
-        gameScore += 10;
-        updateScoreDisplay();
-        savePlayerData();
-        
-        questionCount++;
-        
-        if (questionCount < maxQuestions) {
-          current = physics[Math.floor(Math.random() * physics.length)];
-          termDisplay.textContent = current.term;
-          document.getElementById('gameInstruction').textContent = 
-            gameLanguage === 'tamil' ? `⚡ பொருத்தவும்: ${current.term} - அலகு?` : `⚡ Match: ${current.term} - Unit?`;
-          
-          const newOptions = physics.map(p => p.unit);
-          newOptions.sort(() => Math.random() - 0.5);
-          
-          document.querySelectorAll('#gameArea .game-element').forEach((el, idx) => {
-            if (idx > 0) el.textContent = newOptions[idx-1];
-          });
-        } else {
-          document.getElementById('continueBtn').disabled = false;
-          player.score += 30;
-          gameScore += 30;
-          updateScoreDisplay();
-          savePlayerData();
-          document.getElementById('gameInstruction').textContent = gameLanguage === 'tamil'
-            ? '🎉 இயற்பியல் வல்லுநர்! +30 புள்ளிகள்'
-            : '🎉 Physics Expert! +30 points';
-          gameArea.innerHTML = '<div style="position: absolute; top: 40%; left: 50%; transform: translateX(-50%); font-size: 60px;">🏆</div>';
-        }
-      } else {
-        createParticle(this, '❌', '#e74c3c');
+ 
+  function createFruit() {
+    if (!gameRunning || caughtCount >= totalFruits) return;
+   
+    const fruitsList = ['🍎', '🍌', '🍊', '🍒', '🥝', '🍓', '🍉', '🍑'];
+    const fruit = document.createElement('div');
+    fruit.className = 'game-element';
+    fruit.textContent = fruitsList[Math.floor(Math.random() * fruitsList.length)];
+    fruit.style.left = Math.random() * 85 + 5 + '%';
+    fruit.style.top = '-5%';
+    fruit.style.fontSize = '50px';
+    fruit.style.filter = 'drop-shadow(0 5px 10px rgba(0,0,0,0.3))';
+    fruit.style.cursor = 'pointer';
+   
+    let posY = -5;
+    const fallSpeed = 0.5 + Math.random();
+   
+    const fallInterval = setInterval(() => {
+      if (!gameRunning || caughtCount >= totalFruits) {
+        clearInterval(fallInterval);
+        if (fruit.parentNode) fruit.remove();
+        return;
       }
-    };
-    
-    gameArea.appendChild(card);
-  });
-}
-
-// ==================== ENGLISH GAMES ====================
-function startEnglishWhackGame() {
-  const gameArea = document.getElementById('gameArea');
-  
-  const animals = ['🐶', '🐱', '🐭', '🐸', '🐷', '🐮', '🐔', '🐦', '🐟', '🦁'];
-  let round = 0;
-  const totalRounds = 10;
-  let currentAnimal = null;
-  
-  const instruction = gameLanguage === 'tamil'
-    ? `🐭 விலங்கைத் தட்டவும்: சுற்று 1/${totalRounds}`
-    : `🐭 Whack the animal: Round 1/${totalRounds}`;
-  document.getElementById('gameInstruction').textContent = instruction;
-  
-  function nextRound() {
-    if (round >= totalRounds) {
-      document.getElementById('continueBtn').disabled = false;
-      player.score += 30;
-      gameScore += 30;
-      updateScoreDisplay();
-      savePlayerData();
-      document.getElementById('gameInstruction').textContent = gameLanguage === 'tamil'
-        ? '🎉 அருமை! விளையாட்டு முடிந்தது! +30 புள்ளிகள்'
-        : '🎉 Great! Game Complete! +30 points';
-      gameArea.innerHTML = '<div style="position: absolute; top: 40%; left: 50%; transform: translateX(-50%); font-size: 60px;">🏆</div>';
-      return;
-    }
-    
-    gameArea.innerHTML = '';
-    
-    currentAnimal = animals[Math.floor(Math.random() * animals.length)];
-    
-    const targetDisplay = document.createElement('div');
-    targetDisplay.className = 'game-element';
-    targetDisplay.style.left = '50%';
-    targetDisplay.style.top = '10%';
-    targetDisplay.style.transform = 'translateX(-50%)';
-    targetDisplay.style.fontSize = '40px';
-    targetDisplay.style.background = 'linear-gradient(135deg, #FFD700, #FFA500)';
-    targetDisplay.style.padding = '15px 25px';
-    targetDisplay.style.borderRadius = '50px';
-    targetDisplay.style.whiteSpace = 'nowrap';
-    targetDisplay.textContent = gameLanguage === 'tamil'
-      ? `தேடுங்கள்: ${currentAnimal}`
-      : `Find: ${currentAnimal}`;
-    gameArea.appendChild(targetDisplay);
-    
-    for (let i = 0; i < 8; i++) {
-      const mole = document.createElement('div');
-      mole.className = 'whack-mole game-element';
-      
-      const left = 10 + Math.random() * 70;
-      const top = 20 + Math.random() * 50;
-      
-      mole.style.left = left + '%';
-      mole.style.top = top + '%';
-      mole.style.fontSize = '45px';
-      
-      let moleAnimal;
-      if (i < 3) {
-        moleAnimal = currentAnimal;
-      } else {
-        moleAnimal = animals[Math.floor(Math.random() * animals.length)];
-      }
-      
-      mole.textContent = moleAnimal;
-      mole.dataset.animal = moleAnimal;
-      
-      mole.onclick = function() {
-        if (this.dataset.animal === currentAnimal) {
-          createParticle(this, '+10 ⭐', '#FFD700');
-          player.score += 10;
-          gameScore += 10;
-          updateScoreDisplay();
-          savePlayerData();
-          
-          round++;
-          document.getElementById('gameInstruction').textContent = gameLanguage === 'tamil'
-            ? `🐭 விலங்கைத் தட்டவும்: சுற்று ${round + 1}/${totalRounds}`
-            : `🐭 Whack the animal: Round ${round + 1}/${totalRounds}`;
-          nextRound();
-        } else {
-          createParticle(this, '❌', '#e74c3c');
-        }
-      };
-      
-      gameArea.appendChild(mole);
-    }
-  }
-  
-  nextRound();
-}
-
-function startEnglishOppositesGame() {
-  const gameArea = document.getElementById('gameArea');
-  
-  const allOpposites = [
-    { word: 'HOT', opposite: 'COLD', options: ['HOT', 'COLD', 'WARM', 'COOL'] },
-    { word: 'BIG', opposite: 'SMALL', options: ['BIG', 'SMALL', 'LARGE', 'TINY'] },
-    { word: 'FAST', opposite: 'SLOW', options: ['FAST', 'SLOW', 'QUICK', 'RAPID'] },
-    { word: 'HAPPY', opposite: 'SAD', options: ['HAPPY', 'SAD', 'GLAD', 'JOYFUL'] },
-    { word: 'GOOD', opposite: 'BAD', options: ['GOOD', 'BAD', 'GREAT', 'POOR'] },
-    { word: 'DAY', opposite: 'NIGHT', options: ['DAY', 'NIGHT', 'MORNING', 'EVENING'] },
-    { word: 'LIGHT', opposite: 'DARK', options: ['LIGHT', 'DARK', 'BRIGHT', 'DIM'] },
-    { word: 'UP', opposite: 'DOWN', options: ['UP', 'DOWN', 'ABOVE', 'BELOW'] },
-    { word: 'IN', opposite: 'OUT', options: ['IN', 'OUT', 'INSIDE', 'OUTSIDE'] },
-    { word: 'NEW', opposite: 'OLD', options: ['NEW', 'OLD', 'FRESH', 'ANCIENT'] },
-    { word: 'YOUNG', opposite: 'OLD', options: ['YOUNG', 'OLD', 'BABY', 'AGED'] },
-    { word: 'RICH', opposite: 'POOR', options: ['RICH', 'POOR', 'WEALTHY', 'BROKE'] }
-  ];
-  
-  const shuffled = [...allOpposites].sort(() => Math.random() - 0.5);
-  const questions = shuffled.slice(0, 10);
-  let currentQ = 0;
-  
-  const instruction = gameLanguage === 'tamil'
-    ? `🔄 எதிர்ச்சொல் கேள்வி 1/10`
-    : `🔄 Opposites Question 1/10`;
-  document.getElementById('gameInstruction').textContent = instruction;
-  
-  function loadQuestion() {
-    gameArea.innerHTML = '';
-    
-    const q = questions[currentQ];
-    
-    const wordDisplay = document.createElement('div');
-    wordDisplay.className = 'game-element';
-    wordDisplay.style.left = '50%';
-    wordDisplay.style.top = '30%';
-    wordDisplay.style.transform = 'translateX(-50%)';
-    wordDisplay.style.fontSize = '40px';
-    wordDisplay.style.background = 'linear-gradient(135deg, #43e97b, #38f9d7)';
-    wordDisplay.style.padding = '30px';
-    wordDisplay.style.borderRadius = '20px';
-    wordDisplay.textContent = q.word;
-    gameArea.appendChild(wordDisplay);
-    
-    const options = [...q.options].sort(() => Math.random() - 0.5);
-    
-    options.forEach((opt, index) => {
-      const optEl = document.createElement('div');
-      optEl.className = 'game-element option-box';
-      optEl.textContent = opt;
-      optEl.style.left = (index * 25) + 5 + '%';
-      optEl.style.top = '60%';
-      
-      optEl.onclick = function() {
-        if (this.textContent === q.opposite) {
-          createParticle(this, '✓ +10', '#2ecc71');
-          player.score += 10;
-          gameScore += 10;
-          updateScoreDisplay();
-          savePlayerData();
-          
-          currentQ++;
-          
-          if (currentQ < questions.length) {
-            document.getElementById('gameInstruction').textContent = gameLanguage === 'tamil'
-              ? `🔄 எதிர்ச்சொல் கேள்வி ${currentQ + 1}/10`
-              : `🔄 Opposites Question ${currentQ + 1}/10`;
-            loadQuestion();
-          } else {
-            document.getElementById('continueBtn').disabled = false;
-            player.score += 50;
-            gameScore += 50;
-            updateScoreDisplay();
-            savePlayerData();
-            document.getElementById('gameInstruction').textContent = gameLanguage === 'tamil'
-              ? '🎉 எதிர்ச்சொல் வல்லுநர்! +50 புள்ளிகள்'
-              : '🎉 Opposites Expert! +50 points';
-            gameArea.innerHTML = '<div style="position: absolute; top: 40%; left: 50%; transform: translateX(-50%); font-size: 60px;">🏆</div>';
-          }
-        } else {
-          createParticle(this, '❌', '#e74c3c');
-        }
-      };
-      
-      gameArea.appendChild(optEl);
-    });
-  }
-  
-  loadQuestion();
-}
-
-function startEnglishGrammarGame() {
-  const gameArea = document.getElementById('gameArea');
-  
-  const allGrammar = [
-    { sentence: 'She ___ to school', options: ['go', 'goes', 'going', 'went'], answer: 'goes' },
-    { sentence: 'They ___ playing', options: ['is', 'am', 'are', 'be'], answer: 'are' },
-    { sentence: 'I ___ a student', options: ['is', 'am', 'are', 'be'], answer: 'am' },
-    { sentence: 'He ___ eaten', options: ['has', 'have', 'is', 'are'], answer: 'has' },
-    { sentence: 'We ___ happy', options: ['is', 'am', 'are', 'be'], answer: 'are' },
-    { sentence: '___ you like ice cream?', options: ['Do', 'Does', 'Is', 'Are'], answer: 'Do' },
-    { sentence: 'She ___ not here', options: ['is', 'am', 'are', 'be'], answer: 'is' },
-    { sentence: 'They ___ finished', options: ['has', 'have', 'is', 'are'], answer: 'have' },
-    { sentence: '___ he play cricket?', options: ['Do', 'Does', 'Is', 'Are'], answer: 'Does' },
-    { sentence: 'I ___ watching TV', options: ['is', 'am', 'are', 'be'], answer: 'am' },
-    { sentence: 'We ___ going to school', options: ['is', 'am', 'are', 'be'], answer: 'are' },
-    { sentence: 'It ___ raining', options: ['is', 'am', 'are', 'be'], answer: 'is' }
-  ];
-  
-  const shuffled = [...allGrammar].sort(() => Math.random() - 0.5);
-  const questions = shuffled.slice(0, 10);
-  let currentQ = 0;
-  
-  const instruction = gameLanguage === 'tamil'
-    ? `📝 இலக்கணம் கேள்வி 1/10`
-    : `📝 Grammar Question 1/10`;
-  document.getElementById('gameInstruction').textContent = instruction;
-  
-  function loadQuestion() {
-    gameArea.innerHTML = '';
-    
-    const q = questions[currentQ];
-    
-    const sentenceDisplay = document.createElement('div');
-    sentenceDisplay.className = 'game-element';
-    sentenceDisplay.style.left = '50%';
-    sentenceDisplay.style.top = '30%';
-    sentenceDisplay.style.transform = 'translateX(-50%)';
-    sentenceDisplay.style.fontSize = '28px';
-    sentenceDisplay.style.background = 'linear-gradient(135deg, #667eea, #764ba2)';
-    sentenceDisplay.style.padding = '25px';
-    sentenceDisplay.style.borderRadius = '20px';
-    sentenceDisplay.textContent = q.sentence;
-    gameArea.appendChild(sentenceDisplay);
-    
-    const options = [...q.options].sort(() => Math.random() - 0.5);
-    
-    options.forEach((opt, index) => {
-      const optEl = document.createElement('div');
-      optEl.className = 'game-element option-box';
-      optEl.textContent = opt;
-      optEl.style.left = (index * 25) + 5 + '%';
-      optEl.style.top = '60%';
-      
-      optEl.onclick = function() {
-        if (this.textContent === q.answer) {
-          createParticle(this, '✓ +10', '#2ecc71');
-          player.score += 10;
-          gameScore += 10;
-          updateScoreDisplay();
-          savePlayerData();
-          
-          currentQ++;
-          
-          if (currentQ < questions.length) {
-            document.getElementById('gameInstruction').textContent = gameLanguage === 'tamil'
-              ? `📝 இலக்கணம் கேள்வி ${currentQ + 1}/10`
-              : `📝 Grammar Question ${currentQ + 1}/10`;
-            loadQuestion();
-          } else {
-            document.getElementById('continueBtn').disabled = false;
-            player.score += 50;
-            gameScore += 50;
-            updateScoreDisplay();
-            savePlayerData();
-            document.getElementById('gameInstruction').textContent = gameLanguage === 'tamil'
-              ? '🎉 இலக்கண வல்லுநர்! +50 புள்ளிகள்'
-              : '🎉 Grammar Expert! +50 points';
-            gameArea.innerHTML = '<div style="position: absolute; top: 40%; left: 50%; transform: translateX(-50%); font-size: 60px;">🏆</div>';
-          }
-        } else {
-          createParticle(this, '❌', '#e74c3c');
-        }
-      };
-      
-      gameArea.appendChild(optEl);
-    });
-  }
-  
-  loadQuestion();
-}
-
-// ==================== SOCIAL GAMES ====================
-function startSocialTreasureHuntGame() {
-  const gameArea = document.getElementById('gameArea');
-  
-  const treasures = [
-    { emoji: '💎', name: 'Diamond', found: false },
-    { emoji: '👑', name: 'Crown', found: false },
-    { emoji: '⚱️', name: 'Treasure Chest', found: false },
-    { emoji: '🔑', name: 'Golden Key', found: false },
-    { emoji: '📜', name: 'Ancient Scroll', found: false },
-    { emoji: '🏺', name: 'Amphora', found: false },
-    { emoji: '🪙', name: 'Gold Coin', found: false },
-    { emoji: '💍', name: 'Ring', found: false },
-    { emoji: '🔮', name: 'Crystal Ball', found: false },
-    { emoji: '⚜️', name: 'Fleur de Lis', found: false },
-    { emoji: '💶', name: 'Gold Bar', found: false },
-    { emoji: '💷', name: 'Treasure Map', found: false },
-    { emoji: '💴', name: 'Ancient Coin', found: false },
-    { emoji: '💵', name: 'Money Bag', found: false },
-    { emoji: '💎', name: 'Ruby', found: false },
-    { emoji: '👑', name: 'Tiara', found: false }
-  ];
-  
-  let score = 0;
-  const target = 15;
-  let foundCount = 0;
-  
-  const instruction = gameLanguage === 'tamil'
-    ? '💎 15 புதையல்களை கண்டுபிடி!'
-    : '💎 Find 15 hidden treasures!';
-  document.getElementById('gameInstruction').textContent = instruction;
-  
-  const mapDisplay = document.createElement('div');
-  mapDisplay.className = 'treasure-map';
-  mapDisplay.textContent = gameLanguage === 'tamil'
-    ? `🗺️ கண்டுபிடித்தவை: 0/${target}`
-    : `🗺️ Found: 0/${target}`;
-  gameArea.appendChild(mapDisplay);
-  
-  function placeTreasures() {
-    gameArea.innerHTML = '';
-    gameArea.appendChild(mapDisplay);
-    
-    for (let i = 0; i < treasures.length; i++) {
-      const treasure = document.createElement('div');
-      treasure.className = 'treasure-item';
-      treasure.textContent = treasures[i].emoji;
-      treasure.style.left = Math.random() * 80 + 10 + '%';
-      treasure.style.top = Math.random() * 60 + 15 + '%';
-      treasure.style.fontSize = '45px';
-      treasure.style.animation = `treasureFloat ${3 + Math.random() * 3}s infinite alternate`;
-      treasure.dataset.index = i;
-      treasure.dataset.found = 'false';
-      treasure.dataset.name = treasures[i].name;
-      
-      treasure.onclick = function() {
-        if (this.dataset.found === 'true') return;
-        
-        this.dataset.found = 'true';
-        this.classList.add('found');
-        foundCount++;
-        treasures[this.dataset.index].found = true;
-        
-        createParticle(this, '+5 💎', '#FFD700');
-        
+     
+      posY += fallSpeed;
+      fruit.style.top = posY + '%';
+     
+      const basketRect = basket.getBoundingClientRect();
+      const fruitRect = fruit.getBoundingClientRect();
+     
+      if (fruitRect.bottom >= basketRect.top - 20 &&
+          fruitRect.bottom <= basketRect.bottom + 20 &&
+          fruitRect.left > basketRect.left - 40 &&
+          fruitRect.right < basketRect.right + 40) {
+       
+        clearInterval(fallInterval);
+        fruit.remove();
+       
+        caughtCount++;
         player.score += 5;
         gameScore += 5;
         updateScoreDisplay();
         savePlayerData();
-        
-        mapDisplay.textContent = gameLanguage === 'tamil'
-          ? `🗺️ கண்டுபிடித்தவை: ${foundCount}/${target}`
-          : `🗺️ Found: ${foundCount}/${target}`;
-        
-        document.getElementById('gameInstruction').textContent = gameLanguage === 'tamil'
-          ? `💎 ${foundCount}/${target} புதையல்கள் கிடைத்தன!`
-          : `💎 Found ${foundCount}/${target} treasures!`;
-        
-        if (foundCount >= target) {
+       
+        const plus = document.createElement('div');
+        plus.className = 'game-element';
+        plus.textContent = '+5 🍎';
+        plus.style.left = fruit.style.left;
+        plus.style.top = (posY - 5) + '%';
+        plus.style.fontSize = '30px';
+        plus.style.color = '#FFD700';
+        plus.style.animation = 'particleFloat 0.8s forwards';
+        plus.style.pointerEvents = 'none';
+        gameArea.appendChild(plus);
+        setTimeout(() => plus.remove(), 800);
+       
+        basket.style.transform = 'scale(1.1)';
+        setTimeout(() => basket.style.transform = 'scale(1)', 100);
+       
+        document.getElementById('gameInstruction').textContent =
+          gameLanguage === 'tamil'
+            ? `🍎 பிடித்தவை: ${caughtCount}/${totalFruits} பழங்கள்`
+            : `🍎 Caught: ${caughtCount}/${totalFruits} fruits`;
+       
+        if (caughtCount >= totalFruits) {
+          gameRunning = false;
+          setTimeout(() => {
+            gameArea.innerHTML = '';
+            for (let i = 0; i < 70; i++) {
+              setTimeout(() => {
+                const confetti = document.createElement('div');
+                confetti.textContent = ['🍎', '🍌', '🍊', '🎉', '✨', '🏆'][Math.floor(Math.random() * 6)];
+                confetti.style.position = 'absolute';
+                confetti.style.left = Math.random() * 100 + '%';
+                confetti.style.top = Math.random() * 100 + '%';
+                confetti.style.fontSize = (30 + Math.random() * 40) + 'px';
+                confetti.style.animation = 'particleFloat 2s forwards';
+                confetti.style.pointerEvents = 'none';
+                gameArea.appendChild(confetti);
+                setTimeout(() => confetti.remove(), 2000);
+              }, i * 40);
+            }
+            document.getElementById('continueBtn').disabled = false;
+            player.score += 50;
+            gameScore += 50;
+            updateScoreDisplay();
+            savePlayerData();
+            document.getElementById('gameInstruction').textContent =
+              gameLanguage === 'tamil'
+                ? '🎉 வாழ்த்துக்கள்! எல்லா பழங்களையும் பிடிச்சிட்டீங்க! +50 புள்ளிகள்'
+                : '🎉 Congratulations! You caught all fruits! +50 points';
+            const trophy = document.createElement('div');
+            trophy.style.position = 'absolute';
+            trophy.style.top = '40%';
+            trophy.style.left = '50%';
+            trophy.style.transform = 'translateX(-50%)';
+            trophy.style.fontSize = '100px';
+            trophy.textContent = '🏆';
+            trophy.style.animation = 'treasureFloat 0.5s infinite alternate';
+            gameArea.appendChild(trophy);
+          }, 500);
+        }
+      }
+     
+      if (posY >= 95) {
+        clearInterval(fallInterval);
+        fruit.remove();
+      }
+    }, 50);
+   
+    gameArea.appendChild(fruit);
+  }
+ 
+  const fruitInterval = setInterval(() => {
+    if (gameRunning && caughtCount < totalFruits) {
+      createFruit();
+    }
+  }, 700);
+ 
+  setTimeout(() => {
+    clearInterval(fruitInterval);
+  }, totalFruits * 1500);
+}
+
+// ==================== LEVEL 2 - MEDIUM: WHACK-A-MOLE GAME ====================
+function startWhackMoleGame() {
+  const gameArea = document.getElementById('gameArea');
+  const totalMoles = 15;
+  let whackedCount = 0;
+  let activeMoles = 0;
+  let gameActive = true;
+  let activeMoleTimeouts = [];
+  let moleInterval = null;
+ 
+  const instruction = gameLanguage === 'tamil'
+    ? `🐭 ${pdfSubjectName || 'PDF'} - எலிகளை தட்டுங்கள்! ${totalMoles} எலிகள்`
+    : `🐭 ${pdfSubjectName || 'PDF'} - Whack the Moles! ${totalMoles} Moles`;
+  document.getElementById('gameInstruction').textContent = instruction;
+ 
+  const animals = ['🐭', '🐹', '🐰', '🦊', '🐻', '🐼', '🐨', '🐸'];
+ 
+  const holes = [];
+  for (let i = 0; i < 9; i++) {
+    const hole = document.createElement('div');
+    hole.className = 'game-element';
+    hole.textContent = '🕳️';
+    hole.style.left = (10 + (i % 3) * 28) + '%';
+    hole.style.top = (20 + Math.floor(i / 3) * 28) + '%';
+    hole.style.fontSize = '65px';
+    hole.style.opacity = '0.8';
+    hole.style.filter = 'drop-shadow(0 5px 8px rgba(0,0,0,0.3))';
+    gameArea.appendChild(hole);
+    holes.push(hole);
+  }
+ 
+  function showMole() {
+    if (!gameActive || whackedCount >= totalMoles) return;
+    if (activeMoles >= 3) return;
+   
+    const randomHole = holes[Math.floor(Math.random() * holes.length)];
+    const animal = animals[Math.floor(Math.random() * animals.length)];
+   
+    const mole = document.createElement('div');
+    mole.className = 'game-element';
+    mole.textContent = animal;
+    mole.style.left = randomHole.style.left;
+    mole.style.top = randomHole.style.top;
+    mole.style.fontSize = '60px';
+    mole.style.animation = 'molePop 0.2s ease-out';
+    mole.style.cursor = 'pointer';
+    mole.style.zIndex = '30';
+    mole.style.filter = 'drop-shadow(0 5px 10px rgba(0,0,0,0.3))';
+    mole.dataset.whacked = 'false';
+   
+    activeMoles++;
+   
+    mole.onclick = (e) => {
+      e.stopPropagation();
+      if (!gameActive || mole.dataset.whacked === 'true') return;
+     
+      mole.dataset.whacked = 'true';
+      whackedCount++;
+      activeMoles--;
+     
+      player.score += 5;
+      gameScore += 5;
+      updateScoreDisplay();
+      savePlayerData();
+     
+      mole.style.transform = 'scale(0.3)';
+      mole.style.opacity = '0';
+      setTimeout(() => mole.remove(), 100);
+     
+      const smash = document.createElement('div');
+      smash.textContent = '💥';
+      smash.style.position = 'absolute';
+      smash.style.left = randomHole.style.left;
+      smash.style.top = randomHole.style.top;
+      smash.style.fontSize = '45px';
+      smash.style.animation = 'particleFloat 0.5s forwards';
+      smash.style.pointerEvents = 'none';
+      gameArea.appendChild(smash);
+      setTimeout(() => smash.remove(), 500);
+     
+      document.getElementById('gameInstruction').textContent =
+        gameLanguage === 'tamil'
+          ? `🐭 தட்டியவை: ${whackedCount}/${totalMoles} எலிகள்`
+          : `🐭 Whacked: ${whackedCount}/${totalMoles} moles`;
+     
+      if (whackedCount >= totalMoles) {
+        gameActive = false;
+        activeMoleTimeouts.forEach(clearTimeout);
+       
+        setTimeout(() => {
+          gameArea.innerHTML = '';
+          for (let i = 0; i < 70; i++) {
+            setTimeout(() => {
+              const confetti = document.createElement('div');
+              confetti.textContent = ['🐭', '🎉', '✨', '🏆', '💥', '🎊'][Math.floor(Math.random() * 6)];
+              confetti.style.position = 'absolute';
+              confetti.style.left = Math.random() * 100 + '%';
+              confetti.style.top = Math.random() * 100 + '%';
+              confetti.style.fontSize = (30 + Math.random() * 40) + 'px';
+              confetti.style.animation = 'particleFloat 2s forwards';
+              confetti.style.pointerEvents = 'none';
+              gameArea.appendChild(confetti);
+              setTimeout(() => confetti.remove(), 2000);
+            }, i * 35);
+          }
           document.getElementById('continueBtn').disabled = false;
           player.score += 50;
           gameScore += 50;
           updateScoreDisplay();
           savePlayerData();
-          document.getElementById('gameInstruction').textContent = gameLanguage === 'tamil'
-            ? '🎉 அருமை! புதையல் வேட்டை முடிந்தது! +50 புள்ளிகள்'
-            : '🎉 Great! Treasure Hunt Complete! +50 points';
-          
-          gameArea.innerHTML = '<div style="position: absolute; top: 40%; left: 50%; transform: translateX(-50%); font-size: 60px;">🏆</div>';
-          for (let i = 0; i < 10; i++) {
+          document.getElementById('gameInstruction').textContent =
+            gameLanguage === 'tamil'
+              ? '🎉 வாழ்த்துக்கள்! எல்லா எலிகளையும் தட்டிட்டீங்க! +50 புள்ளிகள்'
+              : '🎉 Congratulations! You whacked all moles! +50 points';
+          const trophy = document.createElement('div');
+          trophy.style.position = 'absolute';
+          trophy.style.top = '40%';
+          trophy.style.left = '50%';
+          trophy.style.transform = 'translateX(-50%)';
+          trophy.style.fontSize = '100px';
+          trophy.textContent = '🏆';
+          trophy.style.animation = 'treasureFloat 0.5s infinite alternate';
+          gameArea.appendChild(trophy);
+        }, 500);
+      }
+    };
+   
+    gameArea.appendChild(mole);
+   
+    const timeout = setTimeout(() => {
+      if (mole.parentNode && mole.dataset.whacked !== 'true') {
+        mole.remove();
+        activeMoles--;
+      }
+    }, 1800);
+    activeMoleTimeouts.push(timeout);
+  }
+ 
+  function startMoles() {
+    if (moleInterval) clearInterval(moleInterval);
+    moleInterval = setInterval(() => {
+      if (gameActive && whackedCount < totalMoles) {
+        showMole();
+      } else if (whackedCount >= totalMoles) {
+        if (moleInterval) {
+          clearInterval(moleInterval);
+          moleInterval = null;
+        }
+      }
+    }, 900);
+  }
+ 
+  startMoles();
+ 
+  setTimeout(() => {
+    if (whackedCount >= totalMoles && moleInterval) {
+      clearInterval(moleInterval);
+    }
+  }, totalMoles * 2000);
+}
+
+// ==================== LEVEL 3 - HARD: SPACE SHOOTER GAME ====================
+function startSpaceShooterGame() {
+  const gameArea = document.getElementById('gameArea');
+  const totalAliens = 18;
+  let shotCount = 0;
+ 
+  const instruction = gameLanguage === 'tamil'
+    ? `🚀 ${pdfSubjectName || 'PDF'} - அன்னியர்களை சுடுங்கள்! ${totalAliens} அன்னியர்கள்`
+    : `🚀 ${pdfSubjectName || 'PDF'} - Shoot the Aliens! ${totalAliens} Aliens`;
+  document.getElementById('gameInstruction').textContent = instruction;
+ 
+  let gameActive = true;
+  const aliensList = ['👾', '👽', '🛸', '🤖', '👻', '💀', '🎯', '⭐', '🪐', '🌙'];
+ 
+  for (let i = 0; i < totalAliens; i++) {
+    const alien = document.createElement('div');
+    alien.className = 'game-element';
+    alien.textContent = aliensList[Math.floor(Math.random() * aliensList.length)];
+    alien.style.left = (5 + Math.random() * 85) + '%';
+    alien.style.top = (10 + Math.random() * 50) + '%';
+    alien.style.fontSize = (50 + Math.random() * 30) + 'px';
+    alien.style.animation = `treasureFloat ${1.5 + Math.random() * 2}s infinite alternate`;
+    alien.style.cursor = 'crosshair';
+    alien.style.filter = 'drop-shadow(0 0 12px purple)';
+    alien.style.transition = 'all 0.1s';
+    alien.dataset.hit = 'false';
+   
+    let moveX = (Math.random() - 0.5) * 0.3;
+    let moveY = (Math.random() - 0.5) * 0.3;
+    let posX = parseFloat(alien.style.left);
+    let posY = parseFloat(alien.style.top);
+   
+    const moveInterval = setInterval(() => {
+      if (!gameActive || alien.dataset.hit === 'true') return;
+      posX += moveX;
+      posY += moveY;
+      if (posX < 2) { posX = 2; moveX = -moveX; }
+      if (posX > 92) { posX = 92; moveX = -moveX; }
+      if (posY < 2) { posY = 2; moveY = -moveY; }
+      if (posY > 75) { posY = 75; moveY = -moveY; }
+      alien.style.left = posX + '%';
+      alien.style.top = posY + '%';
+    }, 100);
+   
+    alien.onclick = (e) => {
+      e.stopPropagation();
+      if (!gameActive || alien.dataset.hit === 'true') return;
+     
+      alien.dataset.hit = 'true';
+      shotCount++;
+      clearInterval(moveInterval);
+     
+      alien.style.transform = 'scale(0)';
+      alien.style.opacity = '0';
+     
+      const explosion = document.createElement('div');
+      explosion.textContent = '💥';
+      explosion.style.position = 'absolute';
+      explosion.style.left = alien.style.left;
+      explosion.style.top = alien.style.top;
+      explosion.style.fontSize = '55px';
+      explosion.style.animation = 'particleFloat 0.6s forwards';
+      explosion.style.pointerEvents = 'none';
+      gameArea.appendChild(explosion);
+      setTimeout(() => explosion.remove(), 600);
+     
+      player.score += 5;
+      gameScore += 5;
+      updateScoreDisplay();
+      savePlayerData();
+     
+      const plus = document.createElement('div');
+      plus.className = 'game-element';
+      plus.textContent = '+5 🔫';
+      plus.style.left = alien.style.left;
+      plus.style.top = (parseFloat(alien.style.top) - 5) + '%';
+      plus.style.fontSize = '30px';
+      plus.style.color = '#FFD700';
+      plus.style.animation = 'particleFloat 0.8s forwards';
+      plus.style.pointerEvents = 'none';
+      gameArea.appendChild(plus);
+      setTimeout(() => plus.remove(), 800);
+     
+      document.getElementById('gameInstruction').textContent =
+        gameLanguage === 'tamil'
+          ? `🚀 சுட்டவை: ${shotCount}/${totalAliens} அன்னியர்கள்`
+          : `🚀 Shot: ${shotCount}/${totalAliens} aliens`;
+     
+      if (shotCount >= totalAliens) {
+        gameActive = false;
+        setTimeout(() => {
+          gameArea.innerHTML = '';
+          for (let i = 0; i < 80; i++) {
             setTimeout(() => {
               const confetti = document.createElement('div');
-              confetti.textContent = '✨';
+              confetti.textContent = ['🚀', '👾', '🎉', '✨', '🏆', '⭐', '🌟', '💥'][Math.floor(Math.random() * 8)];
               confetti.style.position = 'absolute';
               confetti.style.left = Math.random() * 100 + '%';
               confetti.style.top = Math.random() * 100 + '%';
-              confetti.style.fontSize = '30px';
-              confetti.style.animation = 'particleFloat 1s forwards';
+              confetti.style.fontSize = (30 + Math.random() * 50) + 'px';
+              confetti.style.animation = 'particleFloat 2s forwards';
+              confetti.style.pointerEvents = 'none';
               gameArea.appendChild(confetti);
-              setTimeout(() => confetti.remove(), 1000);
-            }, i * 100);
+              setTimeout(() => confetti.remove(), 2000);
+            }, i * 30);
           }
-        }
-      };
-      
-      gameArea.appendChild(treasure);
-    }
-  }
-  
-  placeTreasures();
-}
-
-function startSocialStatesGame() {
-  const gameArea = document.getElementById('gameArea');
-  
-  const allStates = [
-    { state: 'Tamil Nadu', capital: 'Chennai', options: ['Chennai', 'Coimbatore', 'Madurai', 'Tiruchirappalli'] },
-    { state: 'Kerala', capital: 'Thiruvananthapuram', options: ['Thiruvananthapuram', 'Kochi', 'Kozhikode', 'Idukki'] },
-    { state: 'Karnataka', capital: 'Bengaluru', options: ['Bengaluru', 'Mysuru', 'Mangaluru', 'Hubballi'] },
-    { state: 'Andhra Pradesh', capital: 'Amaravati', options: ['Amaravati', 'Visakhapatnam', 'Vijayawada', 'Tirupati'] },
-    { state: 'Maharashtra', capital: 'Mumbai', options: ['Mumbai', 'Pune', 'Nagpur', 'Nashik'] },
-    { state: 'Uttar Pradesh', capital: 'Lucknow', options: ['Lucknow', 'Kanpur', 'Varanasi', 'Agra'] },
-    { state: 'Gujarat', capital: 'Gandhinagar', options: ['Gandhinagar', 'Ahmedabad', 'Surat', 'Vadodara'] },
-    { state: 'Rajasthan', capital: 'Jaipur', options: ['Jaipur', 'Jodhpur', 'Udaipur', 'Kota'] },
-    { state: 'West Bengal', capital: 'Kolkata', options: ['Kolkata', 'Darjeeling', 'Siliguri', 'Howrah'] },
-    { state: 'Bihar', capital: 'Patna', options: ['Patna', 'Gaya', 'Bhagalpur', 'Muzaffarpur'] }
-  ];
-  
-  const shuffled = [...allStates].sort(() => Math.random() - 0.5);
-  const questions = shuffled.slice(0, 10);
-  let currentQ = 0;
-  
-  const instruction = gameLanguage === 'tamil'
-    ? `🇮🇳 மாநிலங்கள் & தலைநகரங்கள் 1/10`
-    : `🇮🇳 States & Capitals 1/10`;
-  document.getElementById('gameInstruction').textContent = instruction;
-  
-  function loadQuestion() {
-    gameArea.innerHTML = '';
-    
-    const q = questions[currentQ];
-    
-    const stateDisplay = document.createElement('div');
-    stateDisplay.className = 'game-element';
-    stateDisplay.style.left = '50%';
-    stateDisplay.style.top = '30%';
-    stateDisplay.style.transform = 'translateX(-50%)';
-    stateDisplay.style.fontSize = '30px';
-    stateDisplay.style.background = 'linear-gradient(135deg, #FF9933, #138808)';
-    stateDisplay.style.padding = '30px';
-    stateDisplay.style.borderRadius = '20px';
-    stateDisplay.textContent = q.state + ' - Capital?';
-    gameArea.appendChild(stateDisplay);
-    
-    const options = [...q.options].sort(() => Math.random() - 0.5);
-    
-    options.forEach((opt, index) => {
-      const optEl = document.createElement('div');
-      optEl.className = 'game-element option-box';
-      optEl.textContent = opt;
-      optEl.style.left = (index * 25) + 5 + '%';
-      optEl.style.top = '60%';
-      
-      optEl.onclick = function() {
-        if (this.textContent === q.capital) {
-          createParticle(this, '✓ +10', '#2ecc71');
-          player.score += 10;
-          gameScore += 10;
+          document.getElementById('continueBtn').disabled = false;
+          player.score += 50;
+          gameScore += 50;
           updateScoreDisplay();
           savePlayerData();
-          
-          currentQ++;
-          
-          if (currentQ < questions.length) {
-            document.getElementById('gameInstruction').textContent = gameLanguage === 'tamil'
-              ? `🇮🇳 மாநிலங்கள் & தலைநகரங்கள் ${currentQ + 1}/10`
-              : `🇮🇳 States & Capitals ${currentQ + 1}/10`;
-            loadQuestion();
-          } else {
-            document.getElementById('continueBtn').disabled = false;
-            player.score += 50;
-            gameScore += 50;
-            updateScoreDisplay();
-            savePlayerData();
-            document.getElementById('gameInstruction').textContent = gameLanguage === 'tamil'
-              ? '🎉 புவியியல் வல்லுநர்! +50 புள்ளிகள்'
-              : '🎉 Geography Expert! +50 points';
-            gameArea.innerHTML = '<div style="position: absolute; top: 40%; left: 50%; transform: translateX(-50%); font-size: 60px;">🏆</div>';
-          }
-        } else {
-          createParticle(this, '❌', '#e74c3c');
-        }
-      };
-      
-      gameArea.appendChild(optEl);
-    });
-  }
-  
-  loadQuestion();
-}
-
-function startSocialMonumentsGame() {
-  const gameArea = document.getElementById('gameArea');
-  
-  const allMonuments = [
-    { monument: 'Taj Mahal', location: 'Uttar Pradesh', options: ['Uttar Pradesh', 'Delhi', 'Madhya Pradesh', 'Rajasthan'] },
-    { monument: 'Meenakshi Temple', location: 'Tamil Nadu', options: ['Tamil Nadu', 'Kerala', 'Karnataka', 'Andhra Pradesh'] },
-    { monument: 'Mysore Palace', location: 'Karnataka', options: ['Karnataka', 'Tamil Nadu', 'Kerala', 'Andhra Pradesh'] },
-    { monument: 'Charminar', location: 'Telangana', options: ['Telangana', 'Andhra Pradesh', 'Tamil Nadu', 'Karnataka'] },
-    { monument: 'Qutub Minar', location: 'Delhi', options: ['Delhi', 'Mumbai', 'Chennai', 'Kolkata'] },
-    { monument: 'Gateway of India', location: 'Mumbai', options: ['Mumbai', 'Delhi', 'Kolkata', 'Chennai'] },
-    { monument: 'India Gate', location: 'Delhi', options: ['Delhi', 'Mumbai', 'Kolkata', 'Chennai'] },
-    { monument: 'Hawa Mahal', location: 'Jaipur', options: ['Jaipur', 'Jodhpur', 'Udaipur', 'Ajmer'] },
-    { monument: 'Golden Temple', location: 'Amritsar', options: ['Amritsar', 'Ludhiana', 'Patiala', 'Chandigarh'] },
-    { monument: 'Sun Temple', location: 'Odisha', options: ['Odisha', 'West Bengal', 'Jharkhand', 'Bihar'] }
-  ];
-  
-  const shuffled = [...allMonuments].sort(() => Math.random() - 0.5);
-  const questions = shuffled.slice(0, 10);
-  let currentQ = 0;
-  
-  const instruction = gameLanguage === 'tamil'
-    ? `🏛️ வரலாற்று நினைவுச்சின்னங்கள் 1/10`
-    : `🏛️ Historical Monuments 1/10`;
-  document.getElementById('gameInstruction').textContent = instruction;
-  
-  function loadQuestion() {
-    gameArea.innerHTML = '';
-    
-    const q = questions[currentQ];
-    
-    const monumentDisplay = document.createElement('div');
-    monumentDisplay.className = 'game-element';
-    monumentDisplay.style.left = '50%';
-    monumentDisplay.style.top = '30%';
-    monumentDisplay.style.transform = 'translateX(-50%)';
-    monumentDisplay.style.fontSize = '30px';
-    monumentDisplay.style.background = 'linear-gradient(135deg, #FF6B6B, #FF8E53)';
-    monumentDisplay.style.padding = '30px';
-    monumentDisplay.style.borderRadius = '20px';
-    monumentDisplay.textContent = q.monument;
-    gameArea.appendChild(monumentDisplay);
-    
-    const options = [...q.options].sort(() => Math.random() - 0.5);
-    
-    options.forEach((opt, index) => {
-      const optEl = document.createElement('div');
-      optEl.className = 'game-element option-box';
-      optEl.textContent = opt;
-      optEl.style.left = (index * 25) + 5 + '%';
-      optEl.style.top = '60%';
-      
-      optEl.onclick = function() {
-        if (this.textContent === q.location) {
-          createParticle(this, '✓ +10', '#2ecc71');
-          player.score += 10;
-          gameScore += 10;
-          updateScoreDisplay();
-          savePlayerData();
-          
-          currentQ++;
-          
-          if (currentQ < questions.length) {
-            document.getElementById('gameInstruction').textContent = gameLanguage === 'tamil'
-              ? `🏛️ வரலாற்று நினைவுச்சின்னங்கள் ${currentQ + 1}/10`
-              : `🏛️ Historical Monuments ${currentQ + 1}/10`;
-            loadQuestion();
-          } else {
-            document.getElementById('continueBtn').disabled = false;
-            player.score += 50;
-            gameScore += 50;
-            updateScoreDisplay();
-            savePlayerData();
-            document.getElementById('gameInstruction').textContent = gameLanguage === 'tamil'
-              ? '🎉 வரலாற்று வல்லுநர்! +50 புள்ளிகள்'
-              : '🎉 History Expert! +50 points';
-            gameArea.innerHTML = '<div style="position: absolute; top: 40%; left: 50%; transform: translateX(-50%); font-size: 60px;">🏆</div>';
-          }
-        } else {
-          createParticle(this, '❌', '#e74c3c');
-        }
-      };
-      
-      gameArea.appendChild(optEl);
-    });
-  }
-  
-  loadQuestion();
-}
-
-// ==================== TAMIL GAMES ====================
-function startTamilRiddleGame() {
-  const gameArea = document.getElementById('gameArea');
-  
-  const riddles = [
-    { riddle: 'ஒரு வீட்டில் 5 சகோதரர்கள் இருக்கிறார்கள். எல்லாருக்கும் பெயர் ஒரே மாதிரி. அவர்கள் யார்?', options: ['விரல்கள் 👋', 'சகோதரர்கள் 👨‍👦', 'நண்பர்கள் 👥'], answer: 'விரல்கள் 👋' },
-    { riddle: 'நான் பிறந்ததும் பெரியவன், வயது ஆக ஆக சிறியவனாகிறேன். நான் யார்?', options: ['மனிதன் 👨', 'மெழுகுவர்த்தி 🕯️', 'மரம் 🌳'], answer: 'மெழுகுவர்த்தி 🕯️' },
-    { riddle: 'என்னை எடுத்தால் பெரிதாகிறேன், விட்டால் சிறிதாகிறேன். நான் யார்?', options: ['பலூன் 🎈', 'குழி 🕳️', 'நிழல் 👤'], answer: 'குழி 🕳️' },
-    { riddle: 'நான் பேச மாட்டேன், ஆனால் எல்லா மொழியையும் புரிந்து கொள்வேன். நான் யார்?', options: ['கண்ணாடி 🪞', 'புத்தகம் 📖', 'ரேடியோ 📻'], answer: 'கண்ணாடி 🪞' },
-    { riddle: 'என்னிடம் நகரங்கள் இருக்கிறது, நதிகள் இருக்கிறது, மலைகள் இருக்கிறது. ஆனால் தண்ணீர் இல்லை, மக்கள் இல்லை. நான் யார்?', options: ['படம் 🖼️', 'வரைபடம் 🗺️', 'புகைப்படம் 📸'], answer: 'வரைபடம் 🗺️' },
-    { riddle: 'ஒரு காடு உள்ளது. அதில் பல மரங்கள் உள்ளன. அந்த மரங்களில் எந்தப் பறவையும் உட்காராது. அது என்ன காடு?', options: ['முடி 💇‍♂️', 'பூங்கா 🌳', 'காட்டுப்பகுதி 🌲'], answer: 'முடி 💇‍♂️' }
-  ];
-  
-  const shuffled = [...riddles].sort(() => Math.random() - 0.5);
-  const questions = shuffled.slice(0, 6);
-  let currentQ = 0;
-  
-  document.getElementById('gameInstruction').textContent = `🤔 விடுகதை கேள்வி 1/6`;
-  
-  function loadQuestion() {
-    gameArea.innerHTML = '';
-    
-    const q = questions[currentQ];
-    
-    const riddleDisplay = document.createElement('div');
-    riddleDisplay.className = 'tamil-question-box';
-    riddleDisplay.textContent = q.riddle;
-    riddleDisplay.style.fontSize = '22px';
-    riddleDisplay.style.maxWidth = '85%';
-    riddleDisplay.style.padding = '15px 20px';
-    gameArea.appendChild(riddleDisplay);
-    
-    const optionsContainer = document.createElement('div');
-    optionsContainer.className = 'tamil-options-container';
-    optionsContainer.style.gap = '12px';
-    optionsContainer.style.bottom = '10%';
-    
-    const options = [...q.options].sort(() => Math.random() - 0.5);
-    
-    options.forEach((opt) => {
-      const optEl = document.createElement('div');
-      optEl.className = 'tamil-option';
-      optEl.textContent = opt;
-      optEl.style.fontSize = '20px';
-      optEl.style.padding = '10px 18px';
-      optEl.style.minWidth = '140px';
-      
-      optEl.onclick = function() {
-        if (this.textContent === q.answer) {
-          createParticle(this, '✓ +15', '#2ecc71');
-          player.score += 15;
-          gameScore += 15;
-          updateScoreDisplay();
-          savePlayerData();
-          
-          currentQ++;
-          
-          if (currentQ < questions.length) {
-            document.getElementById('gameInstruction').textContent = `🤔 விடுகதை கேள்வி ${currentQ + 1}/6`;
-            loadQuestion();
-          } else {
-            document.getElementById('continueBtn').disabled = false;
-            player.score += 40;
-            gameScore += 40;
-            updateScoreDisplay();
-            savePlayerData();
-            document.getElementById('gameInstruction').textContent = '🎉 விடுகதை வல்லுநர்! +40 புள்ளிகள்';
-            gameArea.innerHTML = '<div style="position: absolute; top: 40%; left: 50%; transform: translateX(-50%); font-size: 60px;">🏆</div>';
-          }
-        } else {
-          createParticle(this, '❌', '#e74c3c');
-        }
-      };
-      
-      optionsContainer.appendChild(optEl);
-    });
-    
-    gameArea.appendChild(optionsContainer);
-  }
-  
-  loadQuestion();
-}
-
-function startTamilProverbGame() {
-  const gameArea = document.getElementById('gameArea');
-  
-  const proverbs = [
-    { proverb: 'கற்றது கைமண் அளவு', meaning: 'கற்றது சிறிது', options: ['கற்றது சிறிது', 'கற்றது பெரிது', 'கல்லாதது சிறிது', 'எல்லாம் தெரியும்'] },
-    { proverb: 'ஆற அமர சிந்தி', meaning: 'அமைதியாக சிந்தி', options: ['அவசரப்படு', 'அமைதியாக சிந்தி', 'கோபப்படு', 'சிரி'] },
-    { proverb: 'உழைப்பே உயர்வு தரும்', meaning: 'உழைப்பு முக்கியம்', options: ['உழைப்பு தேவையில்லை', 'உழைப்பு முக்கியம்', 'சோம்பல் நல்லது', 'விளையாட்டு முக்கியம்'] },
-    { proverb: 'காலம் பொன் போன்றது', meaning: 'நேரம் முக்கியம்', options: ['நேரத்தை வீணாக்கு', 'நேரம் முக்கியம்', 'பணம் முக்கியம்', 'பொன் முக்கியம்'] },
-    { proverb: 'முயன்றால் முடியாதது ஒன்றுமில்லை', meaning: 'முயற்சி செய்தால் வெற்றி கிடைக்கும்', options: ['முயற்சி தேவையில்லை', 'முயற்சி செய்தால் வெற்றி கிடைக்கும்', 'முயற்சி கடினம்', 'வெற்றி எளிது'] },
-    { proverb: 'அகப்பட்டது பிச்சை, விடப்பட்டது பாக்கியம்', meaning: 'கிடைத்தது குறைவு', options: ['கிடைத்தது குறைவு', 'கிடைத்தது அதிகம்', 'பிச்சை எடுப்பது', 'விடுவது நல்லது'] },
-    { proverb: 'ஆத்தி இலையும் பறித்த முனி', meaning: 'கோபக்காரர்', options: ['கோபக்காரர்', 'அமைதியானவர்', 'பயந்தவர்', 'தைரியசாலி'] },
-    { proverb: 'இருந்தும் இல்லாதார் போல', meaning: 'வறுமையில் வாடுபவர்', options: ['வறுமையில் வாடுபவர்', 'செல்வந்தர்', 'வயதானவர்', 'இளைஞர்'] },
-    { proverb: 'உப்பிட்டவரை உள்ளளவும் நினை', meaning: 'உதவி செய்தவரை மறக்காதே', options: ['உதவி செய்தவரை மறக்காதே', 'உதவி செய்தவரை மற', 'உப்பு சாப்பிடு', 'நன்றி மற'] },
-    { proverb: 'ஊருடன் கூடி வாழ்', meaning: 'சமூகத்துடன் இணைந்து வாழ்', options: ['சமூகத்துடன் இணைந்து வாழ்', 'தனிமையில் வாழ்', 'எல்லோரையும் வெறு', 'யாருடனும் சேராதே'] }
-  ];
-  
-  const shuffled = [...proverbs].sort(() => Math.random() - 0.5);
-  const questions = shuffled.slice(0, 10);
-  let currentQ = 0;
-  
-  document.getElementById('gameInstruction').textContent = `📜 பழமொழி கேள்வி 1/10`;
-  
-  function loadQuestion() {
-    gameArea.innerHTML = '';
-    
-    const q = questions[currentQ];
-    
-    const proverbDisplay = document.createElement('div');
-    proverbDisplay.className = 'tamil-question-box';
-    proverbDisplay.textContent = q.proverb;
-    proverbDisplay.style.fontSize = '24px';
-    proverbDisplay.style.maxWidth = '85%';
-    gameArea.appendChild(proverbDisplay);
-    
-    const optionsContainer = document.createElement('div');
-    optionsContainer.className = 'tamil-options-container';
-    optionsContainer.style.gap = '12px';
-    optionsContainer.style.bottom = '10%';
-    
-    const options = [...q.options].sort(() => Math.random() - 0.5);
-    
-    options.forEach((opt) => {
-      const optEl = document.createElement('div');
-      optEl.className = 'tamil-option';
-      optEl.textContent = opt;
-      optEl.style.fontSize = '18px';
-      optEl.style.padding = '10px 15px';
-      optEl.style.minWidth = '130px';
-      
-      optEl.onclick = function() {
-        if (this.textContent === q.meaning) {
-          createParticle(this, '✓ +10', '#2ecc71');
-          player.score += 10;
-          gameScore += 10;
-          updateScoreDisplay();
-          savePlayerData();
-          
-          currentQ++;
-          
-          if (currentQ < questions.length) {
-            document.getElementById('gameInstruction').textContent = `📜 பழமொழி கேள்வி ${currentQ + 1}/10`;
-            loadQuestion();
-          } else {
-            document.getElementById('continueBtn').disabled = false;
-            player.score += 50;
-            gameScore += 50;
-            updateScoreDisplay();
-            savePlayerData();
-            document.getElementById('gameInstruction').textContent = '🎉 பழமொழி வல்லுநர்! +50 புள்ளிகள்';
-            gameArea.innerHTML = '<div style="position: absolute; top: 40%; left: 50%; transform: translateX(-50%); font-size: 60px;">🏆</div>';
-          }
-        } else {
-          createParticle(this, '❌', '#e74c3c');
-        }
-      };
-      
-      optionsContainer.appendChild(optEl);
-    });
-    
-    gameArea.appendChild(optionsContainer);
-  }
-  
-  loadQuestion();
-}
-
-function startTamilSpinWheelGame() {
-  const gameArea = document.getElementById('gameArea');
-  
-  const categories = ['பழமொழி', 'விடுகதை', 'எதிர்ச்சொல்', 'பொருள்', 'விடுபட்ட சொல்'];
-  
-  const questionBank = {
-    'பழமொழி': [
-      { q: 'கற்றது கைமண் அளவு - இதன் பொருள்?', options: ['கற்றது சிறிது', 'கற்றது பெரிது', 'கல்லாதது சிறிது', 'எல்லாம் தெரியும்'], a: 'கற்றது சிறிது' },
-      { q: 'ஆற அமர சிந்தி - இதன் பொருள்?', options: ['அவசரப்படு', 'அமைதியாக சிந்தி', 'கோபப்படு', 'சிரி'], a: 'அமைதியாக சிந்தி' },
-      { q: 'உழைப்பே உயர்வு தரும் - இதன் பொருள்?', options: ['உழைப்பு தேவையில்லை', 'உழைப்பு முக்கியம்', 'சோம்பல் நல்லது', 'விளையாட்டு முக்கியம்'], a: 'உழைப்பு முக்கியம்' },
-      { q: 'காலம் பொன் போன்றது - இதன் பொருள்?', options: ['நேரத்தை வீணாக்கு', 'நேரம் முக்கியம்', 'பணம் முக்கியம்', 'பொன் முக்கியம்'], a: 'நேரம் முக்கியம்' },
-      { q: 'முயன்றால் முடியாதது ஒன்றுமில்லை - இதன் பொருள்?', options: ['முயற்சி தேவையில்லை', 'முயற்சி செய்தால் வெற்றி கிடைக்கும்', 'முயற்சி கடினம்', 'வெற்றி எளிது'], a: 'முயற்சி செய்தால் வெற்றி கிடைக்கும்' }
-    ],
-    'விடுகதை': [
-      { q: 'என்னை எல்லாரும் கேட்கிறார்கள், ஆனால் யாரும் பார்க்க முடியாது. நான் யார்?', options: ['காற்று 💨', 'சத்தம் 🔊', 'ஒளி 💡', 'நிழல் 👤'], a: 'சத்தம் 🔊' },
-      { q: 'என்னை வெட்டினால் நான் பெரியவனாகிறேன். நான் யார்?', options: ['மரம் 🌳', 'குழி 🕳️', 'காய்கறி 🥕', 'பழம் 🍎'], a: 'குழி 🕳️' },
-      { q: 'நான் எப்போதும் முன்னால் போவேன், ஆனால் ஒருபோதும் பின்னால் வர மாட்டேன். நான் யார்?', options: ['கார் 🚗', 'நேரம் ⏰', 'நதி 🌊', 'காற்று 💨'], a: 'நேரம் ⏰' },
-      { q: 'ஒரு தந்தைக்கு 4 மகன்கள். ஒவ்வொரு மகனுக்கும் ஒரு சகோதரி இருக்கிறாள். மொத்தம் எத்தனை குழந்தைகள்?', options: ['4', '5', '6', '7'], a: '5' },
-      { q: 'ஒரு மனிதன் மழையில் நனைந்தும், முடி நனைக்கவில்லை. ஏன்?', options: ['குடை வைத்திருந்தார் ☂️', 'முடி இல்லாதவர் 👨‍🦲', 'வீட்டில் இருந்தார் 🏠', 'காரில் இருந்தார் 🚗'], a: 'முடி இல்லாதவர் 👨‍🦲' }
-    ],
-    'எதிர்ச்சொல்': [
-      { q: '"பெரிய" - இதன் எதிர்ச்சொல்?', options: ['சிறிய', 'நீண்ட', 'குட்டையான', 'அகலமான'], a: 'சிறிய' },
-      { q: '"நல்ல" - இதன் எதிர்ச்சொல்?', options: ['கெட்ட', 'மோசமான', 'தீய', 'அழகான'], a: 'கெட்ட' },
-      { q: '"வெப்பம்" - இதன் எதிர்ச்சொல்?', options: ['குளிர்ச்சி', 'சூடு', 'உஷ்ணம்', 'பனி'], a: 'குளிர்ச்சி' },
-      { q: '"ஒளி" - இதன் எதிர்ச்சொல்?', options: ['இருட்டு', 'நிழல்', 'கண்', 'வெளிச்சம்'], a: 'இருட்டு' },
-      { q: '"மேல்" - இதன் எதிர்ச்சொல்?', options: ['கீழ்', 'அடி', 'தாழ', 'பக்கம்'], a: 'கீழ்' }
-    ],
-    'பொருள்': [
-      { q: '"அமைதி" - இதன் ஆங்கிலப் பொருள்?', options: ['Peace', 'War', 'Love', 'Hate'], a: 'Peace' },
-      { q: '"சந்தோஷம்" - இதன் ஆங்கிலப் பொருள்?', options: ['Sadness', 'Happiness', 'Anger', 'Fear'], a: 'Happiness' },
-      { q: '"தாய்" - இதன் ஆங்கிலப் பொருள்?', options: ['Father', 'Mother', 'Brother', 'Sister'], a: 'Mother' },
-      { q: '"நண்பன்" - இதன் ஆங்கிலப் பொருள்?', options: ['Enemy', 'Friend', 'Teacher', 'Student'], a: 'Friend' },
-      { q: '"புத்தகம்" - இதன் ஆங்கிலப் பொருள்?', options: ['Pen', 'Book', 'Paper', 'Pencil'], a: 'Book' }
-    ],
-    'விடுபட்ட சொல்': [
-      { q: '"கற்றது கைமண் ____" - விடுபட்ட சொல்?', options: ['அளவு', 'பெரிது', 'சிறிது', 'உயர்வு'], a: 'அளவு' },
-      { q: '"ஆற அமர ____" - விடுபட்ட சொல்?', options: ['சிந்தி', 'ஓடு', 'பேசு', 'விளையாடு'], a: 'சிந்தி' },
-      { q: '"காலம் ____ போன்றது" - விடுபட்ட சொல்?', options: ['பொன்', 'மண்', 'கல்', 'மரம்'], a: 'பொன்' },
-      { q: '"உழைப்பே உயர்வு ____" - விடுபட்ட சொல்?', options: ['தரும்', 'ஆகும்', 'போகும்', 'வரும்'], a: 'தரும்' },
-      { q: '"முயன்றால் முடியாதது ____" - விடுபட்ட சொல்?', options: ['ஒன்றுமில்லை', 'எல்லாம்', 'ஏதோ', 'பல'], a: 'ஒன்றுமில்லை' }
-    ]
-  };
-  
-  let spinDone = false;
-  let currentQuestions = [];
-  let currentQIndex = 0;
-  let selectedCategory = '';
-  
-  document.getElementById('gameInstruction').textContent = '🎡 சில்லினைச் சுழற்றவும்! 5 வினாடிகள் காத்திருக்கவும்';
-  
-  const wheel = document.createElement('div');
-  wheel.className = 'wheel-section';
-  wheel.style.animation = 'none';
-  gameArea.appendChild(wheel);
-  
-  categories.forEach((cat, index) => {
-    const angle = index * 72;
-    const label = document.createElement('div');
-    label.className = 'wheel-category';
-    label.style.transform = `rotate(${angle}deg) translate(0, -80px) rotate(-${angle}deg)`;
-    label.textContent = cat;
-    wheel.appendChild(label);
-  });
-  
-  const spinBtn = document.createElement('button');
-  spinBtn.textContent = '🎡 சுழற்று';
-  spinBtn.style.position = 'absolute';
-  spinBtn.style.left = '50%';
-  spinBtn.style.transform = 'translateX(-50%)';
-  spinBtn.style.top = '70%';
-  spinBtn.style.padding = '15px 30px';
-  spinBtn.style.fontSize = '20px';
-  spinBtn.style.background = 'linear-gradient(135deg, #FFD700, #FFA500)';
-  spinBtn.style.border = 'none';
-  spinBtn.style.borderRadius = '50px';
-  spinBtn.style.color = 'white';
-  spinBtn.style.cursor = 'pointer';
-  spinBtn.style.zIndex = '20';
-  
-  const countdownDisplay = document.createElement('div');
-  countdownDisplay.className = 'countdown-timer';
-  countdownDisplay.style.display = 'none';
-  gameArea.appendChild(countdownDisplay);
-  
-  spinBtn.onclick = function() {
-    if (spinDone) return;
-    
-    spinDone = true;
-    spinBtn.disabled = true;
-    
-    wheel.style.animation = 'spinWheel 2s ease-out';
-    
-    countdownDisplay.style.display = 'block';
-    let countdown = 5;
-    countdownDisplay.textContent = `⏱ ${countdown}s`;
-    
-    const countdownInterval = setInterval(() => {
-      countdown--;
-      countdownDisplay.textContent = `⏱ ${countdown}s`;
-      
-      if (countdown <= 0) {
-        clearInterval(countdownInterval);
-        countdownDisplay.style.display = 'none';
+          document.getElementById('gameInstruction').textContent =
+            gameLanguage === 'tamil'
+              ? '🎉 வாழ்த்துக்கள்! எல்லா அன்னியர்களையும் சுட்டீங்க! +50 புள்ளிகள்'
+              : '🎉 Congratulations! You shot all aliens! +50 points';
+          const trophy = document.createElement('div');
+          trophy.style.position = 'absolute';
+          trophy.style.top = '40%';
+          trophy.style.left = '50%';
+          trophy.style.transform = 'translateX(-50%)';
+          trophy.style.fontSize = '120px';
+          trophy.textContent = '🚀🏆';
+          trophy.style.animation = 'treasureFloat 0.5s infinite alternate';
+          gameArea.appendChild(trophy);
+        }, 500);
       }
-    }, 1000);
-    
-    setTimeout(() => {
-      wheel.style.animation = 'none';
-      
-      const randomIndex = Math.floor(Math.random() * categories.length);
-      selectedCategory = categories[randomIndex];
-      
-      document.getElementById('gameInstruction').textContent = `🎡 சில்லு நின்றது: ${selectedCategory} - 5 கேள்விகள்`;
-      
-      const allQuestions = questionBank[selectedCategory] || questionBank['பழமொழி'];
-      const shuffled = [...allQuestions].sort(() => Math.random() - 0.5);
-      currentQuestions = shuffled.slice(0, 5);
-      currentQIndex = 0;
-      
-      spinBtn.remove();
-      wheel.remove();
-      
-      loadSpinQuestion();
-    }, 5000);
-  };
-  
-  gameArea.appendChild(spinBtn);
-  
-  function loadSpinQuestion() {
-    if (currentQIndex >= currentQuestions.length) {
-      document.getElementById('continueBtn').disabled = false;
-      player.score += 50;
-      gameScore += 50;
-      updateScoreDisplay();
-      savePlayerData();
-      document.getElementById('gameInstruction').textContent = '🎉 சில்லு விளையாட்டு முடிந்தது! +50 புள்ளிகள்';
-      gameArea.innerHTML = '<div style="position: absolute; top: 40%; left: 50%; transform: translateX(-50%); font-size: 60px;">🏆</div>';
-      return;
-    }
-    
-    gameArea.innerHTML = '';
-    
-    const q = currentQuestions[currentQIndex];
-    
-    const questionDisplay = document.createElement('div');
-    questionDisplay.className = 'tamil-question-box';
-    questionDisplay.textContent = q.q;
-    questionDisplay.style.fontSize = '22px';
-    questionDisplay.style.maxWidth = '85%';
-    gameArea.appendChild(questionDisplay);
-    
-    const optionsContainer = document.createElement('div');
-    optionsContainer.className = 'tamil-options-container';
-    optionsContainer.style.gap = '12px';
-    optionsContainer.style.bottom = '10%';
-    
-    const options = [...q.options].sort(() => Math.random() - 0.5);
-    
-    options.forEach((opt) => {
-      const optEl = document.createElement('div');
-      optEl.className = 'tamil-option';
-      optEl.textContent = opt;
-      optEl.style.fontSize = '18px';
-      optEl.style.padding = '10px 15px';
-      optEl.style.minWidth = '130px';
-      
-      optEl.onclick = function() {
-        if (this.textContent === q.a) {
-          createParticle(this, '✓ +10', '#2ecc71');
-          player.score += 10;
-          gameScore += 10;
-          updateScoreDisplay();
-          savePlayerData();
-          
-          currentQIndex++;
-          document.getElementById('gameInstruction').textContent = `${selectedCategory} - கேள்வி ${currentQIndex + 1}/5`;
-          loadSpinQuestion();
-        } else {
-          createParticle(this, '❌', '#e74c3c');
-        }
-      };
-      
-      optionsContainer.appendChild(optEl);
-    });
-    
-    gameArea.appendChild(optionsContainer);
+     
+      setTimeout(() => alien.remove(), 100);
+    };
+   
+    gameArea.appendChild(alien);
   }
+ 
+  const cursorEffect = document.createElement('div');
+  cursorEffect.style.position = 'absolute';
+  cursorEffect.style.pointerEvents = 'none';
+  cursorEffect.style.fontSize = '35px';
+  cursorEffect.style.opacity = '0';
+  cursorEffect.style.zIndex = '200';
+  cursorEffect.textContent = '🎯';
+  gameArea.appendChild(cursorEffect);
+ 
+  gameArea.addEventListener('mousemove', (e) => {
+    if (!gameActive) return;
+    const rect = gameArea.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    cursorEffect.style.left = x + 'px';
+    cursorEffect.style.top = y + 'px';
+    cursorEffect.style.opacity = '0.9';
+  });
+ 
+  gameArea.addEventListener('mouseleave', () => {
+    cursorEffect.style.opacity = '0';
+  });
 }
 
 function createParticle(element, text, color) {
@@ -3281,12 +2361,12 @@ function createParticle(element, text, color) {
 
 function giveHint() {
   let hintText = gameLanguage === 'tamil'
-    ? '💡 விரைவாக கிளிக் செய்து புள்ளிகள் சேகரிக்கவும்!'
-    : '💡 Click quickly to collect points!';
+    ? '💡 விளையாட்டை ரசித்து விளையாடுங்கள்!'
+    : '💡 Enjoy the game and have fun!';
   alert(hintText);
 }
 
-// ==================== COMPLETION SCREEN ====================
+// ==================== CONTINUE AND COMPLETION ====================
 function continueToNext() {
   showScreen('completionSection');
  
@@ -3294,10 +2374,10 @@ function continueToNext() {
     ? `🎉 ${currentSubject === 'Maths' ? 'கணிதம்' :
         currentSubject === 'Science' ? 'அறிவியல்' :
         currentSubject === 'English' ? 'ஆங்கிலம்' :
-        currentSubject === 'Social' ? 'சமூகம்' : 'தமிழ்'} - ${
+        currentSubject === 'Social' ? 'சமூகம்' : currentSubject === 'Tamil' ? 'தமிழ்' : pdfSubjectName} - ${
           currentLevel === 'easy' ? 'ஆரம்ப நிலை' : currentLevel === 'medium' ? 'இடைநிலை' : 'மேம்பட்ட நிலை'
         } முடிந்தது!`
-    : `🎉 ${currentSubject} - ${currentLevel.toUpperCase()} Level Completed!`;
+    : `🎉 ${currentSubject} - ${currentLevel ? currentLevel.toUpperCase() : ''} Level Completed!`;
    
   document.getElementById('completionTitle').textContent = completionTitle;
  
@@ -3313,12 +2393,9 @@ function continueToNext() {
  
   if (currentIndex < levels.length - 1) {
     nextLevelBtn.style.display = 'inline-block';
-   
-    const nextLevelText = gameLanguage === 'tamil'
+    nextLevelBtn.textContent = gameLanguage === 'tamil'
       ? `➡️ ${levels[currentIndex + 1] === 'medium' ? 'இடைநிலை' : 'மேம்பட்ட நிலை'}க்கு செல்ல`
       : `➡️ Continue to ${levels[currentIndex + 1].toUpperCase()}`;
-     
-    nextLevelBtn.textContent = nextLevelText;
   } else {
     nextLevelBtn.style.display = 'none';
   }
@@ -3346,14 +2423,13 @@ function backToSubjects() {
   showScreen('subjectSection');
 }
 
-// ==================== PDF UPLOAD FUNCTIONS ====================
+// ==================== PDF UPLOAD FUNCTIONS - FIXED FOR CLEAR TAMIL ====================
 let pdfDoc = null;
 let pdfTotalPages = 0;
 
 document.getElementById('pdfUpload').addEventListener('change', function(e) {
   const file = e.target.files[0];
   if (!file) return;
-  
   const reader = new FileReader();
   reader.onload = async function(e) {
     try {
@@ -3397,81 +2473,176 @@ async function uploadPDF() {
     try {
       const pdf = await pdfjsLib.getDocument(e.target.result).promise;
       let allText = '';
-     
       for (let i = startPage; i <= endPage; i++) {
         const page = await pdf.getPage(i);
         const textContent = await page.getTextContent();
+        // Preserve original text exactly as it appears
         allText += textContent.items.map(item => item.str).join(' ') + ' ';
       }
-     
       statusDiv.textContent = '✅ PDF processed! Generating questions...';
-      let generatedQuestions = generateSmartQuestions(allText, 10);
-      displayGeneratedQuestions(generatedQuestions, startPage, endPage);
      
+      let generatedQuestions;
+      if (gameLanguage === 'tamil') {
+        generatedQuestions = generateTamilSmartQuestions(allText, 10);
+      } else {
+        generatedQuestions = generateSmartQuestions(allText, 10);
+      }
+     
+      displayGeneratedQuestions(generatedQuestions, startPage, endPage);
     } catch (err) {
       statusDiv.textContent = '❌ Error processing PDF: ' + err.message;
     }
   };
- 
   reader.readAsArrayBuffer(file);
+}
+
+// ==================== CLEAN TAMIL QUESTION GENERATOR - MAKES SENSE! ====================
+function generateTamilSmartQuestions(text, maxQuestions = 10) {
+  // First, clean the text - preserve Tamil characters
+  text = text.replace(/\s+/g, ' ').trim();
+ 
+  // Split into sentences - keep Tamil sentences intact
+  const sentences = text.split(/[.!?।॥\n]+/g).filter(s => {
+    const trimmed = s.trim();
+    return trimmed.length > 15 && trimmed.length < 200 && !trimmed.match(/^\d+$/);
+  });
+ 
+  const questions = [];
+ 
+  // Common Tamil stop words to avoid using as answer
+  const stopWords = [
+    'என்று', 'என்பது', 'இது', 'அது', 'உள்ளது', 'ஆகிய', 'ஆகும்', 'என', 'என்ற',
+    'என்கிற', 'என்பதை', 'என்பதற்கு', 'என்பதால்', 'மிகவும்', 'ஒரு', 'இந்த', 'அந்த',
+    'எல்லாம்', 'எல்லா', 'அனைத்து', 'சில', 'பல', 'எப்போது', 'எங்கே', 'எப்படி', 'ஏன்'
+  ];
+ 
+  for (let s of sentences) {
+    if (questions.length >= maxQuestions) break;
+   
+    let sentence = s.trim();
+    if (sentence.length < 20) continue;
+   
+    // Clean sentence - remove extra spaces
+    sentence = sentence.replace(/\s+/g, ' ').trim();
+   
+    // Extract meaningful Tamil words (remove punctuation)
+    const words = sentence.split(' ').filter(w => {
+      const cleanWord = w.replace(/[^\u0B80-\u0BFF]/g, '');
+      return cleanWord.length > 2 &&
+             !stopWords.includes(cleanWord) &&
+             !w.match(/^\d+$/) &&
+             !w.includes('http') &&
+             !w.includes('www') &&
+             !w.includes('_____');
+    });
+   
+    if (words.length < 3) continue;
+   
+    // Pick a meaningful word for the blank (prefer longer words)
+    let answerIndex = 0;
+    let answerWord = words[0];
+   
+    for (let i = 0; i < words.length; i++) {
+      const cleanWord = words[i].replace(/[^\u0B80-\u0BFF]/g, '');
+      if (cleanWord.length > 3 && !stopWords.includes(cleanWord)) {
+        answerIndex = i;
+        answerWord = words[i];
+        break;
+      }
+    }
+   
+    // Create question with blank (using _____ for clarity)
+    const questionText = sentence.replace(new RegExp(answerWord.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g'), '__________');
+   
+    // Get wrong options from other words
+    let wrongOptions = words.filter((w, i) => i !== answerIndex && w !== answerWord);
+    wrongOptions = [...new Set(wrongOptions)];
+   
+    // Tamil meaningful words for fallback (common Tamil words)
+    const meaningfulTamilWords = [
+      'தமிழ்', 'பாடம்', 'புத்தகம்', 'மாணவர்', 'ஆசிரியர்', 'பள்ளி', 'கல்வி',
+      'அறிவியல்', 'கணிதம்', 'வரலாறு', 'புவியியல்', 'இலக்கியம்', 'இலக்கணம்',
+      'மொழி', 'எழுத்து', 'சொல்', 'பொருள்', 'விளக்கம்', 'எடுத்துக்காட்டு',
+      'முறை', 'விதி', 'கோட்பாடு', 'உண்மை', 'கருத்து', 'கொள்கை', 'மரபு'
+    ];
+   
+    while (wrongOptions.length < 3) {
+      const randomWord = meaningfulTamilWords[Math.floor(Math.random() * meaningfulTamilWords.length)];
+      if (!wrongOptions.includes(randomWord) && randomWord !== answerWord) {
+        wrongOptions.push(randomWord);
+      }
+    }
+   
+    // Create options with proper formatting
+    const options = [answerWord, ...wrongOptions.slice(0, 3)];
+   
+    // Shuffle options
+    for (let i = options.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [options[i], options[j]] = [options[j], options[i]];
+    }
+   
+    const correctIndex = options.indexOf(answerWord);
+   
+    // Clean the question text
+    const cleanQuestion = questionText.replace(/\s+/g, ' ').trim();
+   
+    questions.push({
+      q: cleanQuestion,
+      o: options,
+      a: correctIndex
+    });
+  }
+ 
+  // If not enough questions, add meaningful default Tamil questions
+  if (questions.length < 3) {
+    const defaultQuestions = [
+      { q: "திருக்குறள் எத்தனை அதிகாரங்களைக் கொண்டது?", o: ["133", "108", "120", "150"], a: 0 },
+      { q: "தமிழ் எழுத்துக்கள் மொத்தம் எத்தனை?", o: ["247", "248", "249", "250"], a: 0 },
+      { q: "சங்க இலக்கியங்களின் எண்ணிக்கை எத்தனை?", o: ["2281", "2381", "2481", "2581"], a: 0 },
+      { q: "திருக்குறள் இயற்றியவர் யார்?", o: ["திருவள்ளுவர்", "அவ்வையார்", "கம்பர்", "இளங்கோவடிகள்"], a: 0 },
+      { q: "தமிழ்நாட்டின் மாநிலப் பறவை எது?", o: ["மயில்", "குயில்", "கிளி", "புறா"], a: 0 }
+    ];
+    for (let i = 0; i < defaultQuestions.length && questions.length < maxQuestions; i++) {
+      questions.push(defaultQuestions[i]);
+    }
+  }
+ 
+  return questions.slice(0, maxQuestions);
 }
 
 function generateSmartQuestions(text, maxQuestions = 10) {
   text = text.replace(/\s+/g, ' ').trim();
-  
   const sentences = text.match(/[^.!?]+[.!?]+/g) || [];
   const questions = [];
-  
-  const commonWords = ['the', 'a', 'an', 'and', 'or', 'but', 'in', 'on', 'at', 'to', 'for', 'of', 'with', 'by', 'is', 'are', 'was', 'were', 'have', 'has', 'had'];
-  
+  const commonWords = ['the', 'a', 'an', 'and', 'or', 'but', 'in', 'on', 'at', 'to', 'for', 'of', 'with', 'by', 'is', 'are', 'was', 'were', 'have', 'has', 'had', 'be', 'been', 'this', 'that', 'these', 'those', 'it', 'its', 'they', 'them', 'their', 'we', 'us', 'our'];
+ 
   for (let s of sentences) {
     if (questions.length >= maxQuestions) break;
-    
     const sentence = s.trim();
     if (sentence.length < 20 || sentence.length > 150) continue;
-    
-    const words = sentence.split(' ').filter(w => 
-      w.length > 3 && 
-      !commonWords.includes(w.toLowerCase()) &&
-      !w.includes('_') &&
-      !w.match(/^\d+$/)
-    );
-    
+    const words = sentence.split(' ').filter(w => w.length > 3 && !commonWords.includes(w.toLowerCase()) && !w.includes('_') && !w.match(/^\d+$/));
     if (words.length < 4) continue;
-    
     const answerIndex = Math.floor(Math.random() * words.length);
     const answerWord = words[answerIndex];
-    
     const questionText = sentence.replace(new RegExp(answerWord, 'i'), '_____');
-    
     let wrongOptions = words.filter((w, i) => i !== answerIndex && w !== answerWord);
     wrongOptions = [...new Set(wrongOptions)];
-    
     const commonNouns = ['teacher', 'student', 'school', 'book', 'lesson', 'chapter', 'page', 'question', 'answer', 'example', 'problem', 'solution', 'method', 'theory', 'practice', 'knowledge', 'learning', 'education', 'study', 'class', 'subject', 'science', 'math', 'history', 'language'];
-    
     while (wrongOptions.length < 3) {
       const randomNoun = commonNouns[Math.floor(Math.random() * commonNouns.length)];
       if (!wrongOptions.includes(randomNoun) && randomNoun !== answerWord) {
         wrongOptions.push(randomNoun);
       }
     }
-    
     const options = [answerWord, ...wrongOptions.slice(0, 3)];
-    
     for (let i = options.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [options[i], options[j]] = [options[j], options[i]];
     }
-    
     const correctIndex = options.indexOf(answerWord);
-    
-    questions.push({
-      q: questionText,
-      o: options,
-      a: correctIndex
-    });
+    questions.push({ q: questionText, o: options, a: correctIndex });
   }
-  
   return questions.slice(0, maxQuestions);
 }
 
@@ -3484,13 +2655,21 @@ function displayGeneratedQuestions(questions, startPage, endPage) {
     return;
   }
  
-  let html = `<h3 style="color: #4facfe;">📄 Generated ${questions.length} Quality Questions from Pages ${startPage}-${endPage}:</h3>`;
-  html += '<div style="max-height: 300px; overflow-y: auto; padding: 10px;">';
+  let html = `<h3 style="color: #4facfe; margin-bottom: 15px;">📄 Generated ${questions.length} Questions from Pages ${startPage}-${endPage}:</h3>`;
+  html += `<p style="color: #FFD700; margin-bottom: 15px;">🌐 Current Language: <strong>${gameLanguage === 'tamil' ? 'தமிழ் (Tamil)' : 'English'}</strong></p>`;
+  html += '<div style="max-height: 400px; overflow-y: auto; padding: 10px;">';
  
   questions.forEach((q, idx) => {
-    html += `<div class="generated-question-item">
-      <p><strong>Q${idx + 1}:</strong> ${q.q}</p>
-      <small>Options: ${q.o.join(' | ')} (Correct: ${q.o[q.a]})</small>
+    const optionsText = q.o.map((opt, i) => `${String.fromCharCode(65 + i)}. ${opt}`).join('  |  ');
+    const questionClass = gameLanguage === 'tamil' ? 'tamil-text' : '';
+   
+    // Clean the question text - remove extra spaces
+    const cleanQuestion = q.q.replace(/\s+/g, ' ').trim();
+   
+    html += `<div class="pdf-question-item" style="margin-bottom: 15px; padding: 15px; background: rgba(79,172,254,0.1); border-radius: 10px; border-left: 4px solid #4facfe;">
+      <p><strong style="color: #FFD700;">Q${idx + 1}.</strong> <span class="${questionClass}" style="color: white; font-size: 16px; line-height: 1.8;">${cleanQuestion}</span></p>
+      <p style="margin-top: 10px;"><span style="color: #aaa;">Options:</span> <span style="color: #4facfe;">${optionsText}</span></p>
+      <p style="margin-top: 5px;"><span style="color: #2ecc71;">✓ Correct Answer: ${q.o[q.a]}</span></p>
     </div>`;
   });
  
@@ -3499,9 +2678,9 @@ function displayGeneratedQuestions(questions, startPage, endPage) {
     <label style="display: block; margin-bottom: 10px; font-weight: bold; color: #4facfe;">
       Subject Name:
     </label>
-    <input type="text" id="pdfSubjectName" placeholder="Enter subject name (e.g., Science)" value="CustomPDF" style="width: 80%; padding: 10px; border-radius: 8px; border: 2px solid #4facfe; margin-bottom: 15px; color: black; font-size: 16px; background: white;">
+    <input type="text" id="pdfSubjectName" placeholder="Enter subject name (e.g., Science / அறிவியல்)" value="CustomPDF" style="width: 80%; padding: 10px; border-radius: 8px; border: 2px solid #4facfe; margin-bottom: 15px; color: black; font-size: 16px; background: white;">
     <p style="font-size: 14px; color: #FFD700; margin-bottom: 15px;">
-      ⚠️ Current language mode: <strong>${gameLanguage === 'tamil' ? 'Tamil' : 'English'}</strong>
+      ⚠️ Current language mode: <strong>${gameLanguage === 'tamil' ? 'தமிழ் (Tamil)' : 'English'}</strong>
     </p>
     <button onclick="submitGeneratedQuestions(${JSON.stringify(questions).replace(/"/g, '&quot;')})" style="padding: 15px 30px; background: linear-gradient(135deg, #43e97b, #38f9d7); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 16px;">
       ✅ Add to Subjects
@@ -3514,11 +2693,14 @@ function displayGeneratedQuestions(questions, startPage, endPage) {
 
 function submitGeneratedQuestions(qs) {
   const subjectName = document.getElementById('pdfSubjectName').value.trim();
- 
   if (!subjectName) {
     alert('❌ Please enter a subject name');
     return;
   }
+ 
+  pdfGeneratedQuestions = qs;
+  pdfSubjectName = subjectName;
+  pdfQuestionsForGame = qs.map(q => ({ question: q.q, options: q.o, correct: q.o[q.a] }));
  
   if (!questions[subjectName]) {
     questions[subjectName] = {};
@@ -3527,9 +2709,8 @@ function submitGeneratedQuestions(qs) {
   const totalQs = qs.length;
   const easyCount = Math.ceil(totalQs * 0.4);
   const mediumCount = Math.ceil(totalQs * 0.3);
-  
   const shuffled = [...qs].sort(() => Math.random() - 0.5);
-  
+ 
   questions[subjectName].easy = shuffled.slice(0, easyCount);
   questions[subjectName].medium = shuffled.slice(easyCount, easyCount + mediumCount);
   questions[subjectName].hard = shuffled.slice(easyCount + mediumCount);
@@ -3548,7 +2729,6 @@ function submitGeneratedQuestions(qs) {
     btn.innerHTML = `<div class="icon">📚</div><span class="subject-name">${subjectName}</span>`;
     btn.style.cursor = 'pointer';
     btn.style.background = 'linear-gradient(135deg, #667eea, #764ba2)';
-   
     btn.addEventListener('click', function() {
       currentSubject = this.dataset.subject;
       playSubjectMusic(currentSubject);
@@ -3557,7 +2737,6 @@ function submitGeneratedQuestions(qs) {
       showScreen('levelSection');
       updateLevelButtons();
     });
-   
     subjectContainer.appendChild(btn);
   }
  
@@ -3568,11 +2747,1409 @@ function submitGeneratedQuestions(qs) {
     : `✅ ${qs.length} quality questions added! Select "${subjectName}" to start.`);
 }
 
+// ==================== MATHS GAMES ====================
+function startMathsMemoryGame() {
+  const gameArea = document.getElementById('gameArea');
+  const images = ['🍎', '🚗', '🐕', '🐱', '🌞', '⭐', '🦁', '🐘'];
+  const cards = [];
+ 
+  images.forEach((img, index) => {
+    cards.push({ id: index, img: img, matched: false });
+    cards.push({ id: index, img: img, matched: false });
+  });
+ 
+  for (let i = cards.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [cards[i], cards[j]] = [cards[j], cards[i]];
+  }
+ 
+  let flippedCards = [];
+  let lockBoard = false;
+  let matchedCount = 0;
+  const totalPairs = images.length;
+ 
+  const instruction = gameLanguage === 'tamil'
+    ? '🧠 ஜோடிகளை பொருத்தவும்! 8 ஜோடிகள்'
+    : '🧠 Match the pairs! 8 pairs';
+  document.getElementById('gameInstruction').textContent = instruction;
+ 
+  const gridSize = 4;
+  const cardWidth = 70;
+  const startX = (gameArea.offsetWidth - (gridSize * cardWidth + (gridSize - 1) * 10)) / 2;
+  const startY = 80;
+ 
+  cards.forEach((card, index) => {
+    const cardEl = document.createElement('div');
+    cardEl.className = 'game-element memory-card';
+    cardEl.style.left = startX + (index % gridSize) * (cardWidth + 10) + 'px';
+    cardEl.style.top = startY + Math.floor(index / gridSize) * (cardWidth + 10) + 'px';
+    cardEl.style.width = cardWidth + 'px';
+    cardEl.style.height = cardWidth + 'px';
+    cardEl.textContent = '?';
+    cardEl.dataset.id = card.id;
+    cardEl.dataset.img = card.img;
+    cardEl.dataset.matched = 'false';
+   
+    cardEl.onclick = function() {
+      if (lockBoard) return;
+      if (this.dataset.matched === 'true') return;
+      if (flippedCards.includes(this)) return;
+      if (flippedCards.length >= 2) return;
+     
+      this.textContent = this.dataset.img;
+      this.style.background = 'linear-gradient(135deg, #FFD700, #FFA500)';
+      flippedCards.push(this);
+     
+      if (flippedCards.length === 2) {
+        lockBoard = true;
+       
+        if (flippedCards[0].dataset.id === flippedCards[1].dataset.id) {
+          setTimeout(() => {
+            flippedCards[0].style.background = 'linear-gradient(135deg, #2ecc71, #27ae60)';
+            flippedCards[1].style.background = 'linear-gradient(135deg, #2ecc71, #27ae60)';
+            flippedCards[0].dataset.matched = 'true';
+            flippedCards[1].dataset.matched = 'true';
+            matchedCount++;
+           
+            player.score += 10;
+            gameScore += 10;
+            updateScoreDisplay();
+            savePlayerData();
+           
+            createParticle(flippedCards[0], '+10', '#2ecc71');
+           
+            flippedCards = [];
+            lockBoard = false;
+           
+            if (matchedCount === totalPairs) {
+              document.getElementById('continueBtn').disabled = false;
+              player.score += 30;
+              gameScore += 30;
+              updateScoreDisplay();
+              savePlayerData();
+              document.getElementById('gameInstruction').textContent = gameLanguage === 'tamil'
+                ? '🎉 அருமை! விளையாட்டு முடிந்தது! +30 புள்ளிகள்'
+                : '🎉 Great! Game Complete! +30 points';
+            }
+          }, 500);
+        } else {
+          setTimeout(() => {
+            flippedCards[0].textContent = '?';
+            flippedCards[1].textContent = '?';
+            flippedCards[0].style.background = 'linear-gradient(135deg, #4facfe, #00f2fe)';
+            flippedCards[1].style.background = 'linear-gradient(135deg, #4facfe, #00f2fe)';
+            flippedCards = [];
+            lockBoard = false;
+          }, 1000);
+        }
+      }
+    };
+   
+    gameArea.appendChild(cardEl);
+  });
+}
+
+function startMathsTablesGame() {
+  const gameArea = document.getElementById('gameArea');
+  const allQuestions = [];
+  for (let i = 1; i <= 10; i++) {
+    for (let j = 1; j <= 5; j++) {
+      const multiplier = Math.floor(Math.random() * 10) + 1;
+      allQuestions.push({
+        question: `${i} × ${multiplier} = ?`,
+        answer: i * multiplier,
+        options: [
+          i * multiplier,
+          i * multiplier + Math.floor(Math.random() * 5) + 1,
+          i * multiplier - Math.floor(Math.random() * 5) - 1,
+          i * multiplier + Math.floor(Math.random() * 10) + 2
+        ].sort(() => Math.random() - 0.5)
+      });
+    }
+  }
+ 
+  const shuffled = [...allQuestions].sort(() => Math.random() - 0.5);
+  const questions = shuffled.slice(0, 5);
+  let currentQ = 0;
+ 
+  const instruction = gameLanguage === 'tamil'
+    ? `📊 வாய்ப்பாட்டு கேள்வி 1/5`
+    : `📊 Table Question 1/5`;
+  document.getElementById('gameInstruction').textContent = instruction;
+ 
+  function loadQuestion() {
+    gameArea.innerHTML = '';
+    const q = questions[currentQ];
+   
+    const questionDisplay = document.createElement('div');
+    questionDisplay.className = 'game-element';
+    questionDisplay.style.left = '50%';
+    questionDisplay.style.top = '30%';
+    questionDisplay.style.transform = 'translateX(-50%)';
+    questionDisplay.style.fontSize = '40px';
+    questionDisplay.style.background = 'linear-gradient(135deg, #FFD700, #FFA500)';
+    questionDisplay.style.padding = '30px';
+    questionDisplay.style.borderRadius = '20px';
+    questionDisplay.textContent = q.question;
+    gameArea.appendChild(questionDisplay);
+   
+    q.options.forEach((opt, index) => {
+      const optEl = document.createElement('div');
+      optEl.className = 'game-element option-box';
+      optEl.textContent = opt;
+      optEl.style.left = (index * 25) + 5 + '%';
+      optEl.style.top = '60%';
+     
+      optEl.onclick = function() {
+        if (parseInt(this.textContent) === q.answer) {
+          createParticle(this, '✓ +15', '#2ecc71');
+          player.score += 15;
+          gameScore += 15;
+          updateScoreDisplay();
+          savePlayerData();
+          currentQ++;
+         
+          if (currentQ < questions.length) {
+            document.getElementById('gameInstruction').textContent = gameLanguage === 'tamil'
+              ? `📊 வாய்ப்பாட்டு கேள்வி ${currentQ + 1}/5`
+              : `📊 Table Question ${currentQ + 1}/5`;
+            loadQuestion();
+          } else {
+            document.getElementById('continueBtn').disabled = false;
+            player.score += 30;
+            gameScore += 30;
+            updateScoreDisplay();
+            savePlayerData();
+            document.getElementById('gameInstruction').textContent = gameLanguage === 'tamil'
+              ? '🎉 வாய்ப்பாட்டு வல்லுநர்! +30 புள்ளிகள்'
+              : '🎉 Tables Expert! +30 points';
+            gameArea.innerHTML = '<div style="position: absolute; top: 40%; left: 50%; transform: translateX(-50%); font-size: 60px;">🏆</div>';
+          }
+        } else {
+          createParticle(this, '❌', '#e74c3c');
+        }
+      };
+      gameArea.appendChild(optEl);
+    });
+  }
+  loadQuestion();
+}
+
+function startMathsAlgebraGame() {
+  const gameArea = document.getElementById('gameArea');
+  const allEquations = [
+    { eq: 'x + 5 = 10', ans: '5' }, { eq: '2x = 8', ans: '4' }, { eq: 'x - 3 = 7', ans: '10' },
+    { eq: 'x/2 = 6', ans: '12' }, { eq: '3x = 15', ans: '5' }, { eq: 'x + 8 = 20', ans: '12' },
+    { eq: 'x - 5 = 9', ans: '14' }, { eq: '4x = 24', ans: '6' }, { eq: 'x/3 = 5', ans: '15' },
+    { eq: '2x + 1 = 11', ans: '5' }, { eq: '3x - 2 = 13', ans: '5' }, { eq: 'x + 12 = 20', ans: '8' },
+    { eq: '5x = 30', ans: '6' }, { eq: 'x/4 = 4', ans: '16' }
+  ];
+ 
+  const shuffled = [...allEquations].sort(() => Math.random() - 0.5);
+  const questions = shuffled.slice(0, 10);
+  let currentQ = 0;
+ 
+  const instruction = gameLanguage === 'tamil'
+    ? `🔢 இயற்கணிதம் கேள்வி 1/10`
+    : `🔢 Algebra Question 1/10`;
+  document.getElementById('gameInstruction').textContent = instruction;
+ 
+  function loadQuestion() {
+    gameArea.innerHTML = '';
+    const q = questions[currentQ];
+   
+    const eqDisplay = document.createElement('div');
+    eqDisplay.className = 'game-element';
+    eqDisplay.style.left = '50%';
+    eqDisplay.style.top = '30%';
+    eqDisplay.style.transform = 'translateX(-50%)';
+    eqDisplay.style.fontSize = '40px';
+    eqDisplay.style.background = 'linear-gradient(135deg, #FF6B6B, #FF8E53)';
+    eqDisplay.style.padding = '30px';
+    eqDisplay.style.borderRadius = '20px';
+    eqDisplay.textContent = q.eq;
+    gameArea.appendChild(eqDisplay);
+   
+    const options = [
+      q.ans,
+      (parseInt(q.ans) + Math.floor(Math.random() * 5) + 2).toString(),
+      (parseInt(q.ans) - Math.floor(Math.random() * 5) - 2).toString(),
+      (parseInt(q.ans) * 2).toString()
+    ].sort(() => Math.random() - 0.5);
+   
+    options.forEach((opt, index) => {
+      const optEl = document.createElement('div');
+      optEl.className = 'game-element option-box';
+      optEl.textContent = opt;
+      optEl.style.left = (index * 25) + 5 + '%';
+      optEl.style.top = '60%';
+     
+      optEl.onclick = function() {
+        if (this.textContent === q.ans) {
+          createParticle(this, '✓ +10', '#2ecc71');
+          player.score += 10;
+          gameScore += 10;
+          updateScoreDisplay();
+          savePlayerData();
+          currentQ++;
+         
+          if (currentQ < questions.length) {
+            document.getElementById('gameInstruction').textContent = gameLanguage === 'tamil'
+              ? `🔢 இயற்கணிதம் கேள்வி ${currentQ + 1}/10`
+              : `🔢 Algebra Question ${currentQ + 1}/10`;
+            loadQuestion();
+          } else {
+            document.getElementById('continueBtn').disabled = false;
+            player.score += 50;
+            gameScore += 50;
+            updateScoreDisplay();
+            savePlayerData();
+            document.getElementById('gameInstruction').textContent = gameLanguage === 'tamil'
+              ? '🎉 இயற்கணித வல்லுநர்! +50 புள்ளிகள்'
+              : '🎉 Algebra Expert! +50 points';
+            gameArea.innerHTML = '<div style="position: absolute; top: 40%; left: 50%; transform: translateX(-50%); font-size: 60px;">🏆</div>';
+          }
+        } else {
+          createParticle(this, '❌', '#e74c3c');
+        }
+      };
+      gameArea.appendChild(optEl);
+    });
+  }
+  loadQuestion();
+}
+
+// ==================== SCIENCE GAMES ====================
+function startScienceSimonGame() {
+  const gameArea = document.getElementById('gameArea');
+  const bodyParts = [
+    { name: 'nose', emoji: '👃', command: 'Touch your nose!' },
+    { name: 'eyes', emoji: '👀', command: 'Touch your eyes!' },
+    { name: 'ears', emoji: '👂', command: 'Touch your ears!' },
+    { name: 'mouth', emoji: '👄', command: 'Touch your mouth!' },
+    { name: 'head', emoji: '👤', command: 'Touch your head!' },
+    { name: 'hands', emoji: '✋', command: 'Show your hands!' }
+  ];
+ 
+  let round = 0;
+  const totalRounds = 10;
+  let currentCommand = null;
+ 
+  const instruction = gameLanguage === 'tamil'
+    ? `🧠 சைமன் சொல்கிறார்: சுற்று 1/${totalRounds}`
+    : `🧠 Simon Says: Round 1/${totalRounds}`;
+  document.getElementById('gameInstruction').textContent = instruction;
+ 
+  function nextRound() {
+    if (round >= totalRounds) {
+      document.getElementById('continueBtn').disabled = false;
+      player.score += 30;
+      gameScore += 30;
+      updateScoreDisplay();
+      savePlayerData();
+      document.getElementById('gameInstruction').textContent = gameLanguage === 'tamil'
+        ? '🎉 அருமை! விளையாட்டு முடிந்தது! +30 புள்ளிகள்'
+        : '🎉 Great! Game Complete! +30 points';
+      gameArea.innerHTML = '<div style="position: absolute; top: 40%; left: 50%; transform: translateX(-50%); font-size: 60px;">🏆</div>';
+      return;
+    }
+   
+    gameArea.innerHTML = '';
+    const randomIndex = Math.floor(Math.random() * bodyParts.length);
+    currentCommand = bodyParts[randomIndex];
+   
+    const simonDisplay = document.createElement('div');
+    simonDisplay.className = 'game-element';
+    simonDisplay.style.left = '50%';
+    simonDisplay.style.top = '15%';
+    simonDisplay.style.transform = 'translateX(-50%)';
+    simonDisplay.style.fontSize = '28px';
+    simonDisplay.style.background = 'linear-gradient(135deg, #4facfe, #00f2fe)';
+    simonDisplay.style.padding = '15px 25px';
+    simonDisplay.style.borderRadius = '50px';
+    simonDisplay.textContent = gameLanguage === 'tamil'
+      ? `சைமன் சொல்கிறார்: ${currentCommand.command}`
+      : `Simon Says: ${currentCommand.command}`;
+    gameArea.appendChild(simonDisplay);
+   
+    const positions = [
+      { emoji: '👃', top: '35%', left: '50%', name: 'nose' },
+      { emoji: '👀', top: '25%', left: '40%', name: 'eyes' },
+      { emoji: '👀', top: '25%', left: '60%', name: 'eyes' },
+      { emoji: '👂', top: '30%', left: '30%', name: 'ears' },
+      { emoji: '👂', top: '30%', left: '70%', name: 'ears' },
+      { emoji: '👄', top: '40%', left: '50%', name: 'mouth' },
+      { emoji: '👤', top: '15%', left: '50%', name: 'head' },
+      { emoji: '✋', top: '55%', left: '30%', name: 'hands' },
+      { emoji: '✋', top: '55%', left: '70%', name: 'hands' }
+    ];
+   
+    positions.forEach((pos) => {
+      const part = document.createElement('div');
+      part.className = 'game-element simon-button';
+      part.textContent = pos.emoji;
+      part.style.left = pos.left;
+      part.style.top = pos.top;
+      part.style.width = '70px';
+      part.style.height = '70px';
+      part.style.fontSize = '40px';
+      part.dataset.part = pos.name;
+     
+      part.onclick = function() {
+        if (this.dataset.part === currentCommand.name ||
+            (currentCommand.name === 'eyes' && this.dataset.part === 'eyes') ||
+            (currentCommand.name === 'ears' && this.dataset.part === 'ears') ||
+            (currentCommand.name === 'hands' && this.dataset.part === 'hands')) {
+          createParticle(this, '✓ +5', '#2ecc71');
+          player.score += 5;
+          gameScore += 5;
+          updateScoreDisplay();
+          savePlayerData();
+          round++;
+          document.getElementById('gameInstruction').textContent = gameLanguage === 'tamil'
+            ? `🧠 சைமன் சொல்கிறார்: சுற்று ${round + 1}/${totalRounds}`
+            : `🧠 Simon Says: Round ${round + 1}/${totalRounds}`;
+          nextRound();
+        } else {
+          createParticle(this, '❌', '#e74c3c');
+        }
+      };
+      gameArea.appendChild(part);
+    });
+  }
+  nextRound();
+}
+
+function startScienceBodyImagesGame() {
+  const gameArea = document.getElementById('gameArea');
+  const bodyQuestions = [
+    { question: 'Which is the heart?', image: '❤️', options: ['❤️ Heart', '🧠 Brain', '🫁 Lungs', '👀 Eyes'], answer: '❤️ Heart' },
+    { question: 'Which is the brain?', image: '🧠', options: ['❤️ Heart', '🧠 Brain', '🫁 Lungs', '👀 Eyes'], answer: '🧠 Brain' },
+    { question: 'Which are the lungs?', image: '🫁', options: ['❤️ Heart', '🧠 Brain', '🫁 Lungs', '👀 Eyes'], answer: '🫁 Lungs' },
+    { question: 'Which are the eyes?', image: '👀', options: ['❤️ Heart', '🧠 Brain', '🫁 Lungs', '👀 Eyes'], answer: '👀 Eyes' },
+    { question: 'Which is the stomach?', image: '🫃', options: ['❤️ Heart', '🧠 Brain', '🫃 Stomach', '👂 Ears'], answer: '🫃 Stomach' },
+    { question: 'Which are the ears?', image: '👂', options: ['👂 Ears', '👃 Nose', '👄 Mouth', '✋ Hands'], answer: '👂 Ears' },
+    { question: 'Which is the nose?', image: '👃', options: ['👂 Ears', '👃 Nose', '👄 Mouth', '✋ Hands'], answer: '👃 Nose' },
+    { question: 'Which is the mouth?', image: '👄', options: ['👂 Ears', '👃 Nose', '👄 Mouth', '✋ Hands'], answer: '👄 Mouth' },
+    { question: 'Which are the hands?', image: '✋', options: ['✋ Hands', '🦶 Feet', '💪 Arms', '🦵 Legs'], answer: '✋ Hands' },
+    { question: 'Which are the feet?', image: '🦶', options: ['✋ Hands', '🦶 Feet', '💪 Arms', '🦵 Legs'], answer: '🦶 Feet' },
+    { question: 'Which are the arms?', image: '💪', options: ['✋ Hands', '🦶 Feet', '💪 Arms', '🦵 Legs'], answer: '💪 Arms' },
+    { question: 'Which are the legs?', image: '🦵', options: ['✋ Hands', '🦶 Feet', '💪 Arms', '🦵 Legs'], answer: '🦵 Legs' }
+  ];
+ 
+  const shuffled = [...bodyQuestions].sort(() => Math.random() - 0.5);
+  const questions = shuffled.slice(0, 10);
+  let currentQ = 0;
+ 
+  const instruction = gameLanguage === 'tamil'
+    ? `🔬 உடல் உறுப்புகள் கேள்வி 1/10`
+    : `🔬 Body Parts Question 1/10`;
+  document.getElementById('gameInstruction').textContent = instruction;
+ 
+  function loadQuestion() {
+    gameArea.innerHTML = '';
+    const q = questions[currentQ];
+   
+    const questionDisplay = document.createElement('div');
+    questionDisplay.className = 'game-element';
+    questionDisplay.style.left = '50%';
+    questionDisplay.style.top = '20%';
+    questionDisplay.style.transform = 'translateX(-50%)';
+    questionDisplay.style.fontSize = '70px';
+    questionDisplay.style.background = 'linear-gradient(135deg, #4facfe, #00f2fe)';
+    questionDisplay.style.padding = '15px 25px';
+    questionDisplay.style.borderRadius = '50px';
+    questionDisplay.textContent = q.image;
+    gameArea.appendChild(questionDisplay);
+   
+    const questionText = document.createElement('div');
+    questionText.className = 'game-element';
+    questionText.style.left = '50%';
+    questionText.style.top = '35%';
+    questionText.style.transform = 'translateX(-50%)';
+    questionText.style.fontSize = '24px';
+    questionText.style.background = 'rgba(0,0,0,0.3)';
+    questionText.style.padding = '10px';
+    questionText.style.borderRadius = '10px';
+    questionText.textContent = q.question;
+    gameArea.appendChild(questionText);
+   
+    const options = [...q.options].sort(() => Math.random() - 0.5);
+   
+    options.forEach((opt, index) => {
+      const optEl = document.createElement('div');
+      optEl.className = 'game-element option-box';
+      optEl.textContent = opt;
+      optEl.style.left = (index * 25) + 5 + '%';
+      optEl.style.top = '55%';
+      optEl.style.fontSize = '18px';
+     
+      optEl.onclick = function() {
+        if (this.textContent === q.answer) {
+          createParticle(this, '✓ +10', '#2ecc71');
+          player.score += 10;
+          gameScore += 10;
+          updateScoreDisplay();
+          savePlayerData();
+          currentQ++;
+         
+          if (currentQ < questions.length) {
+            document.getElementById('gameInstruction').textContent = gameLanguage === 'tamil'
+              ? `🔬 உடல் உறுப்புகள் கேள்வி ${currentQ + 1}/10`
+              : `🔬 Body Parts Question ${currentQ + 1}/10`;
+            loadQuestion();
+          } else {
+            document.getElementById('continueBtn').disabled = false;
+            player.score += 50;
+            gameScore += 50;
+            updateScoreDisplay();
+            savePlayerData();
+            document.getElementById('gameInstruction').textContent = gameLanguage === 'tamil'
+              ? '🎉 உடற்கூறியல் வல்லுநர்! +50 புள்ளிகள்'
+              : '🎉 Anatomy Expert! +50 points';
+            gameArea.innerHTML = '<div style="position: absolute; top: 40%; left: 50%; transform: translateX(-50%); font-size: 60px;">🏆</div>';
+          }
+        } else {
+          createParticle(this, '❌', '#e74c3c');
+        }
+      };
+      gameArea.appendChild(optEl);
+    });
+  }
+  loadQuestion();
+}
+
+function startSciencePhysicsGame() {
+  const gameArea = document.getElementById('gameArea');
+  const physics = [
+    { term: 'Force', unit: 'Newton' }, { term: 'Energy', unit: 'Joule' },
+    { term: 'Power', unit: 'Watt' }, { term: 'Pressure', unit: 'Pascal' },
+    { term: 'Current', unit: 'Ampere' }
+  ];
+ 
+  let current = physics[Math.floor(Math.random() * physics.length)];
+  let questionCount = 0;
+  const maxQuestions = 5;
+ 
+  const instruction = gameLanguage === 'tamil'
+    ? `⚡ பொருத்தவும்: ${current.term} - அலகு?`
+    : `⚡ Match: ${current.term} - Unit?`;
+  document.getElementById('gameInstruction').textContent = instruction;
+ 
+  const termDisplay = document.createElement('div');
+  termDisplay.className = 'game-element';
+  termDisplay.style.left = '50%';
+  termDisplay.style.top = '30%';
+  termDisplay.style.transform = 'translateX(-50%)';
+  termDisplay.style.background = 'linear-gradient(135deg, #4facfe, #00f2fe)';
+  termDisplay.style.padding = '20px';
+  termDisplay.style.borderRadius = '15px';
+  termDisplay.textContent = current.term;
+  gameArea.appendChild(termDisplay);
+ 
+  const options = physics.map(p => p.unit);
+  options.sort(() => Math.random() - 0.5);
+ 
+  options.forEach((opt, index) => {
+    const card = document.createElement('div');
+    card.className = 'game-element';
+    card.textContent = opt;
+    card.style.left = (index * 20) + 5 + '%';
+    card.style.top = '60%';
+    card.style.fontSize = '22px';
+    card.style.background = 'rgba(79,172,254,0.5)';
+    card.style.padding = '12px 15px';
+    card.style.borderRadius = '10px';
+   
+    card.onclick = function() {
+      if (this.textContent === current.unit) {
+        createParticle(this, '✓ +10', '#2ecc71');
+        player.score += 10;
+        gameScore += 10;
+        updateScoreDisplay();
+        savePlayerData();
+        questionCount++;
+       
+        if (questionCount < maxQuestions) {
+          current = physics[Math.floor(Math.random() * physics.length)];
+          termDisplay.textContent = current.term;
+          document.getElementById('gameInstruction').textContent =
+            gameLanguage === 'tamil' ? `⚡ பொருத்தவும்: ${current.term} - அலகு?` : `⚡ Match: ${current.term} - Unit?`;
+         
+          const newOptions = physics.map(p => p.unit);
+          newOptions.sort(() => Math.random() - 0.5);
+         
+          document.querySelectorAll('#gameArea .game-element').forEach((el, idx) => {
+            if (idx > 0) el.textContent = newOptions[idx-1];
+          });
+        } else {
+          document.getElementById('continueBtn').disabled = false;
+          player.score += 30;
+          gameScore += 30;
+          updateScoreDisplay();
+          savePlayerData();
+          document.getElementById('gameInstruction').textContent = gameLanguage === 'tamil'
+            ? '🎉 இயற்பியல் வல்லுநர்! +30 புள்ளிகள்'
+            : '🎉 Physics Expert! +30 points';
+          gameArea.innerHTML = '<div style="position: absolute; top: 40%; left: 50%; transform: translateX(-50%); font-size: 60px;">🏆</div>';
+        }
+      } else {
+        createParticle(this, '❌', '#e74c3c');
+      }
+    };
+    gameArea.appendChild(card);
+  });
+}
+
+// ==================== ENGLISH GAMES ====================
+function startEnglishWhackGame() {
+  const gameArea = document.getElementById('gameArea');
+  const animals = ['🐶', '🐱', '🐭', '🐸', '🐷', '🐮', '🐔', '🐦', '🐟', '🦁'];
+  let round = 0;
+  const totalRounds = 10;
+  let currentAnimal = null;
+ 
+  const instruction = gameLanguage === 'tamil'
+    ? `🐭 விலங்கைத் தட்டவும்: சுற்று 1/${totalRounds}`
+    : `🐭 Whack the animal: Round 1/${totalRounds}`;
+  document.getElementById('gameInstruction').textContent = instruction;
+ 
+  function nextRound() {
+    if (round >= totalRounds) {
+      document.getElementById('continueBtn').disabled = false;
+      player.score += 30;
+      gameScore += 30;
+      updateScoreDisplay();
+      savePlayerData();
+      document.getElementById('gameInstruction').textContent = gameLanguage === 'tamil'
+        ? '🎉 அருமை! விளையாட்டு முடிந்தது! +30 புள்ளிகள்'
+        : '🎉 Great! Game Complete! +30 points';
+      gameArea.innerHTML = '<div style="position: absolute; top: 40%; left: 50%; transform: translateX(-50%); font-size: 60px;">🏆</div>';
+      return;
+    }
+   
+    gameArea.innerHTML = '';
+    currentAnimal = animals[Math.floor(Math.random() * animals.length)];
+   
+    const targetDisplay = document.createElement('div');
+    targetDisplay.className = 'game-element';
+    targetDisplay.style.left = '50%';
+    targetDisplay.style.top = '10%';
+    targetDisplay.style.transform = 'translateX(-50%)';
+    targetDisplay.style.fontSize = '40px';
+    targetDisplay.style.background = 'linear-gradient(135deg, #FFD700, #FFA500)';
+    targetDisplay.style.padding = '15px 25px';
+    targetDisplay.style.borderRadius = '50px';
+    targetDisplay.style.whiteSpace = 'nowrap';
+    targetDisplay.textContent = gameLanguage === 'tamil'
+      ? `தேடுங்கள்: ${currentAnimal}`
+      : `Find: ${currentAnimal}`;
+    gameArea.appendChild(targetDisplay);
+   
+    for (let i = 0; i < 8; i++) {
+      const mole = document.createElement('div');
+      mole.className = 'whack-mole game-element';
+      const left = 10 + Math.random() * 70;
+      const top = 20 + Math.random() * 50;
+      mole.style.left = left + '%';
+      mole.style.top = top + '%';
+      mole.style.fontSize = '45px';
+     
+      let moleAnimal;
+      if (i < 3) moleAnimal = currentAnimal;
+      else moleAnimal = animals[Math.floor(Math.random() * animals.length)];
+     
+      mole.textContent = moleAnimal;
+      mole.dataset.animal = moleAnimal;
+     
+      mole.onclick = function() {
+        if (this.dataset.animal === currentAnimal) {
+          createParticle(this, '+10 ⭐', '#FFD700');
+          player.score += 10;
+          gameScore += 10;
+          updateScoreDisplay();
+          savePlayerData();
+          round++;
+          document.getElementById('gameInstruction').textContent = gameLanguage === 'tamil'
+            ? `🐭 விலங்கைத் தட்டவும்: சுற்று ${round + 1}/${totalRounds}`
+            : `🐭 Whack the animal: Round ${round + 1}/${totalRounds}`;
+          nextRound();
+        } else {
+          createParticle(this, '❌', '#e74c3c');
+        }
+      };
+      gameArea.appendChild(mole);
+    }
+  }
+  nextRound();
+}
+
+function startEnglishOppositesGame() {
+  const gameArea = document.getElementById('gameArea');
+  const allOpposites = [
+    { word: 'HOT', opposite: 'COLD', options: ['HOT', 'COLD', 'WARM', 'COOL'] },
+    { word: 'BIG', opposite: 'SMALL', options: ['BIG', 'SMALL', 'LARGE', 'TINY'] },
+    { word: 'FAST', opposite: 'SLOW', options: ['FAST', 'SLOW', 'QUICK', 'RAPID'] },
+    { word: 'HAPPY', opposite: 'SAD', options: ['HAPPY', 'SAD', 'GLAD', 'JOYFUL'] },
+    { word: 'GOOD', opposite: 'BAD', options: ['GOOD', 'BAD', 'GREAT', 'POOR'] },
+    { word: 'DAY', opposite: 'NIGHT', options: ['DAY', 'NIGHT', 'MORNING', 'EVENING'] },
+    { word: 'LIGHT', opposite: 'DARK', options: ['LIGHT', 'DARK', 'BRIGHT', 'DIM'] },
+    { word: 'UP', opposite: 'DOWN', options: ['UP', 'DOWN', 'ABOVE', 'BELOW'] },
+    { word: 'IN', opposite: 'OUT', options: ['IN', 'OUT', 'INSIDE', 'OUTSIDE'] },
+    { word: 'NEW', opposite: 'OLD', options: ['NEW', 'OLD', 'FRESH', 'ANCIENT'] },
+    { word: 'YOUNG', opposite: 'OLD', options: ['YOUNG', 'OLD', 'BABY', 'AGED'] },
+    { word: 'RICH', opposite: 'POOR', options: ['RICH', 'POOR', 'WEALTHY', 'BROKE'] }
+  ];
+ 
+  const shuffled = [...allOpposites].sort(() => Math.random() - 0.5);
+  const questions = shuffled.slice(0, 10);
+  let currentQ = 0;
+ 
+  const instruction = gameLanguage === 'tamil'
+    ? `🔄 எதிர்ச்சொல் கேள்வி 1/10`
+    : `🔄 Opposites Question 1/10`;
+  document.getElementById('gameInstruction').textContent = instruction;
+ 
+  function loadQuestion() {
+    gameArea.innerHTML = '';
+    const q = questions[currentQ];
+   
+    const wordDisplay = document.createElement('div');
+    wordDisplay.className = 'game-element';
+    wordDisplay.style.left = '50%';
+    wordDisplay.style.top = '30%';
+    wordDisplay.style.transform = 'translateX(-50%)';
+    wordDisplay.style.fontSize = '40px';
+    wordDisplay.style.background = 'linear-gradient(135deg, #43e97b, #38f9d7)';
+    wordDisplay.style.padding = '30px';
+    wordDisplay.style.borderRadius = '20px';
+    wordDisplay.textContent = q.word;
+    gameArea.appendChild(wordDisplay);
+   
+    const options = [...q.options].sort(() => Math.random() - 0.5);
+   
+    options.forEach((opt, index) => {
+      const optEl = document.createElement('div');
+      optEl.className = 'game-element option-box';
+      optEl.textContent = opt;
+      optEl.style.left = (index * 25) + 5 + '%';
+      optEl.style.top = '60%';
+     
+      optEl.onclick = function() {
+        if (this.textContent === q.opposite) {
+          createParticle(this, '✓ +10', '#2ecc71');
+          player.score += 10;
+          gameScore += 10;
+          updateScoreDisplay();
+          savePlayerData();
+          currentQ++;
+         
+          if (currentQ < questions.length) {
+            document.getElementById('gameInstruction').textContent = gameLanguage === 'tamil'
+              ? `🔄 எதிர்ச்சொல் கேள்வி ${currentQ + 1}/10`
+              : `🔄 Opposites Question ${currentQ + 1}/10`;
+            loadQuestion();
+          } else {
+            document.getElementById('continueBtn').disabled = false;
+            player.score += 50;
+            gameScore += 50;
+            updateScoreDisplay();
+            savePlayerData();
+            document.getElementById('gameInstruction').textContent = gameLanguage === 'tamil'
+              ? '🎉 எதிர்ச்சொல் வல்லுநர்! +50 புள்ளிகள்'
+              : '🎉 Opposites Expert! +50 points';
+            gameArea.innerHTML = '<div style="position: absolute; top: 40%; left: 50%; transform: translateX(-50%); font-size: 60px;">🏆</div>';
+          }
+        } else {
+          createParticle(this, '❌', '#e74c3c');
+        }
+      };
+      gameArea.appendChild(optEl);
+    });
+  }
+  loadQuestion();
+}
+
+function startEnglishGrammarGame() {
+  const gameArea = document.getElementById('gameArea');
+  const allGrammar = [
+    { sentence: 'She ___ to school', options: ['go', 'goes', 'going', 'went'], answer: 'goes' },
+    { sentence: 'They ___ playing', options: ['is', 'am', 'are', 'be'], answer: 'are' },
+    { sentence: 'I ___ a student', options: ['is', 'am', 'are', 'be'], answer: 'am' },
+    { sentence: 'He ___ eaten', options: ['has', 'have', 'is', 'are'], answer: 'has' },
+    { sentence: 'We ___ happy', options: ['is', 'am', 'are', 'be'], answer: 'are' },
+    { sentence: '___ you like ice cream?', options: ['Do', 'Does', 'Is', 'Are'], answer: 'Do' },
+    { sentence: 'She ___ not here', options: ['is', 'am', 'are', 'be'], answer: 'is' },
+    { sentence: 'They ___ finished', options: ['has', 'have', 'is', 'are'], answer: 'have' },
+    { sentence: '___ he play cricket?', options: ['Do', 'Does', 'Is', 'Are'], answer: 'Does' },
+    { sentence: 'I ___ watching TV', options: ['is', 'am', 'are', 'be'], answer: 'am' },
+    { sentence: 'We ___ going to school', options: ['is', 'am', 'are', 'be'], answer: 'are' },
+    { sentence: 'It ___ raining', options: ['is', 'am', 'are', 'be'], answer: 'is' }
+  ];
+ 
+  const shuffled = [...allGrammar].sort(() => Math.random() - 0.5);
+  const questions = shuffled.slice(0, 10);
+  let currentQ = 0;
+ 
+  const instruction = gameLanguage === 'tamil'
+    ? `📝 இலக்கணம் கேள்வி 1/10`
+    : `📝 Grammar Question 1/10`;
+  document.getElementById('gameInstruction').textContent = instruction;
+ 
+  function loadQuestion() {
+    gameArea.innerHTML = '';
+    const q = questions[currentQ];
+   
+    const sentenceDisplay = document.createElement('div');
+    sentenceDisplay.className = 'game-element';
+    sentenceDisplay.style.left = '50%';
+    sentenceDisplay.style.top = '30%';
+    sentenceDisplay.style.transform = 'translateX(-50%)';
+    sentenceDisplay.style.fontSize = '28px';
+    sentenceDisplay.style.background = 'linear-gradient(135deg, #667eea, #764ba2)';
+    sentenceDisplay.style.padding = '25px';
+    sentenceDisplay.style.borderRadius = '20px';
+    sentenceDisplay.textContent = q.sentence;
+    gameArea.appendChild(sentenceDisplay);
+   
+    const options = [...q.options].sort(() => Math.random() - 0.5);
+   
+    options.forEach((opt, index) => {
+      const optEl = document.createElement('div');
+      optEl.className = 'game-element option-box';
+      optEl.textContent = opt;
+      optEl.style.left = (index * 25) + 5 + '%';
+      optEl.style.top = '60%';
+     
+      optEl.onclick = function() {
+        if (this.textContent === q.answer) {
+          createParticle(this, '✓ +10', '#2ecc71');
+          player.score += 10;
+          gameScore += 10;
+          updateScoreDisplay();
+          savePlayerData();
+          currentQ++;
+         
+          if (currentQ < questions.length) {
+            document.getElementById('gameInstruction').textContent = gameLanguage === 'tamil'
+              ? `📝 இலக்கணம் கேள்வி ${currentQ + 1}/10`
+              : `📝 Grammar Question ${currentQ + 1}/10`;
+            loadQuestion();
+          } else {
+            document.getElementById('continueBtn').disabled = false;
+            player.score += 50;
+            gameScore += 50;
+            updateScoreDisplay();
+            savePlayerData();
+            document.getElementById('gameInstruction').textContent = gameLanguage === 'tamil'
+              ? '🎉 இலக்கண வல்லுநர்! +50 புள்ளிகள்'
+              : '🎉 Grammar Expert! +50 points';
+            gameArea.innerHTML = '<div style="position: absolute; top: 40%; left: 50%; transform: translateX(-50%); font-size: 60px;">🏆</div>';
+          }
+        } else {
+          createParticle(this, '❌', '#e74c3c');
+        }
+      };
+      gameArea.appendChild(optEl);
+    });
+  }
+  loadQuestion();
+}
+
+// ==================== SOCIAL GAMES ====================
+function startSocialTreasureHuntGame() {
+  const gameArea = document.getElementById('gameArea');
+  const treasures = [
+    { emoji: '💎', name: 'Diamond', found: false }, { emoji: '👑', name: 'Crown', found: false },
+    { emoji: '⚱️', name: 'Treasure Chest', found: false }, { emoji: '🔑', name: 'Golden Key', found: false },
+    { emoji: '📜', name: 'Ancient Scroll', found: false }, { emoji: '🏺', name: 'Amphora', found: false },
+    { emoji: '🪙', name: 'Gold Coin', found: false }, { emoji: '💍', name: 'Ring', found: false },
+    { emoji: '🔮', name: 'Crystal Ball', found: false }, { emoji: '⚜️', name: 'Fleur de Lis', found: false },
+    { emoji: '💶', name: 'Gold Bar', found: false }, { emoji: '💷', name: 'Treasure Map', found: false },
+    { emoji: '💴', name: 'Ancient Coin', found: false }, { emoji: '💵', name: 'Money Bag', found: false },
+    { emoji: '💎', name: 'Ruby', found: false }, { emoji: '👑', name: 'Tiara', found: false }
+  ];
+ 
+  const target = 15;
+  let foundCount = 0;
+ 
+  const instruction = gameLanguage === 'tamil'
+    ? '💎 15 புதையல்களை கண்டுபிடி!'
+    : '💎 Find 15 hidden treasures!';
+  document.getElementById('gameInstruction').textContent = instruction;
+ 
+  const mapDisplay = document.createElement('div');
+  mapDisplay.className = 'treasure-map';
+  mapDisplay.textContent = gameLanguage === 'tamil' ? `🗺️ கண்டுபிடித்தவை: 0/${target}` : `🗺️ Found: 0/${target}`;
+  gameArea.appendChild(mapDisplay);
+ 
+  function placeTreasures() {
+    gameArea.innerHTML = '';
+    gameArea.appendChild(mapDisplay);
+   
+    for (let i = 0; i < treasures.length; i++) {
+      const treasure = document.createElement('div');
+      treasure.className = 'treasure-item';
+      treasure.textContent = treasures[i].emoji;
+      treasure.style.left = Math.random() * 80 + 10 + '%';
+      treasure.style.top = Math.random() * 60 + 15 + '%';
+      treasure.style.fontSize = '45px';
+      treasure.style.animation = `treasureFloat ${3 + Math.random() * 3}s infinite alternate`;
+      treasure.dataset.index = i;
+      treasure.dataset.found = 'false';
+     
+      treasure.onclick = function() {
+        if (this.dataset.found === 'true') return;
+        this.dataset.found = 'true';
+        this.classList.add('found');
+        foundCount++;
+       
+        createParticle(this, '+5 💎', '#FFD700');
+        player.score += 5;
+        gameScore += 5;
+        updateScoreDisplay();
+        savePlayerData();
+       
+        mapDisplay.textContent = gameLanguage === 'tamil'
+          ? `🗺️ கண்டுபிடித்தவை: ${foundCount}/${target}`
+          : `🗺️ Found: ${foundCount}/${target}`;
+       
+        document.getElementById('gameInstruction').textContent = gameLanguage === 'tamil'
+          ? `💎 ${foundCount}/${target} புதையல்கள் கிடைத்தன!`
+          : `💎 Found ${foundCount}/${target} treasures!`;
+       
+        if (foundCount >= target) {
+          document.getElementById('continueBtn').disabled = false;
+          player.score += 50;
+          gameScore += 50;
+          updateScoreDisplay();
+          savePlayerData();
+          document.getElementById('gameInstruction').textContent = gameLanguage === 'tamil'
+            ? '🎉 அருமை! புதையல் வேட்டை முடிந்தது! +50 புள்ளிகள்'
+            : '🎉 Great! Treasure Hunt Complete! +50 points';
+          gameArea.innerHTML = '<div style="position: absolute; top: 40%; left: 50%; transform: translateX(-50%); font-size: 60px;">🏆</div>';
+          for (let i = 0; i < 10; i++) {
+            setTimeout(() => {
+              const confetti = document.createElement('div');
+              confetti.textContent = '✨';
+              confetti.style.position = 'absolute';
+              confetti.style.left = Math.random() * 100 + '%';
+              confetti.style.top = Math.random() * 100 + '%';
+              confetti.style.fontSize = '30px';
+              confetti.style.animation = 'particleFloat 1s forwards';
+              gameArea.appendChild(confetti);
+              setTimeout(() => confetti.remove(), 1000);
+            }, i * 100);
+          }
+        }
+      };
+      gameArea.appendChild(treasure);
+    }
+  }
+  placeTreasures();
+}
+
+function startSocialStatesGame() {
+  const gameArea = document.getElementById('gameArea');
+  const allStates = [
+    { state: 'Tamil Nadu', capital: 'Chennai', options: ['Chennai', 'Coimbatore', 'Madurai', 'Tiruchirappalli'] },
+    { state: 'Kerala', capital: 'Thiruvananthapuram', options: ['Thiruvananthapuram', 'Kochi', 'Kozhikode', 'Idukki'] },
+    { state: 'Karnataka', capital: 'Bengaluru', options: ['Bengaluru', 'Mysuru', 'Mangaluru', 'Hubballi'] },
+    { state: 'Andhra Pradesh', capital: 'Amaravati', options: ['Amaravati', 'Visakhapatnam', 'Vijayawada', 'Tirupati'] },
+    { state: 'Maharashtra', capital: 'Mumbai', options: ['Mumbai', 'Pune', 'Nagpur', 'Nashik'] },
+    { state: 'Uttar Pradesh', capital: 'Lucknow', options: ['Lucknow', 'Kanpur', 'Varanasi', 'Agra'] },
+    { state: 'Gujarat', capital: 'Gandhinagar', options: ['Gandhinagar', 'Ahmedabad', 'Surat', 'Vadodara'] },
+    { state: 'Rajasthan', capital: 'Jaipur', options: ['Jaipur', 'Jodhpur', 'Udaipur', 'Kota'] },
+    { state: 'West Bengal', capital: 'Kolkata', options: ['Kolkata', 'Darjeeling', 'Siliguri', 'Howrah'] },
+    { state: 'Bihar', capital: 'Patna', options: ['Patna', 'Gaya', 'Bhagalpur', 'Muzaffarpur'] }
+  ];
+ 
+  const shuffled = [...allStates].sort(() => Math.random() - 0.5);
+  const questions = shuffled.slice(0, 10);
+  let currentQ = 0;
+ 
+  const instruction = gameLanguage === 'tamil'
+    ? `🇮🇳 மாநிலங்கள் & தலைநகரங்கள் 1/10`
+    : `🇮🇳 States & Capitals 1/10`;
+  document.getElementById('gameInstruction').textContent = instruction;
+ 
+  function loadQuestion() {
+    gameArea.innerHTML = '';
+    const q = questions[currentQ];
+   
+    const stateDisplay = document.createElement('div');
+    stateDisplay.className = 'game-element';
+    stateDisplay.style.left = '50%';
+    stateDisplay.style.top = '30%';
+    stateDisplay.style.transform = 'translateX(-50%)';
+    stateDisplay.style.fontSize = '30px';
+    stateDisplay.style.background = 'linear-gradient(135deg, #FF9933, #138808)';
+    stateDisplay.style.padding = '30px';
+    stateDisplay.style.borderRadius = '20px';
+    stateDisplay.textContent = q.state + ' - Capital?';
+    gameArea.appendChild(stateDisplay);
+   
+    const options = [...q.options].sort(() => Math.random() - 0.5);
+   
+    options.forEach((opt, index) => {
+      const optEl = document.createElement('div');
+      optEl.className = 'game-element option-box';
+      optEl.textContent = opt;
+      optEl.style.left = (index * 25) + 5 + '%';
+      optEl.style.top = '60%';
+     
+      optEl.onclick = function() {
+        if (this.textContent === q.capital) {
+          createParticle(this, '✓ +10', '#2ecc71');
+          player.score += 10;
+          gameScore += 10;
+          updateScoreDisplay();
+          savePlayerData();
+          currentQ++;
+         
+          if (currentQ < questions.length) {
+            document.getElementById('gameInstruction').textContent = gameLanguage === 'tamil'
+              ? `🇮🇳 மாநிலங்கள் & தலைநகரங்கள் ${currentQ + 1}/10`
+              : `🇮🇳 States & Capitals ${currentQ + 1}/10`;
+            loadQuestion();
+          } else {
+            document.getElementById('continueBtn').disabled = false;
+            player.score += 50;
+            gameScore += 50;
+            updateScoreDisplay();
+            savePlayerData();
+            document.getElementById('gameInstruction').textContent = gameLanguage === 'tamil'
+              ? '🎉 புவியியல் வல்லுநர்! +50 புள்ளிகள்'
+              : '🎉 Geography Expert! +50 points';
+            gameArea.innerHTML = '<div style="position: absolute; top: 40%; left: 50%; transform: translateX(-50%); font-size: 60px;">🏆</div>';
+          }
+        } else {
+          createParticle(this, '❌', '#e74c3c');
+        }
+      };
+      gameArea.appendChild(optEl);
+    });
+  }
+  loadQuestion();
+}
+
+function startSocialMonumentsGame() {
+  const gameArea = document.getElementById('gameArea');
+  const allMonuments = [
+    { monument: 'Taj Mahal', location: 'Uttar Pradesh', options: ['Uttar Pradesh', 'Delhi', 'Madhya Pradesh', 'Rajasthan'] },
+    { monument: 'Meenakshi Temple', location: 'Tamil Nadu', options: ['Tamil Nadu', 'Kerala', 'Karnataka', 'Andhra Pradesh'] },
+    { monument: 'Mysore Palace', location: 'Karnataka', options: ['Karnataka', 'Tamil Nadu', 'Kerala', 'Andhra Pradesh'] },
+    { monument: 'Charminar', location: 'Telangana', options: ['Telangana', 'Andhra Pradesh', 'Tamil Nadu', 'Karnataka'] },
+    { monument: 'Qutub Minar', location: 'Delhi', options: ['Delhi', 'Mumbai', 'Chennai', 'Kolkata'] },
+    { monument: 'Gateway of India', location: 'Mumbai', options: ['Mumbai', 'Delhi', 'Kolkata', 'Chennai'] },
+    { monument: 'India Gate', location: 'Delhi', options: ['Delhi', 'Mumbai', 'Kolkata', 'Chennai'] },
+    { monument: 'Hawa Mahal', location: 'Jaipur', options: ['Jaipur', 'Jodhpur', 'Udaipur', 'Ajmer'] },
+    { monument: 'Golden Temple', location: 'Amritsar', options: ['Amritsar', 'Ludhiana', 'Patiala', 'Chandigarh'] },
+    { monument: 'Sun Temple', location: 'Odisha', options: ['Odisha', 'West Bengal', 'Jharkhand', 'Bihar'] }
+  ];
+ 
+  const shuffled = [...allMonuments].sort(() => Math.random() - 0.5);
+  const questions = shuffled.slice(0, 10);
+  let currentQ = 0;
+ 
+  const instruction = gameLanguage === 'tamil'
+    ? `🏛️ வரலாற்று நினைவுச்சின்னங்கள் 1/10`
+    : `🏛️ Historical Monuments 1/10`;
+  document.getElementById('gameInstruction').textContent = instruction;
+ 
+  function loadQuestion() {
+    gameArea.innerHTML = '';
+    const q = questions[currentQ];
+   
+    const monumentDisplay = document.createElement('div');
+    monumentDisplay.className = 'game-element';
+    monumentDisplay.style.left = '50%';
+    monumentDisplay.style.top = '30%';
+    monumentDisplay.style.transform = 'translateX(-50%)';
+    monumentDisplay.style.fontSize = '30px';
+    monumentDisplay.style.background = 'linear-gradient(135deg, #FF6B6B, #FF8E53)';
+    monumentDisplay.style.padding = '30px';
+    monumentDisplay.style.borderRadius = '20px';
+    monumentDisplay.textContent = q.monument;
+    gameArea.appendChild(monumentDisplay);
+   
+    const options = [...q.options].sort(() => Math.random() - 0.5);
+   
+    options.forEach((opt, index) => {
+      const optEl = document.createElement('div');
+      optEl.className = 'game-element option-box';
+      optEl.textContent = opt;
+      optEl.style.left = (index * 25) + 5 + '%';
+      optEl.style.top = '60%';
+     
+      optEl.onclick = function() {
+        if (this.textContent === q.location) {
+          createParticle(this, '✓ +10', '#2ecc71');
+          player.score += 10;
+          gameScore += 10;
+          updateScoreDisplay();
+          savePlayerData();
+          currentQ++;
+         
+          if (currentQ < questions.length) {
+            document.getElementById('gameInstruction').textContent = gameLanguage === 'tamil'
+              ? `🏛️ வரலாற்று நினைவுச்சின்னங்கள் ${currentQ + 1}/10`
+              : `🏛️ Historical Monuments ${currentQ + 1}/10`;
+            loadQuestion();
+          } else {
+            document.getElementById('continueBtn').disabled = false;
+            player.score += 50;
+            gameScore += 50;
+            updateScoreDisplay();
+            savePlayerData();
+            document.getElementById('gameInstruction').textContent = gameLanguage === 'tamil'
+              ? '🎉 வரலாற்று வல்லுநர்! +50 புள்ளிகள்'
+              : '🎉 History Expert! +50 points';
+            gameArea.innerHTML = '<div style="position: absolute; top: 40%; left: 50%; transform: translateX(-50%); font-size: 60px;">🏆</div>';
+          }
+        } else {
+          createParticle(this, '❌', '#e74c3c');
+        }
+      };
+      gameArea.appendChild(optEl);
+    });
+  }
+  loadQuestion();
+}
+
+// ==================== TAMIL GAMES ====================
+function startTamilRiddleGame() {
+  const gameArea = document.getElementById('gameArea');
+  const riddles = [
+    { riddle: 'ஒரு வீட்டில் 5 சகோதரர்கள் இருக்கிறார்கள். எல்லாருக்கும் பெயர் ஒரே மாதிரி. அவர்கள் யார்?', options: ['விரல்கள் 👋', 'சகோதரர்கள் 👨‍👦', 'நண்பர்கள் 👥'], answer: 'விரல்கள் 👋' },
+    { riddle: 'நான் பிறந்ததும் பெரியவன், வயது ஆக ஆக சிறியவனாகிறேன். நான் யார்?', options: ['மனிதன் 👨', 'மெழுகுவர்த்தி 🕯️', 'மரம் 🌳'], answer: 'மெழுகுவர்த்தி 🕯️' },
+    { riddle: 'என்னை எடுத்தால் பெரிதாகிறேன், விட்டால் சிறிதாகிறேன். நான் யார்?', options: ['பலூன் 🎈', 'குழி 🕳️', 'நிழல் 👤'], answer: 'குழி 🕳️' },
+    { riddle: 'நான் பேச மாட்டேன், ஆனால் எல்லா மொழியையும் புரிந்து கொள்வேன். நான் யார்?', options: ['கண்ணாடி 🪞', 'புத்தகம் 📖', 'ரேடியோ 📻'], answer: 'கண்ணாடி 🪞' },
+    { riddle: 'என்னிடம் நகரங்கள் இருக்கிறது, நதிகள் இருக்கிறது, மலைகள் இருக்கிறது. ஆனால் தண்ணீர் இல்லை, மக்கள் இல்லை. நான் யார்?', options: ['படம் 🖼️', 'வரைபடம் 🗺️', 'புகைப்படம் 📸'], answer: 'வரைபடம் 🗺️' },
+    { riddle: 'ஒரு காடு உள்ளது. அதில் பல மரங்கள் உள்ளன. அந்த மரங்களில் எந்தப் பறவையும் உட்காராது. அது என்ன காடு?', options: ['முடி 💇‍♂️', 'பூங்கா 🌳', 'காட்டுப்பகுதி 🌲'], answer: 'முடி 💇‍♂️' }
+  ];
+ 
+  const shuffled = [...riddles].sort(() => Math.random() - 0.5);
+  const questions = shuffled.slice(0, 6);
+  let currentQ = 0;
+ 
+  document.getElementById('gameInstruction').textContent = `🤔 விடுகதை கேள்வி 1/6`;
+ 
+  function loadQuestion() {
+    gameArea.innerHTML = '';
+    const q = questions[currentQ];
+   
+    const riddleDisplay = document.createElement('div');
+    riddleDisplay.className = 'tamil-question-box';
+    riddleDisplay.textContent = q.riddle;
+    riddleDisplay.style.fontSize = '22px';
+    riddleDisplay.style.maxWidth = '85%';
+    riddleDisplay.style.padding = '15px 20px';
+    gameArea.appendChild(riddleDisplay);
+   
+    const optionsContainer = document.createElement('div');
+    optionsContainer.className = 'tamil-options-container';
+    optionsContainer.style.gap = '12px';
+    optionsContainer.style.bottom = '10%';
+   
+    const options = [...q.options].sort(() => Math.random() - 0.5);
+   
+    options.forEach((opt) => {
+      const optEl = document.createElement('div');
+      optEl.className = 'tamil-option';
+      optEl.textContent = opt;
+      optEl.style.fontSize = '20px';
+      optEl.style.padding = '10px 18px';
+      optEl.style.minWidth = '140px';
+     
+      optEl.onclick = function() {
+        if (this.textContent === q.answer) {
+          createParticle(this, '✓ +15', '#2ecc71');
+          player.score += 15;
+          gameScore += 15;
+          updateScoreDisplay();
+          savePlayerData();
+          currentQ++;
+         
+          if (currentQ < questions.length) {
+            document.getElementById('gameInstruction').textContent = `🤔 விடுகதை கேள்வி ${currentQ + 1}/6`;
+            loadQuestion();
+          } else {
+            document.getElementById('continueBtn').disabled = false;
+            player.score += 40;
+            gameScore += 40;
+            updateScoreDisplay();
+            savePlayerData();
+            document.getElementById('gameInstruction').textContent = '🎉 விடுகதை வல்லுநர்! +40 புள்ளிகள்';
+            gameArea.innerHTML = '<div style="position: absolute; top: 40%; left: 50%; transform: translateX(-50%); font-size: 60px;">🏆</div>';
+          }
+        } else {
+          createParticle(this, '❌', '#e74c3c');
+        }
+      };
+      optionsContainer.appendChild(optEl);
+    });
+    gameArea.appendChild(optionsContainer);
+  }
+  loadQuestion();
+}
+
+function startTamilProverbGame() {
+  const gameArea = document.getElementById('gameArea');
+  const proverbs = [
+    { proverb: 'கற்றது கைமண் அளவு', meaning: 'கற்றது சிறிது', options: ['கற்றது சிறிது', 'கற்றது பெரிது', 'கல்லாதது சிறிது', 'எல்லாம் தெரியும்'] },
+    { proverb: 'ஆற அமர சிந்தி', meaning: 'அமைதியாக சிந்தி', options: ['அவசரப்படு', 'அமைதியாக சிந்தி', 'கோபப்படு', 'சிரி'] },
+    { proverb: 'உழைப்பே உயர்வு தரும்', meaning: 'உழைப்பு முக்கியம்', options: ['உழைப்பு தேவையில்லை', 'உழைப்பு முக்கியம்', 'சோம்பல் நல்லது', 'விளையாட்டு முக்கியம்'] },
+    { proverb: 'காலம் பொன் போன்றது', meaning: 'நேரம் முக்கியம்', options: ['நேரத்தை வீணாக்கு', 'நேரம் முக்கியம்', 'பணம் முக்கியம்', 'பொன் முக்கியம்'] },
+    { proverb: 'முயன்றால் முடியாதது ஒன்றுமில்லை', meaning: 'முயற்சி செய்தால் வெற்றி கிடைக்கும்', options: ['முயற்சி தேவையில்லை', 'முயற்சி செய்தால் வெற்றி கிடைக்கும்', 'முயற்சி கடினம்', 'வெற்றி எளிது'] },
+    { proverb: 'அகப்பட்டது பிச்சை, விடப்பட்டது பாக்கியம்', meaning: 'கிடைத்தது குறைவு', options: ['கிடைத்தது குறைவு', 'கிடைத்தது அதிகம்', 'பிச்சை எடுப்பது', 'விடுவது நல்லது'] },
+    { proverb: 'ஆத்தி இலையும் பறித்த முனி', meaning: 'கோபக்காரர்', options: ['கோபக்காரர்', 'அமைதியானவர்', 'பயந்தவர்', 'தைரியசாலி'] },
+    { proverb: 'இருந்தும் இல்லாதார் போல', meaning: 'வறுமையில் வாடுபவர்', options: ['வறுமையில் வாடுபவர்', 'செல்வந்தர்', 'வயதானவர்', 'இளைஞர்'] },
+    { proverb: 'உப்பிட்டவரை உள்ளளவும் நினை', meaning: 'உதவி செய்தவரை மறக்காதே', options: ['உதவி செய்தவரை மறக்காதே', 'உதவி செய்தவரை மற', 'உப்பு சாப்பிடு', 'நன்றி மற'] },
+    { proverb: 'ஊருடன் கூடி வாழ்', meaning: 'சமூகத்துடன் இணைந்து வாழ்', options: ['சமூகத்துடன் இணைந்து வாழ்', 'தனிமையில் வாழ்', 'எல்லோரையும் வெறு', 'யாருடனும் சேராதே'] }
+  ];
+ 
+  const shuffled = [...proverbs].sort(() => Math.random() - 0.5);
+  const questions = shuffled.slice(0, 10);
+  let currentQ = 0;
+ 
+  document.getElementById('gameInstruction').textContent = `📜 பழமொழி கேள்வி 1/10`;
+ 
+  function loadQuestion() {
+    gameArea.innerHTML = '';
+    const q = questions[currentQ];
+   
+    const proverbDisplay = document.createElement('div');
+    proverbDisplay.className = 'tamil-question-box';
+    proverbDisplay.textContent = q.proverb;
+    proverbDisplay.style.fontSize = '24px';
+    proverbDisplay.style.maxWidth = '85%';
+    gameArea.appendChild(proverbDisplay);
+   
+    const optionsContainer = document.createElement('div');
+    optionsContainer.className = 'tamil-options-container';
+    optionsContainer.style.gap = '12px';
+    optionsContainer.style.bottom = '10%';
+   
+    const options = [...q.options].sort(() => Math.random() - 0.5);
+   
+    options.forEach((opt) => {
+      const optEl = document.createElement('div');
+      optEl.className = 'tamil-option';
+      optEl.textContent = opt;
+      optEl.style.fontSize = '18px';
+      optEl.style.padding = '10px 15px';
+      optEl.style.minWidth = '130px';
+     
+      optEl.onclick = function() {
+        if (this.textContent === q.meaning) {
+          createParticle(this, '✓ +10', '#2ecc71');
+          player.score += 10;
+          gameScore += 10;
+          updateScoreDisplay();
+          savePlayerData();
+          currentQ++;
+         
+          if (currentQ < questions.length) {
+            document.getElementById('gameInstruction').textContent = `📜 பழமொழி கேள்வி ${currentQ + 1}/10`;
+            loadQuestion();
+          } else {
+            document.getElementById('continueBtn').disabled = false;
+            player.score += 50;
+            gameScore += 50;
+            updateScoreDisplay();
+            savePlayerData();
+            document.getElementById('gameInstruction').textContent = '🎉 பழமொழி வல்லுநர்! +50 புள்ளிகள்';
+            gameArea.innerHTML = '<div style="position: absolute; top: 40%; left: 50%; transform: translateX(-50%); font-size: 60px;">🏆</div>';
+          }
+        } else {
+          createParticle(this, '❌', '#e74c3c');
+        }
+      };
+      optionsContainer.appendChild(optEl);
+    });
+    gameArea.appendChild(optionsContainer);
+  }
+  loadQuestion();
+}
+
+function startTamilSpinWheelGame() {
+  const gameArea = document.getElementById('gameArea');
+  const categories = ['பழமொழி', 'விடுகதை', 'எதிர்ச்சொல்', 'பொருள்', 'விடுபட்ட சொல்'];
+ 
+  const questionBank = {
+    'பழமொழி': [
+      { q: 'கற்றது கைமண் அளவு - இதன் பொருள்?', options: ['கற்றது சிறிது', 'கற்றது பெரிது', 'கல்லாதது சிறிது', 'எல்லாம் தெரியும்'], a: 'கற்றது சிறிது' },
+      { q: 'ஆற அமர சிந்தி - இதன் பொருள்?', options: ['அவசரப்படு', 'அமைதியாக சிந்தி', 'கோபப்படு', 'சிரி'], a: 'அமைதியாக சிந்தி' },
+      { q: 'உழைப்பே உயர்வு தரும் - இதன் பொருள்?', options: ['உழைப்பு தேவையில்லை', 'உழைப்பு முக்கியம்', 'சோம்பல் நல்லது', 'விளையாட்டு முக்கியம்'], a: 'உழைப்பு முக்கியம்' },
+      { q: 'காலம் பொன் போன்றது - இதன் பொருள்?', options: ['நேரத்தை வீணாக்கு', 'நேரம் முக்கியம்', 'பணம் முக்கியம்', 'பொன் முக்கியம்'], a: 'நேரம் முக்கியம்' },
+      { q: 'முயன்றால் முடியாதது ஒன்றுமில்லை - இதன் பொருள்?', options: ['முயற்சி தேவையில்லை', 'முயற்சி செய்தால் வெற்றி கிடைக்கும்', 'முயற்சி கடினம்', 'வெற்றி எளிது'], a: 'முயற்சி செய்தால் வெற்றி கிடைக்கும்' }
+    ],
+    'விடுகதை': [
+      { q: 'என்னை எல்லாரும் கேட்கிறார்கள், ஆனால் யாரும் பார்க்க முடியாது. நான் யார்?', options: ['காற்று 💨', 'சத்தம் 🔊', 'ஒளி 💡', 'நிழல் 👤'], a: 'சத்தம் 🔊' },
+      { q: 'என்னை வெட்டினால் நான் பெரியவனாகிறேன். நான் யார்?', options: ['மரம் 🌳', 'குழி 🕳️', 'காய்கறி 🥕', 'பழம் 🍎'], a: 'குழி 🕳️' },
+      { q: 'நான் எப்போதும் முன்னால் போவேன், ஆனால் ஒருபோதும் பின்னால் வர மாட்டேன். நான் யார்?', options: ['கார் 🚗', 'நேரம் ⏰', 'நதி 🌊', 'காற்று 💨'], a: 'நேரம் ⏰' },
+      { q: 'ஒரு தந்தைக்கு 4 மகன்கள். ஒவ்வொரு மகனுக்கும் ஒரு சகோதரி இருக்கிறாள். மொத்தம் எத்தனை குழந்தைகள்?', options: ['4', '5', '6', '7'], a: '5' },
+      { q: 'ஒரு மனிதன் மழையில் நனைந்தும், முடி நனைக்கவில்லை. ஏன்?', options: ['குடை வைத்திருந்தார் ☂️', 'முடி இல்லாதவர் 👨‍🦲', 'வீட்டில் இருந்தார் 🏠', 'காரில் இருந்தார் 🚗'], a: 'முடி இல்லாதவர் 👨‍🦲' }
+    ],
+    'எதிர்ச்சொல்': [
+      { q: '"பெரிய" - இதன் எதிர்ச்சொல்?', options: ['சிறிய', 'நீண்ட', 'குட்டையான', 'அகலமான'], a: 'சிறிய' },
+      { q: '"நல்ல" - இதன் எதிர்ச்சொல்?', options: ['கெட்ட', 'மோசமான', 'தீய', 'அழகான'], a: 'கெட்ட' },
+      { q: '"வெப்பம்" - இதன் எதிர்ச்சொல்?', options: ['குளிர்ச்சி', 'சூடு', 'உஷ்ணம்', 'பனி'], a: 'குளிர்ச்சி' },
+      { q: '"ஒளி" - இதன் எதிர்ச்சொல்?', options: ['இருட்டு', 'நிழல்', 'கண்', 'வெளிச்சம்'], a: 'இருட்டு' },
+      { q: '"மேல்" - இதன் எதிர்ச்சொல்?', options: ['கீழ்', 'அடி', 'தாழ', 'பக்கம்'], a: 'கீழ்' }
+    ],
+    'பொருள்': [
+      { q: '"அமைதி" - இதன் ஆங்கிலப் பொருள்?', options: ['Peace', 'War', 'Love', 'Hate'], a: 'Peace' },
+      { q: '"சந்தோஷம்" - இதன் ஆங்கிலப் பொருள்?', options: ['Sadness', 'Happiness', 'Anger', 'Fear'], a: 'Happiness' },
+      { q: '"தாய்" - இதன் ஆங்கிலப் பொருள்?', options: ['Father', 'Mother', 'Brother', 'Sister'], a: 'Mother' },
+      { q: '"நண்பன்" - இதன் ஆங்கிலப் பொருள்?', options: ['Enemy', 'Friend', 'Teacher', 'Student'], a: 'Friend' },
+      { q: '"புத்தகம்" - இதன் ஆங்கிலப் பொருள்?', options: ['Pen', 'Book', 'Paper', 'Pencil'], a: 'Book' }
+    ],
+    'விடுபட்ட சொல்': [
+      { q: '"கற்றது கைமண் ____" - விடுபட்ட சொல்?', options: ['அளவு', 'பெரிது', 'சிறிது', 'உயர்வு'], a: 'அளவு' },
+      { q: '"ஆற அமர ____" - விடுபட்ட சொல்?', options: ['சிந்தி', 'ஓடு', 'பேசு', 'விளையாடு'], a: 'சிந்தி' },
+      { q: '"காலம் ____ போன்றது" - விடுபட்ட சொல்?', options: ['பொன்', 'மண்', 'கல்', 'மரம்'], a: 'பொன்' },
+      { q: '"உழைப்பே உயர்வு ____" - விடுபட்ட சொல்?', options: ['தரும்', 'ஆகும்', 'போகும்', 'வரும்'], a: 'தரும்' },
+      { q: '"முயன்றால் முடியாதது ____" - விடுபட்ட சொல்?', options: ['ஒன்றுமில்லை', 'எல்லாம்', 'ஏதோ', 'பல'], a: 'ஒன்றுமில்லை' }
+    ]
+  };
+ 
+  let spinDone = false;
+  let currentQuestions = [];
+  let currentQIndex = 0;
+  let selectedCategory = '';
+ 
+  document.getElementById('gameInstruction').textContent = '🎡 சில்லினைச் சுழற்றவும்! 5 வினாடிகள் காத்திருக்கவும்';
+ 
+  const wheel = document.createElement('div');
+  wheel.className = 'wheel-section';
+  wheel.style.animation = 'none';
+  gameArea.appendChild(wheel);
+ 
+  categories.forEach((cat, index) => {
+    const angle = index * 72;
+    const label = document.createElement('div');
+    label.className = 'wheel-category';
+    label.style.transform = `rotate(${angle}deg) translate(0, -80px) rotate(-${angle}deg)`;
+    label.textContent = cat;
+    wheel.appendChild(label);
+  });
+ 
+  const spinBtn = document.createElement('button');
+  spinBtn.textContent = '🎡 சுழற்று';
+  spinBtn.style.position = 'absolute';
+  spinBtn.style.left = '50%';
+  spinBtn.style.transform = 'translateX(-50%)';
+  spinBtn.style.top = '70%';
+  spinBtn.style.padding = '15px 30px';
+  spinBtn.style.fontSize = '20px';
+  spinBtn.style.background = 'linear-gradient(135deg, #FFD700, #FFA500)';
+  spinBtn.style.border = 'none';
+  spinBtn.style.borderRadius = '50px';
+  spinBtn.style.color = 'white';
+  spinBtn.style.cursor = 'pointer';
+  spinBtn.style.zIndex = '20';
+ 
+  const countdownDisplay = document.createElement('div');
+  countdownDisplay.className = 'countdown-timer';
+  countdownDisplay.style.display = 'none';
+  gameArea.appendChild(countdownDisplay);
+ 
+  spinBtn.onclick = function() {
+    if (spinDone) return;
+    spinDone = true;
+    spinBtn.disabled = true;
+    wheel.style.animation = 'spinWheel 2s ease-out';
+   
+    countdownDisplay.style.display = 'block';
+    let countdown = 5;
+    countdownDisplay.textContent = `⏱ ${countdown}s`;
+    const countdownInterval = setInterval(() => {
+      countdown--;
+      countdownDisplay.textContent = `⏱ ${countdown}s`;
+      if (countdown <= 0) {
+        clearInterval(countdownInterval);
+        countdownDisplay.style.display = 'none';
+      }
+    }, 1000);
+   
+    setTimeout(() => {
+      wheel.style.animation = 'none';
+      const randomIndex = Math.floor(Math.random() * categories.length);
+      selectedCategory = categories[randomIndex];
+      document.getElementById('gameInstruction').textContent = `🎡 சில்லு நின்றது: ${selectedCategory} - 5 கேள்விகள்`;
+      const allQuestions = questionBank[selectedCategory] || questionBank['பழமொழி'];
+      const shuffled = [...allQuestions].sort(() => Math.random() - 0.5);
+      currentQuestions = shuffled.slice(0, 5);
+      currentQIndex = 0;
+      spinBtn.remove();
+      wheel.remove();
+      loadSpinQuestion();
+    }, 5000);
+  };
+  gameArea.appendChild(spinBtn);
+ 
+  function loadSpinQuestion() {
+    if (currentQIndex >= currentQuestions.length) {
+      document.getElementById('continueBtn').disabled = false;
+      player.score += 50;
+      gameScore += 50;
+      updateScoreDisplay();
+      savePlayerData();
+      document.getElementById('gameInstruction').textContent = '🎉 சில்லு விளையாட்டு முடிந்தது! +50 புள்ளிகள்';
+      gameArea.innerHTML = '<div style="position: absolute; top: 40%; left: 50%; transform: translateX(-50%); font-size: 60px;">🏆</div>';
+      return;
+    }
+    gameArea.innerHTML = '';
+    const q = currentQuestions[currentQIndex];
+    const questionDisplay = document.createElement('div');
+    questionDisplay.className = 'tamil-question-box';
+    questionDisplay.textContent = q.q;
+    questionDisplay.style.fontSize = '22px';
+    questionDisplay.style.maxWidth = '85%';
+    gameArea.appendChild(questionDisplay);
+    const optionsContainer = document.createElement('div');
+    optionsContainer.className = 'tamil-options-container';
+    optionsContainer.style.gap = '12px';
+    optionsContainer.style.bottom = '10%';
+    const options = [...q.options].sort(() => Math.random() - 0.5);
+    options.forEach((opt) => {
+      const optEl = document.createElement('div');
+      optEl.className = 'tamil-option';
+      optEl.textContent = opt;
+      optEl.style.fontSize = '18px';
+      optEl.style.padding = '10px 15px';
+      optEl.style.minWidth = '130px';
+      optEl.onclick = function() {
+        if (this.textContent === q.a) {
+          createParticle(this, '✓ +10', '#2ecc71');
+          player.score += 10;
+          gameScore += 10;
+          updateScoreDisplay();
+          savePlayerData();
+          currentQIndex++;
+          document.getElementById('gameInstruction').textContent = `${selectedCategory} - கேள்வி ${currentQIndex + 1}/5`;
+          loadSpinQuestion();
+        } else {
+          createParticle(this, '❌', '#e74c3c');
+        }
+      };
+      optionsContainer.appendChild(optEl);
+    });
+    gameArea.appendChild(optionsContainer);
+  }
+}
+
 // Initialize
 window.addEventListener('DOMContentLoaded', () => {
   updateScoreDisplay();
-  document.getElementById('pdfModeIndicator').innerHTML = 'English Medium';
+  document.getElementById('pdfModeIndicator').innerHTML = 'English';
 });
+
+function hideLogo() {
+  document.getElementById("logo").style.display = "none";
+}
 </script>
 </body>
 </html>
