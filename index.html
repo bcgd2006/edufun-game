@@ -4,10 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title> Game on Study</title>
-<!-- Favicon - Title Bar Logo -->
     <link rel="icon" type="image/x-icon" href="https://raw.githubusercontent.com/bcgd2006/edufun-game/main/favicon.ico">
     <link rel="shortcut icon" href="https://raw.githubusercontent.com/bcgd2006/edufun-game/main/favicon.ico">
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <script>
   pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
@@ -982,11 +980,11 @@ button:disabled {
 <!-- Refresh Button -->
 <button class="refresh-btn" onclick="refreshGame()">🔄 Refresh Game</button>
 
-<div style="text-align: center; margin: 20px 0;">
-    <img src="https://raw.githubusercontent.com/bcgd2006/edufun-game/main/logo.png" 
-         alt="EduFun Logo"
-         style="width: 150px; height: auto; border-radius: 20px;">
+<!-- Logo above subject box -->
+<div class="logo-section" style="margin-bottom: 18px;">
+  <img src="https://raw.githubusercontent.com/bcgd2006/edufun-game/main/logo.png" id="logo" alt="Game on Study logo" style="width: 80%; height: auto; display: inline-block;">
 </div>
+
 <!-- SUBJECT SELECTION -->
 <div id="subjectSection" class="section" style="max-width: 900px; margin: 0 auto 20px; padding: 20px 10px; width: fit-content;">
   <h2 id="subjectSectionTitle">Select Subject</h2>
@@ -2046,7 +2044,7 @@ function startWhackMoleGame() {
     : `🐭 ${pdfSubjectName || 'PDF'} - Whack the Moles! ${totalMoles} Moles`;
   document.getElementById('gameInstruction').textContent = instruction;
  
-  const animals = ['🐭', '🐹', '🐰', '🦊', '🐻', '🐼', '🐨', '🐸'];
+  const animals = ['🐭', '🐭', '🐁', '🐭', '🐭', '🐁', '🐭', '🐭'];
  
   const holes = [];
   for (let i = 0; i < 9; i++) {
@@ -2204,7 +2202,7 @@ function startSpaceShooterGame() {
   document.getElementById('gameInstruction').textContent = instruction;
  
   let gameActive = true;
-  const aliensList = ['👾', '👽', '🛸', '🤖', '👻', '💀', '🎯', '⭐', '🪐', '🌙'];
+  const aliensList = ['👾', '👽', '🛸', '👽', '🛸', '💀', '👾', '👽', '👾', '👽'];
  
   for (let i = 0; i < totalAliens; i++) {
     const alien = document.createElement('div');
@@ -2751,7 +2749,7 @@ function submitGeneratedQuestions(qs) {
 // ==================== MATHS GAMES ====================
 function startMathsMemoryGame() {
   const gameArea = document.getElementById('gameArea');
-  const images = ['🍎', '🚗', '🐕', '🐱', '🌞', '⭐', '🦁', '🐘'];
+  const images = ['🕊️', '🐄', '🐓', '🐂', '🐦', '🐩', '🐧', '🐈'];
   const cards = [];
  
   images.forEach((img, index) => {
@@ -2854,7 +2852,7 @@ function startMathsTablesGame() {
   const gameArea = document.getElementById('gameArea');
   const allQuestions = [];
   for (let i = 1; i <= 10; i++) {
-    for (let j = 1; j <= 5; j++) {
+    for (let j = 1; j <= 10; j++) {
       const multiplier = Math.floor(Math.random() * 10) + 1;
       allQuestions.push({
         question: `${i} × ${multiplier} = ?`,
@@ -2912,8 +2910,8 @@ function startMathsTablesGame() {
          
           if (currentQ < questions.length) {
             document.getElementById('gameInstruction').textContent = gameLanguage === 'tamil'
-              ? `📊 வாய்ப்பாட்டு கேள்வி ${currentQ + 1}/5`
-              : `📊 Table Question ${currentQ + 1}/5`;
+              ? `📊 வாய்ப்பாட்டு கேள்வி ${currentQ + 1}/10`
+              : `📊 Table Question ${currentQ + 1}/10`;
             loadQuestion();
           } else {
             document.getElementById('continueBtn').disabled = false;
@@ -2951,8 +2949,8 @@ function startMathsAlgebraGame() {
   let currentQ = 0;
  
   const instruction = gameLanguage === 'tamil'
-    ? `🔢 இயற்கணிதம் கேள்வி 1/10`
-    : `🔢 Algebra Question 1/10`;
+    ? `🔢 இயற்கணிதம் கேள்வி 1/5`
+    : `🔢 Algebra Question 1/5`;
   document.getElementById('gameInstruction').textContent = instruction;
  
   function loadQuestion() {
@@ -2987,7 +2985,7 @@ function startMathsAlgebraGame() {
      
       optEl.onclick = function() {
         if (this.textContent === q.ans) {
-          createParticle(this, '✓ +10', '#2ecc71');
+          createParticle(this, '✓ +5', '#2ecc71');
           player.score += 10;
           gameScore += 10;
           updateScoreDisplay();
@@ -2996,8 +2994,8 @@ function startMathsAlgebraGame() {
          
           if (currentQ < questions.length) {
             document.getElementById('gameInstruction').textContent = gameLanguage === 'tamil'
-              ? `🔢 இயற்கணிதம் கேள்வி ${currentQ + 1}/10`
-              : `🔢 Algebra Question ${currentQ + 1}/10`;
+              ? `🔢 இயற்கணிதம் கேள்வி ${currentQ + 1}/5`
+              : `🔢 Algebra Question ${currentQ + 1}/5`;
             loadQuestion();
           } else {
             document.getElementById('continueBtn').disabled = false;
@@ -3033,7 +3031,7 @@ function startScienceSimonGame() {
   ];
  
   let round = 0;
-  const totalRounds = 10;
+  const totalRounds = 5;
   let currentCommand = null;
  
   const instruction = gameLanguage === 'tamil'
@@ -3075,13 +3073,10 @@ function startScienceSimonGame() {
    
     const positions = [
       { emoji: '👃', top: '35%', left: '50%', name: 'nose' },
-      { emoji: '👀', top: '25%', left: '40%', name: 'eyes' },
       { emoji: '👀', top: '25%', left: '60%', name: 'eyes' },
-      { emoji: '👂', top: '30%', left: '30%', name: 'ears' },
       { emoji: '👂', top: '30%', left: '70%', name: 'ears' },
       { emoji: '👄', top: '40%', left: '50%', name: 'mouth' },
-      { emoji: '👤', top: '15%', left: '50%', name: 'head' },
-      { emoji: '✋', top: '55%', left: '30%', name: 'hands' },
+      { emoji: '👤', top: '50%', left: '50%', name: 'head' },
       { emoji: '✋', top: '55%', left: '70%', name: 'hands' }
     ];
    
@@ -3124,27 +3119,27 @@ function startScienceSimonGame() {
 function startScienceBodyImagesGame() {
   const gameArea = document.getElementById('gameArea');
   const bodyQuestions = [
-    { question: 'Which is the heart?', image: '❤️', options: ['❤️ Heart', '🧠 Brain', '🫁 Lungs', '👀 Eyes'], answer: '❤️ Heart' },
-    { question: 'Which is the brain?', image: '🧠', options: ['❤️ Heart', '🧠 Brain', '🫁 Lungs', '👀 Eyes'], answer: '🧠 Brain' },
-    { question: 'Which are the lungs?', image: '🫁', options: ['❤️ Heart', '🧠 Brain', '🫁 Lungs', '👀 Eyes'], answer: '🫁 Lungs' },
-    { question: 'Which are the eyes?', image: '👀', options: ['❤️ Heart', '🧠 Brain', '🫁 Lungs', '👀 Eyes'], answer: '👀 Eyes' },
-    { question: 'Which is the stomach?', image: '🫃', options: ['❤️ Heart', '🧠 Brain', '🫃 Stomach', '👂 Ears'], answer: '🫃 Stomach' },
-    { question: 'Which are the ears?', image: '👂', options: ['👂 Ears', '👃 Nose', '👄 Mouth', '✋ Hands'], answer: '👂 Ears' },
-    { question: 'Which is the nose?', image: '👃', options: ['👂 Ears', '👃 Nose', '👄 Mouth', '✋ Hands'], answer: '👃 Nose' },
-    { question: 'Which is the mouth?', image: '👄', options: ['👂 Ears', '👃 Nose', '👄 Mouth', '✋ Hands'], answer: '👄 Mouth' },
-    { question: 'Which are the hands?', image: '✋', options: ['✋ Hands', '🦶 Feet', '💪 Arms', '🦵 Legs'], answer: '✋ Hands' },
-    { question: 'Which are the feet?', image: '🦶', options: ['✋ Hands', '🦶 Feet', '💪 Arms', '🦵 Legs'], answer: '🦶 Feet' },
-    { question: 'Which are the arms?', image: '💪', options: ['✋ Hands', '🦶 Feet', '💪 Arms', '🦵 Legs'], answer: '💪 Arms' },
-    { question: 'Which are the legs?', image: '🦵', options: ['✋ Hands', '🦶 Feet', '💪 Arms', '🦵 Legs'], answer: '🦵 Legs' }
+    { question: 'Which is the heart?', options: ['❤️ Heart', '🧠 Brain', '🫁 Lungs', '👀 Eyes'], answer: '❤️ Heart' },
+    { question: 'Which is the brain?', options: ['❤️ Heart', '🧠 Brain', '🫁 Lungs', '👀 Eyes'], answer: '🧠 Brain' },
+    { question: 'Which are the lungs?',options: ['❤️ Heart', '🧠 Brain', '🫁 Lungs', '👀 Eyes'], answer: '🫁 Lungs' },
+    { question: 'Which are the eyes?', options: ['❤️ Heart', '🧠 Brain', '🫁 Lungs', '👀 Eyes'], answer: '👀 Eyes' },
+    { question: 'Which is the stomach?',options: ['❤️ Heart', '🧠 Brain', '🫃 Stomach', '👂 Ears'], answer: '🫃 Stomach' },
+    { question: 'Which are the ears?', options: ['👂 Ears', '👃 Nose', '👄 Mouth', '✋ Hands'], answer: '👂 Ears' },
+    { question: 'Which is the nose?',  options: ['👂 Ears', '👃 Nose', '👄 Mouth', '✋ Hands'], answer: '👃 Nose' },
+    { question: 'Which is the mouth?',  options: ['👂 Ears', '👃 Nose', '👄 Mouth', '✋ Hands'], answer: '👄 Mouth' },
+    { question: 'Which are the hands?', options: ['✋ Hands', '🦶 Feet', '💪 Arms', '🦵 Legs'], answer: '✋ Hands' },
+    { question: 'Which are the feet?', options: ['✋ Hands', '🦶 Feet', '💪 Arms', '🦵 Legs'], answer: '🦶 Feet' },
+    { question: 'Which are the arms?', options: ['✋ Hands', '🦶 Feet', '💪 Arms', '🦵 Legs'], answer: '💪 Arms' },
+    { question: 'Which are the legs?', options: ['✋ Hands', '🦶 Feet', '💪 Arms', '🦵 Legs'], answer: '🦵 Legs' }
   ];
  
   const shuffled = [...bodyQuestions].sort(() => Math.random() - 0.5);
-  const questions = shuffled.slice(0, 10);
+  const questions = shuffled.slice(0, 5);
   let currentQ = 0;
  
   const instruction = gameLanguage === 'tamil'
-    ? `🔬 உடல் உறுப்புகள் கேள்வி 1/10`
-    : `🔬 Body Parts Question 1/10`;
+    ? `🔬 உடல் உறுப்புகள் கேள்வி 1/5`
+    : `🔬 Body Parts Question 1/5`;
   document.getElementById('gameInstruction').textContent = instruction;
  
   function loadQuestion() {
@@ -3305,9 +3300,9 @@ function startSciencePhysicsGame() {
 // ==================== ENGLISH GAMES ====================
 function startEnglishWhackGame() {
   const gameArea = document.getElementById('gameArea');
-  const animals = ['🐶', '🐱', '🐭', '🐸', '🐷', '🐮', '🐔', '🐦', '🐟', '🦁'];
+  const animals = ['🐭', '🐭', '🐭', '🐭', '🐭', '🐭', '🐭', '🐭', '🐭', '🐭'];
   let round = 0;
-  const totalRounds = 10;
+  const totalRounds = 5;
   let currentAnimal = null;
  
   const instruction = gameLanguage === 'tamil'
@@ -3403,12 +3398,12 @@ function startEnglishOppositesGame() {
   ];
  
   const shuffled = [...allOpposites].sort(() => Math.random() - 0.5);
-  const questions = shuffled.slice(0, 10);
+  const questions = shuffled.slice(0, 5);
   let currentQ = 0;
  
   const instruction = gameLanguage === 'tamil'
-    ? `🔄 எதிர்ச்சொல் கேள்வி 1/10`
-    : `🔄 Opposites Question 1/10`;
+    ? `🔄 எதிர்ச்சொல் கேள்வி 1/5`
+    : `🔄 Opposites Question 1/5`;
   document.getElementById('gameInstruction').textContent = instruction;
  
   function loadQuestion() {
@@ -3447,8 +3442,8 @@ function startEnglishOppositesGame() {
          
           if (currentQ < questions.length) {
             document.getElementById('gameInstruction').textContent = gameLanguage === 'tamil'
-              ? `🔄 எதிர்ச்சொல் கேள்வி ${currentQ + 1}/10`
-              : `🔄 Opposites Question ${currentQ + 1}/10`;
+              ? `🔄 எதிர்ச்சொல் கேள்வி ${currentQ + 1}/5`
+              : `🔄 Opposites Question ${currentQ + 1}/5`;
             loadQuestion();
           } else {
             document.getElementById('continueBtn').disabled = false;
@@ -3489,12 +3484,12 @@ function startEnglishGrammarGame() {
   ];
  
   const shuffled = [...allGrammar].sort(() => Math.random() - 0.5);
-  const questions = shuffled.slice(0, 10);
+  const questions = shuffled.slice(0, 5);
   let currentQ = 0;
  
   const instruction = gameLanguage === 'tamil'
-    ? `📝 இலக்கணம் கேள்வி 1/10`
-    : `📝 Grammar Question 1/10`;
+    ? `📝 இலக்கணம் கேள்வி 1/5`
+    : `📝 Grammar Question 1/5`;
   document.getElementById('gameInstruction').textContent = instruction;
  
   function loadQuestion() {
@@ -3533,8 +3528,8 @@ function startEnglishGrammarGame() {
          
           if (currentQ < questions.length) {
             document.getElementById('gameInstruction').textContent = gameLanguage === 'tamil'
-              ? `📝 இலக்கணம் கேள்வி ${currentQ + 1}/10`
-              : `📝 Grammar Question ${currentQ + 1}/10`;
+              ? `📝 இலக்கணம் கேள்வி ${currentQ + 1}/5`
+              : `📝 Grammar Question ${currentQ + 1}/5`;
             loadQuestion();
           } else {
             document.getElementById('continueBtn').disabled = false;
@@ -3563,20 +3558,20 @@ function startSocialTreasureHuntGame() {
   const treasures = [
     { emoji: '💎', name: 'Diamond', found: false }, { emoji: '👑', name: 'Crown', found: false },
     { emoji: '⚱️', name: 'Treasure Chest', found: false }, { emoji: '🔑', name: 'Golden Key', found: false },
-    { emoji: '📜', name: 'Ancient Scroll', found: false }, { emoji: '🏺', name: 'Amphora', found: false },
+    { emoji: '💍', name: 'diamond ring', found: false }, { emoji: '🏺', name: 'Amphora', found: false },
     { emoji: '🪙', name: 'Gold Coin', found: false }, { emoji: '💍', name: 'Ring', found: false },
-    { emoji: '🔮', name: 'Crystal Ball', found: false }, { emoji: '⚜️', name: 'Fleur de Lis', found: false },
+    { emoji: '🪙', name: 'Crystal Ball', found: false }, { emoji: '⚜️', name: 'Fleur de Lis', found: false },
     { emoji: '💶', name: 'Gold Bar', found: false }, { emoji: '💷', name: 'Treasure Map', found: false },
     { emoji: '💴', name: 'Ancient Coin', found: false }, { emoji: '💵', name: 'Money Bag', found: false },
     { emoji: '💎', name: 'Ruby', found: false }, { emoji: '👑', name: 'Tiara', found: false }
   ];
  
-  const target = 15;
+  const target = 7;
   let foundCount = 0;
  
   const instruction = gameLanguage === 'tamil'
-    ? '💎 15 புதையல்களை கண்டுபிடி!'
-    : '💎 Find 15 hidden treasures!';
+    ? '💎 7 புதையல்களை கண்டுபிடி!'
+    : '💎 Find 7 hidden treasures!';
   document.getElementById('gameInstruction').textContent = instruction;
  
   const mapDisplay = document.createElement('div');
@@ -3666,12 +3661,12 @@ function startSocialStatesGame() {
   ];
  
   const shuffled = [...allStates].sort(() => Math.random() - 0.5);
-  const questions = shuffled.slice(0, 10);
+  const questions = shuffled.slice(0, 5);
   let currentQ = 0;
  
   const instruction = gameLanguage === 'tamil'
-    ? `🇮🇳 மாநிலங்கள் & தலைநகரங்கள் 1/10`
-    : `🇮🇳 States & Capitals 1/10`;
+    ? `🇮🇳 மாநிலங்கள் & தலைநகரங்கள் 1/5`
+    : `🇮🇳 States & Capitals 1/5`;
   document.getElementById('gameInstruction').textContent = instruction;
  
   function loadQuestion() {
@@ -3710,8 +3705,8 @@ function startSocialStatesGame() {
          
           if (currentQ < questions.length) {
             document.getElementById('gameInstruction').textContent = gameLanguage === 'tamil'
-              ? `🇮🇳 மாநிலங்கள் & தலைநகரங்கள் ${currentQ + 1}/10`
-              : `🇮🇳 States & Capitals ${currentQ + 1}/10`;
+              ? `🇮🇳 மாநிலங்கள் & தலைநகரங்கள் ${currentQ + 1}/5`
+              : `🇮🇳 States & Capitals ${currentQ + 1}/5`;
             loadQuestion();
           } else {
             document.getElementById('continueBtn').disabled = false;
@@ -3750,12 +3745,12 @@ function startSocialMonumentsGame() {
   ];
  
   const shuffled = [...allMonuments].sort(() => Math.random() - 0.5);
-  const questions = shuffled.slice(0, 10);
+  const questions = shuffled.slice(0, 5);
   let currentQ = 0;
  
   const instruction = gameLanguage === 'tamil'
-    ? `🏛️ வரலாற்று நினைவுச்சின்னங்கள் 1/10`
-    : `🏛️ Historical Monuments 1/10`;
+    ? `🏛️ வரலாற்று நினைவுச்சின்னங்கள் 1/5`
+    : `🏛️ Historical Monuments 1/5`;
   document.getElementById('gameInstruction').textContent = instruction;
  
   function loadQuestion() {
@@ -3794,8 +3789,8 @@ function startSocialMonumentsGame() {
          
           if (currentQ < questions.length) {
             document.getElementById('gameInstruction').textContent = gameLanguage === 'tamil'
-              ? `🏛️ வரலாற்று நினைவுச்சின்னங்கள் ${currentQ + 1}/10`
-              : `🏛️ Historical Monuments ${currentQ + 1}/10`;
+              ? `🏛️ வரலாற்று நினைவுச்சின்னங்கள் ${currentQ + 1}/5`
+              : `🏛️ Historical Monuments ${currentQ + 1}/5`;
             loadQuestion();
           } else {
             document.getElementById('continueBtn').disabled = false;
@@ -3831,10 +3826,10 @@ function startTamilRiddleGame() {
   ];
  
   const shuffled = [...riddles].sort(() => Math.random() - 0.5);
-  const questions = shuffled.slice(0, 6);
+  const questions = shuffled.slice(0, 5);
   let currentQ = 0;
  
-  document.getElementById('gameInstruction').textContent = `🤔 விடுகதை கேள்வி 1/6`;
+  document.getElementById('gameInstruction').textContent = `🤔 விடுகதை கேள்வி 1/5`;
  
   function loadQuestion() {
     gameArea.innerHTML = '';
@@ -3873,7 +3868,7 @@ function startTamilRiddleGame() {
           currentQ++;
          
           if (currentQ < questions.length) {
-            document.getElementById('gameInstruction').textContent = `🤔 விடுகதை கேள்வி ${currentQ + 1}/6`;
+            document.getElementById('gameInstruction').textContent = `🤔 விடுகதை கேள்வி ${currentQ + 1}/5`;
             loadQuestion();
           } else {
             document.getElementById('continueBtn').disabled = false;
@@ -3911,7 +3906,7 @@ function startTamilProverbGame() {
   ];
  
   const shuffled = [...proverbs].sort(() => Math.random() - 0.5);
-  const questions = shuffled.slice(0, 10);
+  const questions = shuffled.slice(0, 5);
   let currentQ = 0;
  
   document.getElementById('gameInstruction').textContent = `📜 பழமொழி கேள்வி 1/10`;
@@ -4001,11 +3996,11 @@ function startTamilSpinWheelGame() {
       { q: '"மேல்" - இதன் எதிர்ச்சொல்?', options: ['கீழ்', 'அடி', 'தாழ', 'பக்கம்'], a: 'கீழ்' }
     ],
     'பொருள்': [
-      { q: '"அமைதி" - இதன் ஆங்கிலப் பொருள்?', options: ['Peace', 'War', 'Love', 'Hate'], a: 'Peace' },
-      { q: '"சந்தோஷம்" - இதன் ஆங்கிலப் பொருள்?', options: ['Sadness', 'Happiness', 'Anger', 'Fear'], a: 'Happiness' },
-      { q: '"தாய்" - இதன் ஆங்கிலப் பொருள்?', options: ['Father', 'Mother', 'Brother', 'Sister'], a: 'Mother' },
-      { q: '"நண்பன்" - இதன் ஆங்கிலப் பொருள்?', options: ['Enemy', 'Friend', 'Teacher', 'Student'], a: 'Friend' },
-      { q: '"புத்தகம்" - இதன் ஆங்கிலப் பொருள்?', options: ['Pen', 'Book', 'Paper', 'Pencil'], a: 'Book' }
+      { q: '"அமைதி" - இதன் பொருள்?', options: ['சஞ்சலமின்மை', 'கலக்கம்', 'உவகை.', 'அமர்வு'], a: 'சஞ்சலமின்மை' },
+      { q: '"சந்தோஷம்" - இதன் பொருள்?', options: ['களிப்பு', ' மகிழ்ச்சி', 'வருத்தம்', 'அசைவற்ற நிலை'], a: ' மகிழ்ச்சி' },
+      { q: '"தாய்" - இதன் பொருள்?', options: ['தந்தை', 'அன்னை', 'மகள்', 'சகோதரி'], a: 'அன்னை' },
+      { q: '"நண்பன்" - இதன் பொருள்?', options: ['எதிரி', 'தோழன்', 'குரு', 'சீடன்'], a: 'தோழன்' },
+      { q: '"புத்தகம்" - இதன் பொருள்?', options: ['எழுதுகோல்', 'நூல்', 'ஒலிநூல்', 'வெற்றுப் பக்கங்கள்'], a: 'நூல்' }
     ],
     'விடுபட்ட சொல்': [
       { q: '"கற்றது கைமண் ____" - விடுபட்ட சொல்?', options: ['அளவு', 'பெரிது', 'சிறிது', 'உயர்வு'], a: 'அளவு' },
@@ -4021,7 +4016,7 @@ function startTamilSpinWheelGame() {
   let currentQIndex = 0;
   let selectedCategory = '';
  
-  document.getElementById('gameInstruction').textContent = '🎡 சில்லினைச் சுழற்றவும்! 5 வினாடிகள் காத்திருக்கவும்';
+  document.getElementById('gameInstruction').textContent = '🎡 சில்லினைச் சுழற்றவும்! 3 வினாடிகள் காத்திருக்கவும்';
  
   const wheel = document.createElement('div');
   wheel.className = 'wheel-section';
